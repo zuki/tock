@@ -34,7 +34,7 @@ simple_ble_config_t _ble_config = {
   .adv_name          = "tock-http",
   .adv_interval      = MSEC_TO_UNITS(500, UNIT_0_625_MS),
   .min_conn_interval = MSEC_TO_UNITS(10, UNIT_1_25_MS),
-  .max_conn_interval = MSEC_TO_UNITS(1250, UNIT_1_25_MS)
+  .max_conn_interval = MSEC_TO_UNITS(20, UNIT_1_25_MS)
 };
 
 // Properties of the BLE HTTP service.
@@ -99,9 +99,16 @@ write_state_e _write_state = WRITE_STATE_ENABLE_NOTIFICATIONS;
 typedef enum {
   BLEHTTP_STATE_IDLE,
   BLEHTTP_STATE_EXECUTING_REQUEST,
-} blthttp_state_e;
+} blehttp_state_e;
 
-blthttp_state_e _blehttp_state = BLEHTTP_STATE_IDLE;
+blehttp_state_e _blehttp_state = BLEHTTP_STATE_IDLE;
+
+typedef enum {
+  MODE_HTTPS,
+  MODE_HTTP
+} blehttp_mode_e;
+
+blehttp_mode_e _mode = MODE_HTTPS;
 
 static void __write_http_string_loop (void) {
   uint32_t err_code;
@@ -109,6 +116,12 @@ static void __write_http_string_loop (void) {
 
   ble_gattc_write_params_t write_params;
   memset(&write_params, 0, sizeof(write_params));
+
+  uint16_t char_handle;
+  switch (_mode) {
+    case MODE_HTTPS: char_handle = _char_handle_https; break;
+    case MODE_HTTP:  char_handle = _char_handle_http; break;
+  }
 
   switch (_write_state) {
     case WRITE_STATE_ENABLE_NOTIFICATIONS: {
@@ -132,7 +145,7 @@ static void __write_http_string_loop (void) {
         len = 18;
       }
 
-      write_params.handle   = _char_handle_http;
+      write_params.handle   = char_handle;
       write_params.write_op = BLE_GATT_OP_PREP_WRITE_REQ;
       write_params.offset   = _write_offset;
       write_params.len      = len;
@@ -146,8 +159,7 @@ static void __write_http_string_loop (void) {
     }
 
     case WRITE_STATE_EXECUTE_WRITE: {
-      printf("execute write\n");
-      write_params.handle   = _char_handle_http;
+      write_params.handle   = char_handle;
       write_params.write_op = BLE_GATT_OP_EXEC_WRITE_REQ;
       write_params.flags    = BLE_GATT_EXEC_WRITE_FLAG_PREPARED_WRITE;
       _write_state = WRITE_STATE_DONE;
@@ -158,7 +170,7 @@ static void __write_http_string_loop (void) {
       return;
     }
   }
-printf("gattc write %i\n", _write_offset);
+
   err_code = sd_ble_gattc_write(_conn_handle, &write_params);
   if (err_code != NRF_SUCCESS) {
     printf("error writing Characteristic 0x%lx\n", err_code);
@@ -261,7 +273,7 @@ static void __on_ble_evt (ble_evt_t* p_ble_evt) {
         .type = BLE_UUID_TYPE_VENDOR_BEGIN,
       };
 
-      printf("connected handle: %x\n", _conn_handle);
+      // printf("connected handle: %x\n", _conn_handle);
       err_code = sd_ble_gattc_primary_services_discover(_conn_handle, BLE_UUID_BLEHTTP_SERVICE, &httpget_service_uuid);
       if (err_code != NRF_SUCCESS) {
         printf("error discovering services 0x%lx\n", err_code);
@@ -450,13 +462,18 @@ static void __start_advertising (void) {
 
 
 
-void blehttp_send_http_message (char* http, int http_len) {
+void blehttp_send_http_message (char* http, int http_len, bool https) {
   _http_mesage = http;
   _http_len    = http_len;
+  if (https) {
+    _mode = MODE_HTTPS;
+  } else {
+    _mode = MODE_HTTP;
+  }
 
   // Scan for advertisements method.
   // err_code = sd_ble_gap_scan_stop();
-  // err_code = sd_ble_gap_scan_start(&m_scan_param);
+  // err_code = sd_ble_gap_scan_start(&_scan_param);
   // // It is okay to ignore this error since we are stopping the scan anyway.
   // if (err_code != NRF_ERROR_INVALID_STATE) {
   //   APP_ERROR_CHECK(err_code);

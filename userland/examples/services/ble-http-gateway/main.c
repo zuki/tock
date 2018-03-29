@@ -38,8 +38,12 @@ typedef enum {
   HTTP_MESSAGE = 1, // This buffer contains an HTTP message to send.
 } msg_type_e;
 
-static void ipc_callback(int pid, int len, int buf, __attribute__ ((unused)) void* ud) {
-  if (len < 1) {
+static void ipc_callback(int pid, int len, int bufptr, __attribute__ ((unused)) void* ud) {
+  uint8_t* buf = (uint8_t*) bufptr;
+
+  printf("got msg\n");
+
+  if (len < 3) {
     printf("Error! IPC message too short.\n");
     ipc_notify_client(pid);
     return;
@@ -47,7 +51,23 @@ static void ipc_callback(int pid, int len, int buf, __attribute__ ((unused)) voi
 
   switch (buf[0]) {
     case HTTP_MESSAGE: {
-      blehttp_send_http_message(buf+1, len-1);
+      printf("recvd http message len: %i\n", len-1);
+      for (int i=0; i<len-3; i++) {
+        printf("%02x", buf[i+3]);
+      }
+      printf("\n");
+
+      uint16_t msg_len = buf[1] | (((uint16_t) buf[2]) << 8);
+
+      printf("message len: %i\n", msg_len);
+
+      // Setup the BLE HTTP library.
+      uint32_t err_code = blehttp_init();
+      if (err_code != NRF_SUCCESS) {
+        printf("error setting up BLE HTTP: %lx\n", err_code);
+      }
+
+      blehttp_send_http_message(buf+3, msg_len);
       break;
     }
   }
@@ -76,16 +96,15 @@ static void ipc_callback(int pid, int len, int buf, __attribute__ ((unused)) voi
  ******************************************************************************/
 
 int main (void) {
-  uint32_t err_code;
 
   printf("[BLE] HTTP Gateway\n");
 
-  // Setup the BLE HTTP library.
-  err_code = blehttp_init();
-  if (err_code != NRF_SUCCESS) {
-    printf("error setting up BLE HTTP: %lx\n", err_code);
-  }
-
   // Listen for IPC requests to make a web request.
   ipc_register_svc(ipc_callback, NULL);
+
+  printf("registered service\n");
+
+
+
+
 }

@@ -5,7 +5,6 @@ process.env['BLENO_ADVERTISING_INTERVAL'] = 1000;
 
 // Needed to allow us to use both noble and bleno
 process.env['NOBLE_MULTI_ROLE'] = 1;
-process.env['NOBLE_REPORT_ALL_HCI_EVENTS'] = 1;
 
 var http       = require('http');
 var os         = require('os');
@@ -90,7 +89,7 @@ function setup_services () {
 					uuid: CHAR_HTTPS_UUID,
 					properties: ['write', 'writeWithoutResponse'],
 					onWriteRequest: function(data, offset, withoutResponse, callback) {
-						console.log('wrote https')
+						console.log('wrote')
 						var msg = data.toString('utf-8');
 						do_request(msg, 'https');
 						callback(bleno.Characteristic.RESULT_SUCCESS);
@@ -197,11 +196,10 @@ noble.on('discover', function (peripheral) {
 
 		// After a while forcefully disconnect and start scanning again.
 		_peripheral_timeout = setTimeout(function () {
-			debug('timed out on peripheral');
 			_peripheral_timeout = null;
 			_peripheral.disconnect();
 			start_scanning();
-		}, 50000);
+		}, 5000);
 
 		// Connect to let the device use the gateway.
 		peripheral.connect(function (err) {

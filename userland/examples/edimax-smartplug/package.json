@@ -4,10 +4,10 @@
   "description": "Help BLE devices make HTTP reqeusts.",
   "main": "gateway.js",
   "dependencies": {
-    "bleno": "^0.5.0",
+    "bleno": "git://github.com/lab11/bleno.git#central-gatt-server",
     "debug": "^2.6.8",
     "http-string-parser": "0.0.6",
-    "noble": "^1.9.1",
+    "noble": "^1.8.1",
     "request": "^2.81.0"
   },
   "devDependencies": {},

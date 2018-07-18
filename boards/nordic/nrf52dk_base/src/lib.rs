@@ -111,18 +111,18 @@ impl kernel::Platform for Platform {
 #[inline]
 pub unsafe fn setup_board(
     button_rst_pin: usize,
-    gpio_pins: &'static mut [&'static nrf5x::gpio::GPIOPin],
+    gpio_pins: &'static mut [&nrf5x::gpio::GPIOPin],
     debug_pin1_index: usize,
     debug_pin2_index: usize,
     debug_pin3_index: usize,
-    led_pins: &'static mut [(&'static nrf5x::gpio::GPIOPin, capsules::led::ActivationMode)],
+    led_pins: &'static mut [(&nrf5x::gpio::GPIOPin, capsules::led::ActivationMode)],
     uart_pins: &UartPins,
     spi_pins: &SpiPins,
     mx25r6435f: &Option<SpiMX25R6435FPins>,
-    button_pins: &'static mut [(&'static nrf5x::gpio::GPIOPin, capsules::button::GpioMode)],
+    button_pins: &'static mut [(&nrf5x::gpio::GPIOPin, capsules::button::GpioMode)],
     app_memory: &mut [u8],
     process_pointers: &'static mut [core::option::Option<
-        &'static mut kernel::procs::Process<'static>,
+        &mut kernel::procs::Process,
     >],
     app_fault_response: kernel::procs::FaultResponse,
 ) {
@@ -143,7 +143,7 @@ pub unsafe fn setup_board(
     );
 
     let gpio = static_init!(
-        capsules::gpio::GPIO<'static, nrf5x::gpio::GPIOPin>,
+        capsules::gpio::GPIO<nrf5x::gpio::GPIOPin>,
         capsules::gpio::GPIO::new(gpio_pins)
     );
     for pin in gpio_pins.iter() {
@@ -152,13 +152,13 @@ pub unsafe fn setup_board(
 
     // LEDs
     let led = static_init!(
-        capsules::led::LED<'static, nrf5x::gpio::GPIOPin>,
+        capsules::led::LED<nrf5x::gpio::GPIOPin>,
         capsules::led::LED::new(led_pins)
     );
 
     // Buttons
     let button = static_init!(
-        capsules::button::Button<'static, nrf5x::gpio::GPIOPin>,
+        capsules::button::Button<nrf5x::gpio::GPIOPin>,
         capsules::button::Button::new(button_pins, kernel::Grant::create())
     );
     for &(btn, _) in button_pins.iter() {
@@ -170,25 +170,24 @@ pub unsafe fn setup_board(
     let rtc = &nrf5x::rtc::RTC;
     rtc.start();
     let mux_alarm = static_init!(
-        capsules::virtual_alarm::MuxAlarm<'static, nrf5x::rtc::Rtc>,
+        capsules::virtual_alarm::MuxAlarm<nrf5x::rtc::Rtc>,
         capsules::virtual_alarm::MuxAlarm::new(&nrf5x::rtc::RTC)
     );
     rtc.set_client(mux_alarm);
 
     let virtual_alarm1 = static_init!(
-        capsules::virtual_alarm::VirtualMuxAlarm<'static, nrf5x::rtc::Rtc>,
+        capsules::virtual_alarm::VirtualMuxAlarm<nrf5x::rtc::Rtc>,
         capsules::virtual_alarm::VirtualMuxAlarm::new(mux_alarm)
     );
     let alarm = static_init!(
         capsules::alarm::AlarmDriver<
-            'static,
-            capsules::virtual_alarm::VirtualMuxAlarm<'static, nrf5x::rtc::Rtc>,
+            capsules::virtual_alarm::VirtualMuxAlarm<nrf5x::rtc::Rtc>,
         >,
         capsules::alarm::AlarmDriver::new(virtual_alarm1, kernel::Grant::create())
     );
     virtual_alarm1.set_client(alarm);
     let ble_radio_virtual_alarm = static_init!(
-        capsules::virtual_alarm::VirtualMuxAlarm<'static, nrf5x::rtc::Rtc>,
+        capsules::virtual_alarm::VirtualMuxAlarm<nrf5x::rtc::Rtc>,
         capsules::virtual_alarm::VirtualMuxAlarm::new(mux_alarm)
     );
 
@@ -217,9 +216,8 @@ pub unsafe fn setup_board(
 
     let ble_radio = static_init!(
         capsules::ble_advertising_driver::BLE<
-            'static,
             nrf52::radio::Radio,
-            VirtualMuxAlarm<'static, Rtc>,
+            VirtualMuxAlarm<Rtc>,
         >,
         capsules::ble_advertising_driver::BLE::new(
             &mut nrf52::radio::RADIO,
@@ -239,7 +237,7 @@ pub unsafe fn setup_board(
     ble_radio_virtual_alarm.set_client(ble_radio);
 
     let temp = static_init!(
-        capsules::temperature::TemperatureSensor<'static>,
+        capsules::temperature::TemperatureSensor,
         capsules::temperature::TemperatureSensor::new(
             &mut nrf5x::temperature::TEMP,
             kernel::Grant::create()
@@ -248,14 +246,14 @@ pub unsafe fn setup_board(
     kernel::hil::sensors::TemperatureDriver::set_client(&nrf5x::temperature::TEMP, temp);
 
     let rng = static_init!(
-        capsules::rng::SimpleRng<'static, nrf5x::trng::Trng>,
+        capsules::rng::SimpleRng<nrf5x::trng::Trng>,
         capsules::rng::SimpleRng::new(&mut nrf5x::trng::TRNG, kernel::Grant::create())
     );
     nrf5x::trng::TRNG.set_client(rng);
 
     // SPI
     let mux_spi = static_init!(
-        MuxSpiMaster<'static, nrf52::spi::SPIM>,
+        MuxSpiMaster<nrf52::spi::SPIM>,
         MuxSpiMaster::new(&nrf52::spi::SPIM0)
     );
     hil::spi::SpiMaster::set_client(&nrf52::spi::SPIM0, mux_spi);
@@ -267,11 +265,11 @@ pub unsafe fn setup_board(
     );
 
     let nonvolatile_storage: Option<
-        &'static capsules::nonvolatile_storage_driver::NonvolatileStorage<'static>,
+        &capsules::nonvolatile_storage_driver::NonvolatileStorage,
     > = if let Some(driver) = mx25r6435f {
         // Create a SPI device for the mx25r6435f flash chip.
         let mx25r6435f_spi = static_init!(
-            capsules::virtual_spi::VirtualSpiMasterDevice<'static, nrf52::spi::SPIM>,
+            capsules::virtual_spi::VirtualSpiMasterDevice<nrf52::spi::SPIM>,
             capsules::virtual_spi::VirtualSpiMasterDevice::new(
                 mux_spi,
                 &nrf5x::gpio::PORT[driver.chip_select]
@@ -279,16 +277,15 @@ pub unsafe fn setup_board(
         );
         // Create an alarm for this chip.
         let mx25r6435f_virtual_alarm = static_init!(
-            VirtualMuxAlarm<'static, nrf5x::rtc::Rtc>,
+            VirtualMuxAlarm<nrf5x::rtc::Rtc>,
             VirtualMuxAlarm::new(mux_alarm)
         );
         // Setup the actual MX25R6435F driver.
         let mx25r6435f = static_init!(
             capsules::mx25r6435f::MX25R6435F<
-                'static,
-                capsules::virtual_spi::VirtualSpiMasterDevice<'static, nrf52::spi::SPIM>,
+                capsules::virtual_spi::VirtualSpiMasterDevice<nrf52::spi::SPIM>,
                 nrf5x::gpio::GPIOPin,
-                VirtualMuxAlarm<'static, nrf5x::rtc::Rtc>,
+                VirtualMuxAlarm<nrf5x::rtc::Rtc>,
             >,
             capsules::mx25r6435f::MX25R6435F::new(
                 mx25r6435f_spi,
@@ -306,12 +303,10 @@ pub unsafe fn setup_board(
             capsules::mx25r6435f::Mx25r6435fSector::new();
         let nv_to_page = static_init!(
             capsules::nonvolatile_to_pages::NonvolatileToPages<
-                'static,
                 capsules::mx25r6435f::MX25R6435F<
-                    'static,
-                    capsules::virtual_spi::VirtualSpiMasterDevice<'static, nrf52::spi::SPIM>,
+                    capsules::virtual_spi::VirtualSpiMasterDevice<nrf52::spi::SPIM>,
                     nrf5x::gpio::GPIOPin,
-                    VirtualMuxAlarm<'static, nrf5x::rtc::Rtc>,
+                    VirtualMuxAlarm<nrf5x::rtc::Rtc>,
                 >,
             >,
             capsules::nonvolatile_to_pages::NonvolatileToPages::new(
@@ -322,7 +317,7 @@ pub unsafe fn setup_board(
         hil::flash::HasClient::set_client(mx25r6435f, nv_to_page);
 
         let nonvolatile_storage = static_init!(
-            capsules::nonvolatile_storage_driver::NonvolatileStorage<'static>,
+            capsules::nonvolatile_storage_driver::NonvolatileStorage,
             capsules::nonvolatile_storage_driver::NonvolatileStorage::new(
                 nv_to_page,
                 kernel::Grant::create(),
@@ -352,15 +347,15 @@ pub unsafe fn setup_board(
     while !nrf52::clock::CLOCK.high_started() {}
 
     let platform = Platform {
-        button: button,
-        ble_radio: ble_radio,
-        console: console,
-        led: led,
-        gpio: gpio,
-        rng: rng,
-        temp: temp,
-        alarm: alarm,
-        nonvolatile_storage: nonvolatile_storage,
+        button,
+        ble_radio,
+        console,
+        led,
+        gpio,
+        rng,
+        temp,
+        alarm,
+        nonvolatile_storage,
         ipc: kernel::ipc::IPC::new(),
     };
 

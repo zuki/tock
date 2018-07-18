@@ -118,8 +118,7 @@ const NUM_PROCS: usize = 4;
 #[link_section = ".app_memory"]
 static mut APP_MEMORY: [u8; 32768] = [0; 32768];
 
-static mut PROCESSES: [Option<&'static mut kernel::procs::Process<'static>>; NUM_PROCS] =
-    [None, None, None, None];
+static mut PROCESSES: [Option<&mut kernel::procs::Process>; NUM_PROCS] = [None, None, None, None];
 
 /// Dummy buffer that causes the linker to reserve enough space for the stack.
 #[no_mangle]
@@ -134,7 +133,7 @@ pub unsafe fn reset_handler() {
 
     // GPIOs
     let gpio_pins = static_init!(
-        [&'static nrf5x::gpio::GPIOPin; 12],
+        [&nrf5x::gpio::GPIOPin; 12],
         [
             &nrf5x::gpio::PORT[3], // Bottom right header on DK board
             &nrf5x::gpio::PORT[4],
@@ -153,7 +152,7 @@ pub unsafe fn reset_handler() {
 
     // LEDs
     let led_pins = static_init!(
-        [(&'static nrf5x::gpio::GPIOPin, capsules::led::ActivationMode); 4],
+        [(&nrf5x::gpio::GPIOPin, capsules::led::ActivationMode); 4],
         [
             (
                 &nrf5x::gpio::PORT[LED1_PIN],
@@ -175,7 +174,7 @@ pub unsafe fn reset_handler() {
     );
 
     let button_pins = static_init!(
-        [(&'static nrf5x::gpio::GPIOPin, capsules::button::GpioMode); 4],
+        [(&nrf5x::gpio::GPIOPin, capsules::button::GpioMode); 4],
         [
             (
                 &nrf5x::gpio::PORT[BUTTON1_PIN],

@@ -148,7 +148,7 @@ pub unsafe fn setup_board(
 ) {
     // Make non-volatile memory writable and activate the reset button
     let uicr = nrf52::uicr::Uicr::new();
-    nrf52::nvmc::NVMC.erase_uicr();
+    // nrf52::nvmc::NVMC.erase_uicr();
     nrf52::nvmc::NVMC.configure_writeable();
     while !nrf52::nvmc::NVMC.is_ready() {}
     uicr.set_psel0_reset_pin(button_rst_pin);

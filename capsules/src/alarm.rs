@@ -62,7 +62,16 @@ impl<A: Alarm<'a>> AlarmDriver<'a, A> {
                 Expiration::Disabled => {}
             });
         }
-        if next_alarm != u32::max_value() {
+        // If there's a new alarm value, change it
+        if next_alarm != u32::max_value() &&
+           next_alarm != self.alarm.get_alarm() {
+            if (now.wrapping_sub(next_alarm) <= 2) ||
+               (next_alarm.wrapping_sub(now) <= 2) {
+                   // We may be so close to the timer firing that we
+                   // have either just missed it or might miss it: set
+                   // it a little in the future.
+                   next_alarm = next_alarm + 2;
+            }
             self.alarm.set_alarm(next_alarm);
             Some(next_alarm)
         } else {
@@ -134,7 +143,7 @@ impl<A: Alarm<'a>> Driver for AlarmDriver<'a, A> {
                                 td.expiration = Expiration::Disabled;
                                 let new_num_armed = self.num_armed.get() - 1;
                                 self.num_armed.set(new_num_armed);
-                                (ReturnCode::SUCCESS, true)
+                                (ReturnCode::SUCCESS, false)
                             }
                         }
                     },
@@ -167,7 +176,7 @@ impl<A: Alarm<'a>> time::AlarmClient for AlarmDriver<'a, A> {
         let now = self.alarm.now();
         self.app_alarm.each(|alarm| {
             if let Expiration::Abs(exp) = alarm.expiration {
-                let expired = has_expired(exp, now, self.prev.get());
+                let expired = has_expired(exp, now + 2, self.prev.get());
                 if expired {
                     alarm.expiration = Expiration::Disabled;
                     self.num_armed.set(self.num_armed.get() - 1);

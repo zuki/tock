@@ -51,8 +51,8 @@ pub enum SlaveTransmissionType {
 }
 
 /// Interface for an I2C Master hardware driver.
-pub trait I2CMaster {
-    fn set_master_client(&self, master_client: &'static dyn I2CHwMasterClient);
+pub trait I2CMaster<'a> {
+    fn set_master_client(&self, master_client: &'a dyn I2CHwMasterClient);
     fn enable(&self);
     fn disable(&self);
     fn write_read(&self, addr: u8, data: &'static mut [u8], write_len: u8, read_len: u8);
@@ -63,7 +63,7 @@ pub trait I2CMaster {
 /// Interface for an SMBus Master hardware driver.
 /// The device implementing this will also seperately implement
 /// I2CMaster.
-pub trait SMBusMaster: I2CMaster {
+pub trait SMBusMaster<'a>: I2CMaster<'a> {
     /// Write data then read data via the I2C Master device in an SMBus
     /// compatible way.
     ///
@@ -124,8 +124,8 @@ pub trait SMBusMaster: I2CMaster {
 }
 
 /// Interface for an I2C Slave hardware driver.
-pub trait I2CSlave {
-    fn set_slave_client(&self, slave_client: &'static dyn I2CHwSlaveClient);
+pub trait I2CSlave<'a> {
+    fn set_slave_client(&self, slave_client: &'a dyn I2CHwSlaveClient);
     fn enable(&self);
     fn disable(&self);
     fn set_address(&self, addr: u8);
@@ -136,7 +136,7 @@ pub trait I2CSlave {
 
 /// Convenience type for capsules that need hardware that supports both
 /// Master and Slave modes.
-pub trait I2CMasterSlave: I2CMaster + I2CSlave {}
+pub trait I2CMasterSlave<'a>: I2CMaster<'a> + I2CSlave<'a> {}
 
 /// Client interface for capsules that use I2CMaster devices.
 pub trait I2CHwMasterClient {

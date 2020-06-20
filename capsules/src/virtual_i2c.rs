@@ -12,8 +12,8 @@ use kernel::common::{List, ListLink, ListNode};
 use kernel::hil::i2c::{self, Error, I2CClient, I2CHwMasterClient};
 
 pub struct MuxI2C<'a> {
-    i2c: &'a dyn i2c::I2CMaster,
-    smbus: Option<&'a dyn i2c::SMBusMaster>,
+    i2c: &'a dyn i2c::I2CMaster<'a>,
+    smbus: Option<&'a dyn i2c::SMBusMaster<'a>>,
     i2c_devices: List<'a, I2CDevice<'a>>,
     smbus_devices: List<'a, SMBusDevice<'a>>,
     enabled: Cell<usize>,
@@ -40,8 +40,8 @@ impl I2CHwMasterClient for MuxI2C<'_> {
 
 impl<'a> MuxI2C<'a> {
     pub const fn new(
-        i2c: &'a dyn i2c::I2CMaster,
-        smbus: Option<&'a dyn i2c::SMBusMaster>,
+        i2c: &'a dyn i2c::I2CMaster<'a>,
+        smbus: Option<&'a dyn i2c::SMBusMaster<'a>>,
         deferred_caller: &'a DynamicDeferredCall,
     ) -> MuxI2C<'a> {
         MuxI2C {

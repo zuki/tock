@@ -8,7 +8,6 @@
 // https://github.com/rust-lang/rust/issues/62184.
 #![cfg_attr(not(doc), no_main)]
 #![deny(missing_docs)]
-#![feature(const_raw_ptr_to_usize_cast)]
 
 use capsules::virtual_alarm::VirtualMuxAlarm;
 use capsules::virtual_i2c::{I2CDevice, MuxI2C};

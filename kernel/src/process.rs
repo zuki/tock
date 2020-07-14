@@ -1634,14 +1634,6 @@ impl<C: 'static + Chip> Process<'_, C> {
             )
             .is_none()
         {
-            if config::CONFIG.debug_load_processes {
-                debug!(
-                    "[!] flash=[{:#010X}:{:#010X}] process={:?} - couldn't allocate MPU region for flash",
-                    app_flash.as_ptr() as usize,
-                    app_flash.as_ptr() as usize + app_flash.len(),
-                    process_name
-                );
-            }
             return Err(ProcessLoadError::MpuInvalidFlashLength);
         }
 
@@ -1735,15 +1727,6 @@ impl<C: 'static + Chip> Process<'_, C> {
             Some((memory_start, memory_size)) => (memory_start, memory_size),
             None => {
                 // Failed to load process. Insufficient memory.
-                if config::CONFIG.debug_load_processes {
-                    debug!(
-                        "[!] flash=[{:#010X}:{:#010X}] process={:?} - couldn't allocate memory region of size >= {:#X}",
-                        app_flash.as_ptr() as usize,
-                        app_flash.as_ptr() as usize + app_flash.len(),
-                        process_name,
-                        min_total_memory_size
-                    );
-                }
                 return Err(ProcessLoadError::NotEnoughMemory);
             }
         };
@@ -1925,14 +1908,6 @@ impl<C: 'static + Chip> Process<'_, C> {
                 process.debug_set_max_stack_depth();
             }
             _ => {
-                if config::CONFIG.debug_load_processes {
-                    debug!(
-                        "[!] flash=[{:#010X}:{:#010X}] process={:?} - couldn't initialize process",
-                        app_flash.as_ptr() as usize,
-                        app_flash.as_ptr() as usize + app_flash.len(),
-                        process_name
-                    );
-                }
                 return Err(ProcessLoadError::InternalError);
             }
         };

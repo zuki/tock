@@ -17,6 +17,7 @@ use crate::common::cells::NumericCellExt;
 use crate::common::dynamic_deferred_call::DynamicDeferredCall;
 use crate::config;
 use crate::debug;
+use crate::debug_gpio;
 use crate::grant::Grant;
 use crate::ipc;
 use crate::memop;
@@ -463,6 +464,7 @@ impl Kernel {
                 match scheduler.do_kernel_work_now(chip) {
                     true => {
                         // Execute kernel work
+                        // debug_gpio!(0, toggle);
                         scheduler.execute_kernel_work(chip);
                     }
                     false => {
@@ -556,11 +558,29 @@ impl Kernel {
             {
                 process.debug_timeslice_expired();
                 return_reason = StoppedExecutingReason::TimesliceExpired;
+
                 break;
             }
 
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+            debug_gpio!(1, toggle);
+
             if !scheduler.continue_process(process.appid(), chip) {
                 return_reason = StoppedExecutingReason::KernelPreemption;
+                debug_gpio!(1, toggle);
                 break;
             }
 
@@ -569,12 +589,19 @@ impl Kernel {
                     // Running means that this process expects to be running,
                     // so go ahead and set things up and switch to executing
                     // the process.
-                    process.setup_mpu();
-                    chip.mpu().enable_mpu();
+                    //
+                    //
+                    // if process.appid().index == 0 {
+                    //     // debug_gpio!(0, toggle);
+                    // } else {
+                    //     debug_gpio!(2, toggle);
+                    // }
+                    // process.setup_mpu();
+                    // chip.mpu().enable_mpu();
                     scheduler_timer.arm();
                     let context_switch_reason = process.switch_to();
                     scheduler_timer.disarm();
-                    chip.mpu().disable_mpu();
+                    // chip.mpu().disable_mpu();
 
                     // Now the process has returned back to the kernel. Check
                     // why and handle the process as appropriate.
@@ -624,6 +651,7 @@ impl Kernel {
                                     process.set_syscall_return_value(res.into());
                                 }
                                 Syscall::YIELD => {
+                                    // debug_gpio!(1, toggle);
                                     if config::CONFIG.trace_syscalls {
                                         debug!("[{:?}] yield", process.appid());
                                     }
@@ -787,6 +815,7 @@ impl Kernel {
                                     ccb.argument3,
                                 );
                             }
+                            // debug_gpio!(2, toggle);
                             process.set_process_function(ccb);
                         }
                         Task::IPC((otherapp, ipc_type)) => {
@@ -834,7 +863,7 @@ impl Kernel {
                 // so we protect against that by checking for the expiration here. Checking
                 // the return reason is insufficient because it is possible for the timer to expire
                 // after the process has returned to the kernel but before these lines are reached.
-                Some(0)
+                Some(timeslice)
             } else {
                 Some(timeslice - remaining)
             }

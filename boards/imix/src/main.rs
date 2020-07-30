@@ -271,6 +271,15 @@ pub unsafe fn reset_handler() {
         trng: true,
     });
 
+    kernel::debug::assign_gpios(
+        Some(&sam4l::gpio::PA[20]),
+        Some(&sam4l::gpio::PC[26]),
+        Some(&sam4l::gpio::PC[27]),
+    );
+    debug_gpio!(0, make_output);
+    debug_gpio!(1, make_output);
+    debug_gpio!(2, make_output);
+
     let board_kernel = static_init!(kernel::Kernel, kernel::Kernel::new(&PROCESSES));
 
     let dynamic_deferred_call_clients =

@@ -13,6 +13,8 @@
 
 use crate::callback::AppId;
 use crate::common::list::{List, ListLink, ListNode};
+use crate::debug;
+use crate::debug_gpio;
 use crate::platform::Chip;
 use crate::sched::{Kernel, Scheduler, SchedulingDecision, StoppedExecutingReason};
 use core::cell::Cell;
@@ -59,26 +61,32 @@ impl<'a> RoundRobinSched<'a> {
 
 impl<'a, C: Chip> Scheduler<C> for RoundRobinSched<'a> {
     fn next(&self, kernel: &Kernel) -> SchedulingDecision {
+        // debug_gpio!(1, toggle);
         if kernel.processes_blocked() {
             // No processes ready
+            // debug_gpio!(2, toggle);
             SchedulingDecision::TrySleep
         } else {
             let next = self.processes.head().unwrap().appid;
             let timeslice = if self.last_rescheduled.get() {
                 self.time_remaining.get()
             } else {
+                self.time_remaining.set(Self::DEFAULT_TIMESLICE_US);
                 Self::DEFAULT_TIMESLICE_US
             };
             assert!(timeslice != 0);
 
             SchedulingDecision::RunProcess((next, Some(timeslice)))
+            // SchedulingDecision::RunProcess((next, Some(Self::DEFAULT_TIMESLICE_US)))
         }
     }
 
     fn result(&self, result: StoppedExecutingReason, execution_time_us: Option<u32>) {
         let execution_time_us = execution_time_us.unwrap(); // should never fail
+                                                            // debug!("et {}", execution_time_us);
         self.time_remaining
             .set(self.time_remaining.get() - execution_time_us);
+        // debug!("tr {}", self.time_remaining.get());
         let reschedule = match result {
             StoppedExecutingReason::KernelPreemption => true,
             _ => false,

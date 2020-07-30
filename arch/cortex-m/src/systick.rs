@@ -3,6 +3,9 @@
 use kernel::common::registers::{register_bitfields, FieldValue, ReadOnly, ReadWrite};
 use kernel::common::StaticRef;
 
+use kernel::debug;
+use kernel::debug_gpio;
+
 #[repr(C)]
 struct SystickRegisters {
     syst_csr: ReadWrite<u32, ControlAndStatus::Register>,
@@ -88,7 +91,7 @@ impl SysTick {
     /// Initialize the `SysTick` with an explicit clock speed and external source
     ///
     /// Use this constructor if the core implementation does not have a
-    /// pre-calibration value and you need an external clock source for  
+    /// pre-calibration value and you need an external clock source for
     /// the Systick.
     ///
     ///   * `clock_speed` - the frequency of SysTick tics in Hertz. For example,
@@ -118,6 +121,7 @@ impl SysTick {
 
 impl kernel::SchedulerTimer for SysTick {
     fn start(&self, us: u32) {
+        // debug_gpio!(2, toggle);
         let reload = {
             // We need to convert from microseconds to native tics, which could overflow in 32-bit
             // arithmetic. So we convert to 64-bit. 64-bit division is an expensive subroutine, but
@@ -128,6 +132,10 @@ impl kernel::SchedulerTimer for SysTick {
 
             hertz * us / 1_000_000
         };
+        // debug    !("h {}", reload);
+        // if reload > 16103907 {
+        //     reload = 16103907;
+        // }
         let clock_source: FieldValue<u32, self::ControlAndStatus::Register> = if self.external_clock
         {
             // CLKSOURCE 0 --> external clock
@@ -158,21 +166,27 @@ impl kernel::SchedulerTimer for SysTick {
     }
 
     fn arm(&self) {
-        let clock_source: FieldValue<u32, self::ControlAndStatus::Register> = if self.external_clock
-        {
-            // CLKSOURCE 0 --> external clock
-            ControlAndStatus::CLKSOURCE::CLEAR
-        } else {
-            // CLKSOURCE 1 --> internal clock
-            ControlAndStatus::CLKSOURCE::SET
-        };
+        // let clock_source: FieldValue<u32, self::ControlAndStatus::Register> = if self.external_clock
+        // {
+        //     // CLKSOURCE 0 --> external clock
+        //     ControlAndStatus::CLKSOURCE::CLEAR
+        // } else {
+        //     // CLKSOURCE 1 --> internal clock
+        //     ControlAndStatus::CLKSOURCE::SET
+        // };
 
-        // We really just need to set the TICKINT bit here, but can't use modify() because
-        // readying the CSR register will throw away evidence of expiration if one
-        // occurred, so we re-write entire value instead.
-        SYSTICK_BASE
-            .syst_csr
-            .write(ControlAndStatus::TICKINT::SET + ControlAndStatus::ENABLE::SET + clock_source);
+        // // We really just need to set the TICKINT bit here, but can't use modify() because
+        // // readying the CSR register will throw away evidence of expiration if one
+        // // occurred, so we re-write entire value instead.
+        // SYSTICK_BASE
+        //     .syst_csr
+        //     .write(ControlAndStatus::TICKINT::SET + ControlAndStatus::ENABLE::SET + clock_source);
+
+        SYSTICK_BASE.syst_csr.write(
+            ControlAndStatus::ENABLE::SET
+                + ControlAndStatus::TICKINT::SET
+                + ControlAndStatus::CLKSOURCE::SET,
+        );
     }
 
     fn disarm(&self) {

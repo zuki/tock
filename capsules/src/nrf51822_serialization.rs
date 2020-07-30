@@ -23,6 +23,7 @@
 use core::cmp;
 
 use kernel::common::cells::{OptionalCell, TakeCell};
+use kernel::debug_gpio;
 use kernel::hil;
 use kernel::hil::uart;
 use kernel::{AppId, AppSlice, Callback, Driver, Grant, ReturnCode, Shared};
@@ -222,6 +223,7 @@ impl uart::TransmitClient for Nrf51822Serialization<'_> {
             let _ = self.apps.enter(*appid, |app, _| {
                 // Call the callback after TX has finished
                 app.callback.as_mut().map(|cb| {
+                    // debug_gpio!(1, toggle);
                     cb.schedule(1, 0, 0);
                 });
             });
@@ -257,6 +259,7 @@ impl uart::ReceiveClient for Nrf51822Serialization<'_> {
                     app.callback.as_mut().map(|cb| {
                         // Notify the serialization library in userspace about the
                         // received buffer.
+                        // debug_gpio!(2, toggle);
                         cb.schedule(4, rx_len, 0);
                     });
 

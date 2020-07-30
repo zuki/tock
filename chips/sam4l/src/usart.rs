@@ -8,6 +8,7 @@ use core::sync::atomic::{AtomicBool, Ordering};
 use kernel::common::cells::OptionalCell;
 use kernel::common::registers::{register_bitfields, ReadOnly, ReadWrite, WriteOnly};
 use kernel::common::StaticRef;
+use kernel::debug_gpio;
 use kernel::hil;
 use kernel::hil::spi;
 use kernel::hil::uart;
@@ -600,6 +601,7 @@ impl<'a> USART<'a> {
     }
 
     pub fn handle_interrupt(&self) {
+        // debug_gpio!(0, toggle);
         let usart = &USARTRegManager::new(&self);
 
         let status = usart.registers.csr.extract();

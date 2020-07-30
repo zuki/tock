@@ -17,6 +17,8 @@ pub use cortexm::scb;
 pub use cortexm::syscall;
 pub use cortexm::systick;
 
+use kernel::debug_gpio;
+
 extern "C" {
     // _estack is not really a function, but it makes the types work
     // You should never actually invoke it!!
@@ -43,6 +45,7 @@ pub unsafe extern "C" fn systick_handler() {
 #[cfg(all(target_arch = "arm", target_os = "none"))]
 #[naked]
 pub unsafe extern "C" fn systick_handler() {
+    // debug_gpio!(1, toggle);
     llvm_asm!(
         "
     // Set thread mode to privileged to switch back to kernel mode.

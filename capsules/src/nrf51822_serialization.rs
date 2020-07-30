@@ -36,8 +36,21 @@ pub struct App {
     callback: Option<Callback>,
     tx_buffer: Option<AppSlice<Shared, u8>>,
     rx_buffer: Option<AppSlice<Shared, u8>>,
-    rx_recv_so_far: usize, // How many RX bytes we have currently received.
-    rx_recv_total: usize,  // The total number of bytes we expect to receive.
+    /// We sent a TX to the nRF51, and are awaiting a TX done callback. We need
+    /// to make sure to issue the TX callback before any potential RX callback
+    /// is generated. We otherwise could generate an RX callback first if for
+    /// some reason the RX interrupt occurs (or is serviced) before the TX done
+    /// interrupt.
+    tx_pending: bool,
+    /// If this is greater than zero, we got an RX message, but we don't want to
+    /// issue the callback because we have a TX pending that we have not issued
+    /// a TX done callback for. When the TX callback is done we can issue the RX
+    /// callback.
+    rx_callback_pending_len: usize,
+    /// How many RX bytes we have currently received.
+    rx_recv_so_far: usize,
+    /// The total number of bytes we expect to receive.
+    rx_recv_total: usize,
 }
 
 // Local buffer for passing data between applications and the underlying
@@ -195,6 +208,11 @@ impl Driver for Nrf51822Serialization<'_> {
                                 buffer[i] = *c;
                             }
                             let (_err, _opt) = self.uart.transmit_buffer(buffer, write_len);
+
+                            // Mark that we have a pending TX to ack with a
+                            // callback when it is finished.
+                            app.tx_pending = true;
+
                             ReturnCode::SUCCESS
                         })
                     })
@@ -224,6 +242,17 @@ impl uart::TransmitClient for Nrf51822Serialization<'_> {
                 app.callback.as_mut().map(|cb| {
                     cb.schedule(1, 0, 0);
                 });
+                app.tx_pending = false;
+
+                // Check if we queued an RX callback and can now issue it since
+                // the TX done callback has been handled.
+                if app.rx_callback_pending_len > 0 {
+                    let rx_len = app.rx_callback_pending_len;
+                    app.callback.as_mut().map(|cb| {
+                        cb.schedule(4, rx_len, 0);
+                    });
+                    app.rx_callback_pending_len = 0;
+                }
             });
         });
     }
@@ -254,11 +283,18 @@ impl uart::ReceiveClient for Nrf51822Serialization<'_> {
                             rb.as_mut()[idx] = buffer[idx];
                         }
                     });
-                    app.callback.as_mut().map(|cb| {
-                        // Notify the serialization library in userspace about the
-                        // received buffer.
-                        cb.schedule(4, rx_len, 0);
-                    });
+                    if app.tx_pending {
+                        // We are waiting on signaling a TX done callback, so
+                        // don't signal an RX just yet. Otherwise, the nRF
+                        // serialization library gets out of sync.
+                        app.rx_callback_pending_len = rx_len;
+                    } else {
+                        app.callback.as_mut().map(|cb| {
+                            // Notify the serialization library in userspace
+                            // about the received buffer.
+                            cb.schedule(4, rx_len, 0);
+                        });
+                    }
 
                     rb
                 });

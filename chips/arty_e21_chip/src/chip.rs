@@ -1,6 +1,7 @@
 use core::fmt::Write;
 use kernel;
 use kernel::debug;
+use kernel::hil::time::Alarm;
 use rv32i;
 
 use crate::gpio;
@@ -12,23 +13,25 @@ extern "C" {
     fn _start_trap();
 }
 
-pub struct ArtyExx {
+pub struct ArtyExx<A: 'static + Alarm<'static>> {
     pmp: rv32i::pmp::PMPConfig,
     userspace_kernel_boundary: rv32i::syscall::SysCall,
     clic: rv32i::clic::Clic,
+    scheduler_timer: kernel::VirtualSchedulerTimer<A>,
 }
 
-impl ArtyExx {
-    pub unsafe fn new() -> ArtyExx {
+impl<A: 'static + Alarm<'static>> ArtyExx<A> {
+    pub unsafe fn new(virtual_alarm: &'static A) -> Self {
         // Make a bit-vector of all interrupt locations that we actually intend
         // to use on this chip.
         // 0001 1111 1111 1111 1111 0000 0000 1000 0000
         let in_use_interrupts: u64 = 0x1FFFF0080;
 
-        ArtyExx {
+        Self {
             pmp: rv32i::pmp::PMPConfig::new(4),
             userspace_kernel_boundary: rv32i::syscall::SysCall::new(),
             clic: rv32i::clic::Clic::new(in_use_interrupts),
+            scheduler_timer: kernel::VirtualSchedulerTimer::new(virtual_alarm),
         }
     }
 
@@ -104,10 +107,10 @@ impl ArtyExx {
     }
 }
 
-impl kernel::Chip for ArtyExx {
+impl<A: 'static + Alarm<'static>> kernel::Chip for ArtyExx<A> {
     type MPU = rv32i::pmp::PMPConfig;
     type UserspaceKernelBoundary = rv32i::syscall::SysCall;
-    type SchedulerTimer = ();
+    type SchedulerTimer = kernel::VirtualSchedulerTimer<A>;
     type WatchDog = ();
 
     fn mpu(&self) -> &Self::MPU {
@@ -115,7 +118,7 @@ impl kernel::Chip for ArtyExx {
     }
 
     fn scheduler_timer(&self) -> &Self::SchedulerTimer {
-        &()
+        &self.scheduler_timer
     }
 
     fn watchdog(&self) -> &Self::WatchDog {

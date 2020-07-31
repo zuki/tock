@@ -11,6 +11,8 @@ use kernel::capabilities;
 use kernel::common::dynamic_deferred_call::{DynamicDeferredCall, DynamicDeferredCallClientState};
 use kernel::component::Component;
 use kernel::hil;
+use kernel::hil::time::Alarm;
+use kernel::Chip;
 use kernel::Platform;
 use kernel::{create_capability, debug, static_init};
 
@@ -31,7 +33,11 @@ static mut PROCESSES: [Option<&'static dyn kernel::procs::ProcessType>; NUM_PROC
     [None, None, None, None];
 
 // Reference to the chip for panic dumps.
-static mut CHIP: Option<&'static arty_e21_chip::chip::ArtyExx> = None;
+static mut CHIP: Option<
+    &'static arty_e21_chip::chip::ArtyExx<
+        VirtualMuxAlarm<'static, rv32i::machine_timer::MachineTimer>,
+    >,
+> = None;
 
 /// Dummy buffer that causes the linker to reserve enough space for the stack.
 #[no_mangle]
@@ -81,13 +87,6 @@ pub unsafe fn reset_handler() {
     // Basic setup of the platform.
     rv32i::init_memory();
 
-    let chip = static_init!(
-        arty_e21_chip::chip::ArtyExx,
-        arty_e21_chip::chip::ArtyExx::new()
-    );
-    CHIP = Some(chip);
-    chip.initialize();
-
     let process_mgmt_cap = create_capability!(capabilities::ProcessManagementCapability);
     let main_loop_cap = create_capability!(capabilities::MainLoopCapability);
 
@@ -130,6 +129,21 @@ pub unsafe fn reset_handler() {
     let alarm = components::alarm::AlarmDriverComponent::new(board_kernel, mux_alarm).finalize(
         components::alarm_component_helper!(rv32i::machine_timer::MachineTimer),
     );
+
+    // Scheduler Timer
+    let scheduler_timer_virtual_alarm = static_init!(
+        VirtualMuxAlarm<'static, rv32i::machine_timer::MachineTimer>,
+        VirtualMuxAlarm::new(mux_alarm)
+    );
+
+    let chip = static_init!(
+        arty_e21_chip::chip::ArtyExx<VirtualMuxAlarm<'static, rv32i::machine_timer::MachineTimer>>,
+        arty_e21_chip::chip::ArtyExx::new(scheduler_timer_virtual_alarm)
+    );
+    scheduler_timer_virtual_alarm.set_client(chip.scheduler_timer());
+
+    CHIP = Some(chip);
+    chip.initialize();
 
     // TEST for timer
     //
@@ -246,7 +260,8 @@ pub unsafe fn reset_handler() {
         debug!("{:?}", err);
     });
 
-    let scheduler = components::sched::priority::PriorityComponent::new(board_kernel).finalize(());
+    let scheduler = components::sched::round_robin::RoundRobinComponent::new(&PROCESSES)
+        .finalize(components::rr_component_helper!(NUM_PROCS));
 
     board_kernel.kernel_loop(&artye21, chip, None, scheduler, &main_loop_cap);
 }

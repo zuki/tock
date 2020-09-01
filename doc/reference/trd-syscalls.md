@@ -5,7 +5,7 @@ System Calls
 **Working Group:** Kernel<br/>
 **Type:** Documentary<br/>
 **Status:** Draft <br/>
-**Author:** Philip Levis, Amit Levy, Leon Schuermann <br/>
+**Author:** Guillaume Endignoux, Jon Flatley, Philip Levis, Amit Levy, Leon Schuermann, Johnathan Van Why <br/>
 **Draft-Created:** August 31, 2020<br/>
 **Draft-Modified:** Sep 1, 2020<br/>
 **Draft-Version:** 1<br/>
@@ -320,6 +320,10 @@ To be described.
 
 N Authors' Address
 =================================
+email - Guillaume Endignoux <guillaumee@google.com>
+email - Jon Flatley <jflat@google.com>
+email - Philip Levis <pal@cs.stanford.edu>
+email - Amit Levy <aalevy@cs.princeton.edu>
+email - Leon Schuermann <leon@is.currently.online>
+email - Johnathan Van Why <jrvanwhy@google.com>
 
-email - amit@amitlevy.com
-email - pal@cs.stanford.edu

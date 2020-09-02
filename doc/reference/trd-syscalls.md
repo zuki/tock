@@ -347,6 +347,20 @@ are 12:
 The success return type is  Memop class system call specific. All Memop class system calls
 have a Failure failure type.
 
+5 Userspace Library Methods
+=================================
+
+This section describes the method signatures for system calls and callbacks in C and Rust.
+Because C allows a single return value but Tock system calls can return multiple values,
+the low-level APIs are not idiomatic C. These low-level APIs are translated into standard C
+code by the userspace library.
+
+5.1 libtock-c
+---------------------------------
+
+5.1 libtock-rs
+---------------------------------
+
 N Authors' Address
 =================================
 email - Guillaume Endignoux <guillaumee@google.com>

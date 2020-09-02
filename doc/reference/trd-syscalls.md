@@ -104,17 +104,17 @@ All system calls have the same return value format. A system call can return
 one of nine values, which are shown here. r0-r3 refer to the return value
 registers: for CortexM they are r0-r3 and for RISC-V they are a1-a4.
 
-|                          | r0 | r1                 | r2                 | r3             |
-|--------------------------|----|--------------------|--------------------|----------------|
-| Failure                  | 0  | Error code         | -                  | -              |
-| Failure with 1 value     | 1  | Error code         | Return Value 0     |                |
-| Failure with 2 values    | 2  | Error code         | Return Value 0     | Return Value 1 |
-| Success                  | 32 |                    |                    |                |
-| Success with u32         | 33 | Return Value 0     |                    |                |
-| Success with 2 u32       | 34 | Return Value 0     | Return Value 1     |                |
-| Success with 3 u32       | 35 | Return Value 0     | Return Value 1     | Return Value 2 |
-| Success with u64         | 36 | Return Value 0 LSB | Return Value 0 MSB |                |
-| Success with u64 and u32 | 37 | Return Value 0 LSB | Return Value 0 MSB | Return Value 1 |
+|                          | r0  | r1                 | r2                 | r3             |
+|--------------------------|-----|--------------------|--------------------|----------------|
+| Failure                  | 0   | Error code         | -                  | -              |
+| Failure with 1 value     | 1   | Error code         | Return Value 0     |                |
+| Failure with 2 values    | 2   | Error code         | Return Value 0     | Return Value 1 |
+| Success                  | 128 |                    |                    |                |
+| Success with u32         | 129 | Return Value 0     |                    |                |
+| Success with 2 u32       | 130 | Return Value 0     | Return Value 1     |                |
+| Success with 3 u32       | 131 | Return Value 0     | Return Value 1     | Return Value 2 |
+| Success with u64         | 132 | Return Value 0 LSB | Return Value 0 MSB |                |
+| Success with u64 and u32 | 133 | Return Value 0 LSB | Return Value 0 MSB | Return Value 1 |
 
 There are a wide variety of failure and success values because different
 system calls need to pass different amounts of data. A command that requests
@@ -134,6 +134,8 @@ The presence of many difference cases suggests that the operation should be spli
 there is non-determinism in its execution or its meaning is overloaded. It also fits
 well with Rust's `Result` type.
 
+All values not specified for r0 in the above table are reserved.
+
 4. System Call API
 =================================
 
@@ -145,14 +147,14 @@ the platform has and which have drivers installed in the kernel.
 
 The 6 classes are:
 
-| Syscall Class   | Syscall ID |
-|-----------------|------------|
-| Yield           |     0      |
-| Subscribe       |     1      |
-| Command         |     2      |
-| Allow           |     3      |
-| Read-Only Allow |     4      | 
-| Memory          |     5      |
+| Syscall Class   | Syscall Class ID |
+|-----------------|------------------|
+| Yield           |        0         |
+| Subscribe       |        1         |
+| Command         |        2         |
+| Allow           |        3         |
+| Read-Only Allow |        4         | 
+| Memory          |        5         |
 
 All of the system call classes except Yield are non-blocking. When a userspace
 process calls a Subscribe, Command, Allow, Read-Only Allow, or Memory syscall,
@@ -165,7 +167,7 @@ is signaled by a callback (see the Subscribe call in 4.2).
 Peripheral driver-specific system calls (Subscribe, Command, Allow, Read-Only Allow)
 all include two arguments, a driver identifier and a syscall identifier. The driver identifier
 specifies which peripheral system call driver to invoke. The syscall identifier (which
-is different than the Syscall ID in the table above)
+is different than the Syscall Class ID in the table above)
 specifies which instance of that system call on that driver to invoke. For example, the
 Console driver has driver identifier `0x1` and a Command to the console driver with
 syscall identifier `0x2` starts receiving console data into a buffer.
@@ -173,16 +175,17 @@ syscall identifier `0x2` starts receiving console data into a buffer.
 4.1 Yield (Class ID: 0)
 --------------------------------
 
-The Yield system call class implements the only blocking system call in Tock.
-Yield is how a userspace process can relinquish the processor to other processes,
-or wait for one of its long-running calls to complete.
+The Yield system call class is how a userspace process handles
+callbacks, relinquishes the processor to other processes, or waits for
+one of its long-running calls to complete.  The Yield system call
+class implements the only blocking system call in Tock.
 
-When a process calls a Yield system call, if there are any pending callbacks from
-the kernel, the kernel schedules one of them to execute on the userspace stack.
-If there are multiple pending callbacks, each one requires a separate Yield call
-to invoke. The kernel invokes callbacks only in response to Yield system calls.
-This form of very limited preemption allows userspace to manage concurrent access
-to its variables.
+When a process calls a Yield system call, the kernel schedules one
+pending callback (if any) to execute on the userspace stack.  If there
+are multiple pending callbacks, each one requires a separate Yield
+call to invoke. The kernel invokes callbacks only in response to Yield
+system calls.  This form of very limited preemption allows userspace
+to manage concurrent access to its variables.
 
 There are two Yield system calls:
   - `yield-wait`
@@ -311,12 +314,38 @@ introduces more complex memory management.
 4.6 Memop (Class ID: 5)
 ---------------------------------
 
-To be described.
+The Memop class is how a userspace process requests and provides
+information about its address space.  The register arguments for 
+Allow system calls are as follows. The registers r0-r3 correspond
+to r0-r3 on CortexM and a1-a4 on RISC-V.
 
+| Argument               | Register |
+|------------------------|----------|
+| Operation              | r0       |
+| Operation argument     | r1       |
+| unused                 | r2       |
+| unused                 | r3       |
 
+The operation argument specifies which memory operation to perform. There
+are 12:
 
+| Memop Operation | Operation |
+|-----------------|-----------|
+| 0               | Break     |
+| 1               | SBreak    |
+| 2               | Get process RAM start address |
+| 3               | Get address immediately after process RAM allocation |
+| 4               | Get process flash start address |
+| 5               | Get address immediately after process flash region |
+| 6               | Get lowest address (end) of the grant region |
+| 7               | Get number of writeable flash regions in process header |
+| 8               | Get start address of a writeable flash region |
+| 9               | Get end adddress of a writeable flash region |
+| 10              | Set the start of the process stack |
+| 11              | Set the start of the process heap |
 
-
+The success return type is  Memop class system call specific. All Memop class system calls
+have a Failure failure type.
 
 N Authors' Address
 =================================

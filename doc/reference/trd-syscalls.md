@@ -110,17 +110,18 @@ All system calls have the same return value format. A system call can return
 one of nine values, which are shown here. r0-r3 refer to the return value
 registers: for CortexM they are r0-r3 and for RISC-V they are a1-a4.
 
-|                          | r0  | r1                 | r2                 | r3             |
-|--------------------------|-----|--------------------|--------------------|----------------|
-| Failure                  | 0   | Error code         | -                  | -              |
-| Failure with 1 value     | 1   | Error code         | Return Value 0     |                |
-| Failure with 2 values    | 2   | Error code         | Return Value 0     | Return Value 1 |
-| Success                  | 128 |                    |                    |                |
-| Success with u32         | 129 | Return Value 0     |                    |                |
-| Success with 2 u32       | 130 | Return Value 0     | Return Value 1     |                |
-| Success with 3 u32       | 131 | Return Value 0     | Return Value 1     | Return Value 2 |
-| Success with u64         | 132 | Return Value 0 LSB | Return Value 0 MSB |                |
-| Success with u64 and u32 | 133 | Return Value 0 LSB | Return Value 0 MSB | Return Value 1 |
+|                          | r0  | r1                 | r2                 | r3                 |
+|--------------------------|-----|--------------------|--------------------|--------------------|
+| Failure                  | 0   | Error code         | -                  | -                  |
+| Failure with u32         | 1   | Error code         | Return Value 0     |                    |
+| Failure with 2 u32       | 2   | Error code         | Return Value 0     | Return Value 1     |
+| Failure with u64         | 3   | Error code         | Return Value 0 LSB | Return Value 0 MSB |
+| Success                  | 128 |                    |                    |                    |
+| Success with u32         | 129 | Return Value 0     |                    |                    |
+| Success with 2 u32       | 130 | Return Value 0     | Return Value 1     |                    |
+| Success with 3 u32       | 131 | Return Value 0     | Return Value 1     | Return Value 2     |
+| Success with u64         | 132 | Return Value 0 LSB | Return Value 0 MSB |                    |
+| Success with u64 and u32 | 133 | Return Value 0 LSB | Return Value 0 MSB | Return Value 1     |
 
 There are a wide variety of failure and success values because different
 system calls need to pass different amounts of data. A command that requests

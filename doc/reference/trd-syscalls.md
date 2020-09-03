@@ -86,6 +86,9 @@ call will need to move the C arguments into those registers.
 This section describes the ABI for Tock on 32-bit platforms. The ABI for
 64-bit platforms is currently undefined but may be specified in a future TRD.
 
+
+3.1 Registers
+---------------------------------
 When userspace invokes a system call, it passes 4 registers to the kernel
 as arguments. It also pass an 8-bit value of which type of system call (see
 Section 4) is being invoked (the Syscall Class ID). When the system call returns, it returns 4 registers
@@ -99,6 +102,9 @@ as return values. When the kernel invokes a callback on userspace, it passes
 | Syscall Class ID       | svc     | a0     |
 | Callback Arguments     | r0-r3   | a0-a3  |
 | Callback Return Values | None    | None   |
+
+3.2 Return Values
+----------------------------------
 
 All system calls have the same return value format. A system call can return
 one of nine values, which are shown here. r0-r3 refer to the return value
@@ -135,6 +141,40 @@ there is non-determinism in its execution or its meaning is overloaded. It also 
 well with Rust's `Result` type.
 
 All values not specified for r0 in the above table are reserved.
+
+3.2 Error Codes
+---------------------------------
+
+All system call failures return an error code. These error codes are a superset of 
+kernel error codes. They include all kernel error codes so errors from calls
+on kernel HILs can be easily mapped to userspace system calls when suitable. There
+are additional error codes to include errors related to userspace.
+
+| Value | Error Code  | Meaning                                                                                  |
+|-------|-------------|------------------------------------------------------------------------------------------|
+|  1    | FAIL        | General failure condition: no further information available.                             |
+|  2    | BUSY        | The driver or kernel is busy: retry later.                                               |
+|  3    | ALREADY     | This operation is already ongoing can cannot be executed more times in parallel.         |
+|  4    | OFF         | This subsystem is powered off and must be turned on before issuing operations.           |
+|  5    | RESERVE     | Making this call requires some form of prior reservation, which has not been performed.  |
+|  6    | INVALID     | One of the parameters passed to the operation was invalid.                               |
+|  7    | SIZE        | The size specified is too large or too small.                                            |
+|  8    | CANCEL      | The operation was actively cancelled by a call to a cancel() method or function.         |
+|  9    | NOMEM       | The operation required memory that was not available (e.g. a grant region or a buffer).  |
+| 10    | NOSUPPORT   | The operation is not supported/implemented.                                              |
+| 11    | NODEVICE    | The specified device is not implemented by the kernel.                                   |
+| 12    | UNINSTALLED | The resource was removed or uninstalled (e.g., an SD card).                              |
+| 13    | NOACK       | The packet transmission was sent but not acknowledged.                                   |
+| 1024  | BADRVAL     | The type of the return value did not match what the system call should return.           |
+
+Any value not specified in the above table is reserved. 
+
+Values in the range of 1-1023 reflect kernel return value error
+codes. Value 1024 (BADRVAL) is for when a system call returns a
+different failure or success type than the userspace library
+expects. A system call MUST NOT return BADRVAL: it is generated only
+by userspace library code.
+
 
 4. System Call API
 =================================

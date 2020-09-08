@@ -176,7 +176,7 @@ expects. A system call MUST NOT return BADRVAL: it is generated only
 by userspace library code.
 
 
-4. System Call API
+4 System Call API
 =================================
 
 Tock has 6 classes or types of system calls. When a system call is invoked, the

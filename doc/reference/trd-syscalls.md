@@ -79,8 +79,7 @@ the stack. Therefore, if the system call ABI says that arguments are stored
 in different registers than r0-r3, a C function call that invokes a system
 call will need to move the C arguments into those registers.
 
-
-3. System Call ABI
+3 System Call ABI
 =================================
 
 This section describes the ABI for Tock on 32-bit platforms. The ABI for
@@ -267,6 +266,35 @@ The `callback pointer` is the address of the first instruction of
 the callback function. The `application data` argument is a parameter
 that an application passes in and the kernel passes back in callbacks
 unmodified. 
+
+A passed callback MUST be valid until the next invocation of `subscribe`
+with the same syscall and driver identifier. When userspace invokes
+subscribe, the kernel MUST cancel all pending callbacks for that driver
+and syscall identifier: it MUST NOT invoke the previous callback after
+the call to subscribe, and MUST NOT invoke the new callback for events
+that occurred before the call to subscribe. 
+
+Note that these semantics
+create a period over which callbacks might be lost: any callbacks that
+were pending when `subscribe` was called will not be invoked. On one
+hand, losing callbacks can create strange behavior in userspace.
+On the other, ensuring correctness is difficult. If the pending
+callbacks are invoked on the old function, there is a safety/liveness
+issue; this means that a callback function must exist after it has
+been removed, and so for safety may need to be static (exist for
+the lifetime of the process). Therefore, to allow dynamic callbacks,
+a callback can't be invoked after it's unregistered.
+
+At the same time, invoking the new callback in response to prior
+events has its own correctness issues. For example, suppose that
+userspace registers a callback for receiving a certain type of
+event (e.g., a rising edge on a GPIO pin). It then changes the
+type of event (to falling edge) and registers a new callback.
+Invoking the new callback on the previous events will be
+incorrect.
+
+If userspace requires that it not lose any callbacks, it should
+not re-subcribe and instead use some form of userspace dispatch.
 
 4.3 Command (Class ID: 2)
 ---------------------------------

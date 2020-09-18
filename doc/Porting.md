@@ -1,7 +1,7 @@
-Porting Tock
+Tockのポーティング
 ============
 
-This guide covers how to port Tock to a new platform.
+このガイドは新しいプラットフォームにTockをポーティングする方法を扱います。
 
 _It is a work in progress. Comments and pull requests are appreciated!_
 
@@ -9,198 +9,200 @@ _It is a work in progress. Comments and pull requests are appreciated!_
 
 <!-- toc -->
 
-- [Overview](#overview)
-- [Crate Details](#crate-details)
-  * [`arch` Crate](#arch-crate)
-  * [`chip` Crate](#chip-crate)
-  * [`board` Crate](#board-crate)
-    + [Board Support](#board-support)
-      - [`panic!`s (aka `io.rs`)](#panics-aka-iors)
-      - [Board Cargo.toml, build.rs](#board-cargotoml-buildrs)
-      - [Board Makefile](#board-makefile)
-        * [Getting the built kernel onto a board](#getting-the-built-kernel-onto-a-board)
-      - [Board README](#board-readme)
-    + [Loading Apps](#loading-apps)
-    + [Common Pitfalls](#common-pitfalls)
-- [Adding a Platform to Tock Repository](#adding-a-platform-to-tock-repository)
+- [Tockのポーティング](#tockのポーティング)
+  - [概要](#概要)
+  - [クレート詳細](#クレート詳細)
+    - [`arch`クレート](#archクレート)
+    - [`chip`クレート](#chipクレート)
+    - [`board`ボード](#boardボード)
+      - [ボードのサポート](#ボードのサポート)
+        - [`panic!`（別名、`io.rs`）](#panic別名iors)
+        - [ボート用のCargo.tomlとbuild.rs](#ボート用のcargotomlとbuildrs)
+        - [ボード用のMakefile](#ボード用のmakefile)
+          - [ビルドしたカーネルをボードにのせる](#ビルドしたカーネルをボードにのせる)
+        - [ボード用のREADME](#ボード用のreadme)
+      - [アプリケーションのロード](#アプリケーションのロード)
+      - [よくある落とし穴](#よくある落とし穴)
+  - [Adding a Platform to Tock Repository](#adding-a-platform-to-tock-repository)
 
 <!-- tocstop -->
 
-Overview
+概要
 --------
 
-At a high level, to port Tock to a new platform you will need to create a new
-"board" as a crate, as well as potentially add additional "chip" and "arch"
-crates. The board crate specifies the exact resources available on a hardware
-platform by stitching capsules together with the chip crates (e.g. assigning
-pins, setting baud rates, allocating hardware peripherals etc.). The chip crate
-implements the peripheral drivers (e.g. UART, GPIO, alarms, etc.) for a specific
-microcontroller by implementing the traits found in `kernel/src/hil`. If your
-platform uses a microncontroller already supported by Tock then you can use the
-existing chip crate. The arch crate implements the low-level code for a specific
-hardware architecture (e.g. what happens when the chip first boots and how
-system calls are implemented).
+高レベルでは、Tockを新しいプラットフォームに移植するには、新しい "board"をクレートとして作成し、
+場合によってはさらに、"chip"クレートと"arch"クレートを追加する必要があります。boardクレートは、
+chipクレートと共にカプセルをつなぎ合わせることで、ハードウェアプラットフォーム上で利用可能な
+リソースを正しく指定します (ピンの割り当て、ボーレートの設定、ハードウェアペリフェラルの割り当てなど)。
+chipクレートは、`kernel/src/hil`にあるトレイトを実装することにより特定のマイクロコントローラ用の
+ペリフェラルドライバ（UART、GPIO、アラームなど）を実装します。対象のプラットフォームが既にTockで
+サポートされているマイクロコントローラを使用している場合は、既存のchipクレートを使用することができます。
+archクレートは特定のハードウェアアーキテクチャ用の低レベルのコードを実装します (たとえば、チップの
+起動時に行うことやシステムコールの実装方法など)。
 
-Crate Details
+クレート詳細
 -------------
 
-This section includes more details on what is required to implement each type of
-crate for a new hardware platform.
+このセクションでは新たなハードウェアプラットフォームのポーティングに必要な各種クレートの実装に
+必要なことをより詳細に説明します。
 
-### `arch` Crate
+### `arch`クレート
 
-Tock currently supports the ARM Cortex-M0, Cortex-M3, and Cortex M4, and the
-riscv32imac architectures. There is not much architecture-specific code in Tock,
-the list is pretty much:
+Tockは現在、ARM Cortex-M0、Cortex-M3、Cortex M4とriscv32imac
+アーキテクチャをサポートしています。Tockにはアーキテクチャ固有のコードは
+あまりありません。固有のコードが必要なものは以下のとおりです。
 
- - Syscall entry/exit
- - Interrupt configuration
- - Top-half interrupt handlers
- - MPU configuration (if appropriate)
- - Power management configuration (if appropriate)
+- シスコールの入口/出口
+- 割り込みの設定
+- 上半分の割り込みハンドラ
+- MPUの設定（必要があれば）
+- パワー管理の設定（必要があれば）
 
-It would likely be fairly easy to port Tock to another ARM Cortex M
-(specifically the M0+, M23, M4F, or M7) or another riscv32 variant. It will
-probably be more work to port Tock to other architectures. While we aim to be
-architecture agnostic, this has only been tested on a small number of
-architectures.
+Tockを他のARM Cortex M（具体的には M0+, M23, M4F, M7)やriscv32の
+バリアントに移植するのはかなり簡単だと思います。他のアーキテクチャへのTockの
+移植はおそらくもっと大変な作業になるでしょう。我々はアーキテクチャに依存
+しないことを目指していますが少数のアーキテクチャでしかテストされていません。
 
-If you are interested in porting Tock to a new architecture, it's likely best
-to reach out to us via email or Slack before digging in too deep.
+Tockを新しいアーキテクチャに移植することに興味がある場合は、あまり深く
+掘り下げる前にメールやSlackで開発チームに連絡を取った方が良いでしょう。
 
+### `chip`クレート
 
-### `chip` Crate
+`chip`クレートは特定のマイクロコントローラ固有のものですが、マイクロ
+コントローラファミリに対して一般的になるようにする必要があります。たとえば、
+`nRF58240`と`nRF58230`の両マイクロコントローラのサポートは
+`chips/nrf52`クレートと`chips/nrf5x`クレートで共有されています。
+これにより、重複するコードが減り、新たなマイクロコントローラの追加を容易に
+することができます。
 
-The `chip` crate is specific to a particular microcontroller, but should attempt
-to be general towards a family of microcontrollers. For example, support for the
-`nRF58240` and `nRF58230` microcontrollers is shared in the `chips/nrf52` and
-`chips/nrf5x` crates. This helps reduce duplicated code and simplifies adding
-new specific microcontrollers.
+`chip`クレートには`kernel/src/hil`で定義されているインターフェースの
+マイクロコントローラ固有の実装が含まれています。
 
-The `chip` crate contains microcontroller-specific implementations of the
-interfaces defined in `kernel/src/hil`.
+チップには数多くの機能がありますが、Tockはそれらを表現する多くのインター
+フェースをサポートしています。新たなチップの実装を少しずつ行ってください。
+リセットと初期化を行うコードが動くようにしてください。それをチップの
+デフォルトクロックで動作するように設定し、GPIOインターフェースを追加して
+ください。そのチップを使う最小のボードをまとめて、GPIOを使うエンド
+ツーエンドのユーザーランドアプリケーションで検証するのが良いでしょう。
 
-Chips have a lot of features and Tock supports a large number of interfaces to
-express them. Build up the implementation of a new chip incrementally. Get
-reset and initialization code working. Set it up to run on the chip's default
-clock and add a GPIO interface. That's a good point to put together a minimal
-board that uses the chip and validate with an end-to-end userland application
-that uses GPIOs.
+GPIOのような小さなものが動作するようになったら、それはTockにプル
+リクエストを行う絶好の機会です。それはこのチップに対するあなたの努力を
+他の人に知らせることになり、うまくいけば他の人からのサポートを引き寄せる
+ことができます。また、コードをさらに書き継ぐ前にTockのコアチームから
+フィードバックを得るチャンスでもあります。
 
-Once you have something small like GPIOs working, it's a great time to open a
-pull request to Tock. This lets others know about your efforts with this chip
-and can hopefully attract additional support. It also is a chance to get some
-feedback from the Tock core team before you have written too much code.
+作業を進めていくとチップは合理的な作業単位に分解されていく傾向があります。
+対象のチップ用に`kernel::hil::UART`のようなものを実装して、プル
+リクエストを提出してください。新しいペリフェラルを選んでそれを繰り返して
+ください。
 
-Moving forward, chips tend to break down into reasonable units of work.
-Implement something like `kernel::hil::UART` for your chip, then submit a pull
-request. Pick a new peripheral and repeat!
+### `board`ボード
 
+`boards/src`にある`board`クレートは物理的なハードウェアプラット
+フォームに固有のものです。基本的に、ボードファイルは特定のハードウェアを
+設定できるようにカーネルを構成するものです。これには、センサー用のドライバの
+インスタンス化、これらセンサと通信バスとのマッピング、GPIOピンの設定などが
+含まれます。
 
-### `board` Crate
-
-The `board` crate, in `boards/src`, is specific to a physical hardware platform.
-The board file essentially configures the kernel to support the specific
-hardware setup. This includes instantiating drivers for sensors, mapping
-communication buses to those sensors, configuring GPIO pins, etc.
-
-Tock is leveraging "components" for setting up board crates. Components are
-contained structs that include all of the setup code for a particular driver,
-and only require boards to pass in the specific options that are unique to the
-particular platform. For example:
+Tockはboardクレートの設定に「コンポーネント」を活用します。コンポーネント
+とは、特定のドライバ用のすべての設定コードを含む構造体のことであり、特定の
+プラットフォームに固有のオプションをボードに渡すよう要求するだけです。
+たとえば、
 
 ```rust
 let ambient_light = AmbientLightComponent::new(board_kernel, mux_i2c, mux_alarm)
     .finalize(components::isl29035_component_helper!(sam4l::ast::Ast));
 ```
 
-instantiates the component for an ambient light sensor. Board initiation should
-be largely done using components, but not all components have been created yet,
-so board files are generally a mix of components and verbose driver
-instantiation. The best bet is to start from an existing board's `main.rs` file
-and adapt it. Initially, you will likely want to delete most of the capsules and
-add them slowly as you get things working.
+上のコードは、アンビエントライトセンサー用のコンポーネントのインスタンスを
+作成します。ボードの初期化はほとんどの場合コンポーネントを使って行うべき
+ですが、まだすべてのコンポーネントが作成されているわけではないので、一般的に、
+ボードファイルはコンポーネントと冗長なドライバ初期化コードが混在したものに
+なります。最善の策は、既存のボードの`main.rs`ファイルから始めて、それを
+適応させることです。まずはほとんどのカプセルを削除し、動作するようになるまで
+少しずつカプセルを追加していくとよいでしょう。
 
-> Warning: Components are singletons, that is they may not be instantiated multiple
-> times. Components should only be instantiated in the reset handler to avoid
-> any multiple instantiations.
+> 警告: コンポーネントはシングルトンです。複数回インスタンス化することは
+> できません。複数回インスタンス化されないように、コンポーネントはリセット
+> ハンドラでインスタンス化するべきです。
 
-#### Board Support
+#### ボードのサポート
 
-In addition to kernel code, boards also require some support files. These
-specify metadata such as the board name, how to load code onto the board, and
-anything special that userland applications may need for this board.
+カーネルコードに加えて、ボードはいくつかのサポートファイルも必要とします。
+これは、ボード名やコードをボードにロードする方法、ユーザランド
+アプリケーションがこのボードに必要とするなにか特別なことなどのメタデータを
+指定します。
 
-##### `panic!`s (aka `io.rs`)
 
-Each board must author a custom routine to handle `panic!`s. Most `panic!`
-machinery is handled by the Tock kernel, but the board author must provide
-some minimalist access to hardware interfaces, specifically LEDs and/or UART.
+##### `panic!`（別名、`io.rs`）
 
-As a first step, it is simplest to just get LED-based `panic!` working. Have
-your `panic!` handler set up a prominent LED and then call
-[kernel::debug::panic_blink_forever](https://docs.tockos.org/kernel/debug/fn.panic_blink_forever.html).
+各ボードは`panic!`を処理するカスタムルーチンを作成しなければなりません。
+ほとんどの`panic!`機構はTockカーネルによって処理されますが、ボード作者は
+ハードウェアインターフェース、具体的にはLEDやUARTへの最低限のアクセスを
+提供しなければなりません。
 
-If UART is available, the kernel is capable of printing a lot of very helpful
-additional debugging information. However, as we are in a `panic!` situation,
-it's important to strip this down to a minimalist implementation. In particular,
-the supplied UART must be synchronous (note that this in contrast to the rest of
-the kernel UART interfaces, which are all asynchronous). Usually implementing a
-very simple `Writer` that simply writes one byte at a time directly to the UART
-is easiest/best. It is not important that `panic!` UART writer be efficient.
-You can then replace the call to
-[kernel::debug::panic_blink_forever](https://docs.tockos.org/kernel/debug/fn.panic_blink_forever.html)
-with a call to
-[kernel::debug::panic](https://docs.tockos.org/kernel/debug/fn.panic.html).
+まず最初に、LEDベースの`panic!`が動作するようにさせるのが最も簡単です。
+`panic!`ハンドラに目立つ色のLEDを設定してから、
+[kernel::debug::panic_blink_forever](https://docs.tockos.org/kernel/debug/fn.panic_blink_forever.html)を呼び出してください。
 
-For largely historical reasons, panic implementations for all boards live in
-a file named `io.rs` adjacent to the board's `main.rs` file.
+UARTが利用できれば、カーネルは非常に有用なデバッグ情報をたくさん表示する
+ことができます。しかし、`panic!`の状況にあるので実装は最小限にすることが
+重要です。特に、提供されるUARTは同期的なものでなければなりません（これは
+カーネルの他のUARTインタフェースがすべて非同期であるのとは対照的である
+ことに注意してください）。通常は、単に一度に1バイト直接UARTに書き込むだけの
+非常に単純な`Writer`を実装することが最も簡単かつ最善の方法です。`panic!`
+UARTライターは効率的であることは重要ではありません。これができたら、
+[kernel::debug::panic_blink_forever](https://docs.tockos.org/kernel/debug/fn.panic_blink_forever.html)の呼び出しを
+[kernel::debug::panic](https://docs.tockos.org/kernel/debug/fn.panic.html)の
+呼び出しに置き換えることができます。
 
-##### Board Cargo.toml, build.rs
+ほとんどは歴史的な理由から、すべてのボードのパニック実装は、ボードの
+`main.rs`ファイルに隣接する`io.rs`というファイルに置きます。
 
-Every board crate must author a top-level manifest, `Cargo.toml`. In general,
-you can probably simply copy this from another board, modifying the board name
-and author(s) as appropriate. Note that Tock also includes a build script,
-`build.rs`, that you should also copy. The build script simply adds a
-dependency on the kernel layout.
+##### ボート用のCargo.tomlとbuild.rs
 
-##### Board Makefile
+すべてのboardクレートには、トップレベルマニフェスト`Cargo.toml`を作成
+しなければなりません。通常は、他のボードからコピーしてボード名と作成者を
+適宜変更するだけです。Tockには`build.rs`というビルドスクリプトも
+含まれていますが、これをコピーする必要もあることに注意してください。
+ビルドスクリプトはカーネルレイアウトに依存関係を追加するものです。
 
-There is a Makefile in the root of every board crate, at a minimum, the board
-Makefile must include:
+##### ボード用のMakefile
+
+すべてのboardクレートのルートにはMakefileがあります。少なくとも、
+ボード用のMakefileを含める必要があります。
 
 ```make
-# Makefile for building the tock kernel for the Hail platform
+# Hailプラットフォーム用のtockカーネルを構築するためのMakefile
 
-TARGET=thumbv7em-none-eabi      # Target triple
-PLATFORM=hail                   # Board name here
+TARGET=thumbv7em-none-eabi      # ターゲットトリプル
+PLATFORM=hail                   # ボード名をここに
 
-include ../Makefile.common      # ../ assumes board lives in $(TOCK)/boards/<board>
+include ../Makefile.common      # ../ ボートは$(TOCK)/boards/<board>にあると仮定
 ```
 
-Tock provides `boards/Makefile.common` that drives most of the build system.
-In general, you should not need to
-dig into this Makefile -- if something doesn't seem to be working, hop on slack
-and ask.
+Tockはビルドシステムのほとんどを担当する`boards/Makefile.common`を
+提供しています。一般的には、このMakefileを掘り下げる必要はありません。
+もし、何かが動作していないようであれば、slackで聞いてみてください。
 
-###### Getting the built kernel onto a board
+###### ビルドしたカーネルをボードにのせる
 
-In addition to building the kernel, the board Makefile should include rules
-for getting code onto the board. This will naturally be fairly board-specific,
-but Tock does have two targets normally supplied:
+カーネルのビルドに加えて、ボードのMakefileには、ボードにコードをのせる
+ための規則も含める必要があります。これは当然ボード固有のものになりますが、
+通常、Tockには2つのターゲットが用意されています。
 
-  - _program_: For "plug-'n-plug" loading. Usually these are boards with a
-    bootloader or some other support IC. The expectation is that during normal
-    operation, a user could simply plug in a board and type `make program` to
-    load code.
-  - _flash_: For "more direct" loading. Usually this means that a JTAG or some
-    equivalent interface is being used. Often it implies that external
-    hardware is required, though some of the development kit boards have an
-    integrated JTAG on-board, so external hardware is not a hard and fast
-    rule.
+  - _program_: 「プラグインプラグ」方式のロード用です。通常、ボードには
+    ブートローダやその他のサポートICが搭載されています。通常操作として、
+    ユーザはボードをプラグインして`make program`と入力するだけで
+    コードをロードできることが期待されます。
+  - _falash_: 「より直接的な」ロード用です。通常、JTAGまたは同等の
+    インターフェイスが使用されることを意味します。多くの場合、外部
+    ハードウェアが必要であることを意味します。ただし、開発キットボードの
+    中にはJTAGが内蔵されているものもあるので、外部ハードウェアは厳しい
+    条件ではありません。
 
-If you don't support _program_ or _flash_, you should define an empty rule
-that explains how to program the board:
+_program_や_flash_をサポートしない場合は、ボードにプログラムする方法を
+説明した次のような空の規則を定義する必要があります。
 
 ```make
 .PHONY: program
@@ -208,31 +210,31 @@ that explains how to program the board:
         exit 1
 ```
 
-##### Board README
+##### ボード用のREADME
 
-Every board must have a `README.md` file included in the top level of the crate.
-This file must:
+すべてのボードは、クレートのトップレベルに`README.md`ファイルを
+置かなくてはいけません。このファイルには以下を記載します。
 
-- Provide links to information about the platform and how to purchase/acquire
-  the platform. If there are different versions of the platform the version used
-  in testing should be clearly specified.
-- Include an overview on how to program the hardware, including any additional
-  dependencies that are required.
+- プラットフォームに関する情報とプラットフォームの購入/入手方法へのリンクを
+  提供する。プラットフォームに異なるバージョンがある場合は、テストに
+  使用したバージョンを明記する。
+- 必要な追加の依存関係を含むハードウェアをプログラムする方法に課する
+  概要を含める。
 
-#### Loading Apps
+#### アプリケーションのロード
 
-Ideally, [Tockloader](https://github.com/tock/tockloader) will support loading
-apps on to your board (perhaps with some flags set to specific values). If that
-is not the case, please create an issue on the Tockloader repo so we can update
-the tool to support loading code onto your board.
+[Tockloader](https://github.com/tock/tockloader)が (おそらくは
+いくつかのフラグに特定の値を設定することにより）ボードへのアプリのロードを
+サポートするはずです。もしそうでない場合は、Tockloaderのリポジトリで
+課題を作成してください。そうすれば対象のボードに対するローディングコードを
+サポートするようツールを更新することができます。
 
-#### Common Pitfalls
+#### よくある落とし穴
 
-- Make sure you are careful when setting up the board `main.rs` file. In
-  particular, it is important to ensure that all of the required `set_client`
-  functions for capsules are called so that callbacks are not lost. Forgetting
-  these often results in the platform looking like it doesn't do anything.
-
+- ボードの`main.rs`ファイルを設定する際には注意が必要です。特に、
+  コールバックが失われないように、カプセルに必要な`set_client`関数が
+  すべて呼び出されていることを確認することが重要です。これらを忘れると、
+  プラットフォームが何もしない結果になることが多いです。
 
 Adding a Platform to Tock Repository
 ------------------------------------

@@ -328,3 +328,188 @@ Info : Unable to match requested speed 2000 kHz, using 1800 kHz
 adapter speed: 1800 kHz
 shutdown command invoked
 ```
+
+## tockloaderでも`uninstall`以外、問題なく動いた。`openocd.cfg`の設定の問題だったか。
+
+```
+$ cd libtock-c・examples/
+$ tockloader install --board stm32f407g-disc1 --openocd blink/build/blink.tab
+[INFO   ] Using settings from KNOWN_BOARDS["stm32f407g-disc1"]
+[STATUS ] Installing app on the board...
+[INFO   ] Flashing app blink binary to board.
+[INFO   ] Finished in 3.546 seconds
+```
+
+ここでリセットボタンを押すとアプリが実行。その他のコマンドを試してみる。
+
+### `tockloader list`
+
+```
+$ tockloader list --board stm32f407g-disc1 --openocd
+[INFO   ] Using settings from KNOWN_BOARDS["stm32f407g-disc1"]
+┌──────────────────────────────────────────────────┐
+│ App 0                                            |
+└──────────────────────────────────────────────────┘
+  Name:                  blink
+  Enabled:               True
+  Sticky:                False
+  Total Size in Flash:   2048 bytes
+
+
+[INFO   ] Finished in 0.251 seconds
+```
+
+### `tockloader enable-app`
+
+```
+$ tockloader enable-app --board stm32f407g-disc1 --openocd blink
+[INFO   ] Using settings from KNOWN_BOARDS["stm32f407g-disc1"]
+[STATUS ] Enabling apps...
+[INFO   ] Reading app blink binary from board.
+[INFO   ] Flashing app blink binary to board.
+[INFO   ] Set flag "enable" to "True" for apps: blink
+[INFO   ] Finished in 3.838 seconds
+```
+
+### `tockloader uninstall` => エラー
+
+```
+$ tockloader uninstall --board stm32f407g-disc1 --openocd blink
+[INFO   ] Using settings from KNOWN_BOARDS["stm32f407g-disc1"]
+[STATUS ] Removing app(s) blink from board...
+[STATUS ] Attempting to uninstall:
+[STATUS ]   - blink
+[ERROR  ] ERROR: openocd returned with error code 1
+[INFO   ] Open On-Chip Debugger 0.10.0
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+Info : auto-selecting first available session transport "hla_swd". To override use 'transport select <transport>'.
+Info : The selected transport took over low-level target control. The results might differ compared to plain JTAG/SWD
+adapter speed: 2000 kHz
+adapter_nsrst_delay: 100
+none separate
+Info : Unable to match requested speed 2000 kHz, using 1800 kHz
+Info : Unable to match requested speed 2000 kHz, using 1800 kHz
+Info : clock speed 1800 kHz
+Info : STLINK v2 JTAG v37 API v2 SWIM v26 VID 0x0483 PID 0x374B
+Info : using stlink api v2
+Info : Target voltage: 2.901302
+Info : stm32f4x.cpu: hardware has 6 breakpoints, 4 watchpoints
+Info : Unable to match requested speed 2000 kHz, using 1800 kHz
+Info : Unable to match requested speed 2000 kHz, using 1800 kHz
+adapter speed: 1800 kHz
+target halted due to debug-request, current mode: Thread
+xPSR: 0x01000000 pc: 0x08008b7c msp: 0x20001000
+Info : Unable to match requested speed 8000 kHz, using 4000 kHz
+Info : Unable to match requested speed 8000 kHz, using 4000 kHz
+adapter speed: 4000 kHz
+Info : device id = 0x10076413
+Info : flash size = 1024kbytes
+target halted due to breakpoint, current mode: Thread
+xPSR: 0x61000000 pc: 0x20000046 msp: 0x20001000
+Error: Verification error address 0x08080000, read back 0x02, expected 0xff
+
+
+[ERROR  ] openocd error
+```
+
+### `tockloader info`
+
+```
+$ tockloader info --board stm32f407g-disc1 --openocd
+[INFO   ] Using settings from KNOWN_BOARDS["stm32f407g-disc1"]
+tockloader version: 1.6.0-dev
+[STATUS ] Showing all properties of the board...
+Apps:
+┌──────────────────────────────────────────────────┐
+│ App 0                                            |
+└──────────────────────────────────────────────────┘
+  Name:                  blink
+  Enabled:               True
+  Sticky:                False
+  Total Size in Flash:   2048 bytes
+  Address in Flash:      0x8080000
+    version               : 2
+    header_size           :         44         0x2c
+    total_size            :       2048        0x800
+    checksum              :              0x6e4c75d5
+    flags                 :          1          0x1
+      enabled             : Yes
+      sticky              : No
+    TLV: Main (1)
+      init_fn_offset      :         41         0x29
+      protected_size      :          0          0x0
+      minimum_ram_size    :       4596       0x11f4
+    TLV: Package Name (3)
+      package_name        : blink
+
+
+No bootloader.
+[INFO   ] Finished in 0.342 seconds
+```
+
+### `tockloader disable-app`
+
+```
+$ tockloader disable-app --board stm32f407g-disc1 --openocd blink
+[INFO   ] Using settings from KNOWN_BOARDS["stm32f407g-disc1"]
+[STATUS ] Disabling apps...
+[INFO   ] Reading app blink binary from board.
+[INFO   ] Flashing app blink binary to board.
+[INFO   ] Set flag "enable" to "False" for apps: blink
+[INFO   ] Finished in 3.907 seconds
+```
+
+### `tockloader uninstall` => disable-app後もエラー
+
+```
+$ tockloader uninstall --board stm32f407g-disc1 --openocd blink
+[INFO   ] Using settings from KNOWN_BOARDS["stm32f407g-disc1"]
+[STATUS ] Removing app(s) blink from board...
+[STATUS ] Attempting to uninstall:
+[STATUS ]   - blink
+[ERROR  ] ERROR: openocd returned with error code 1
+[INFO   ] Open On-Chip Debugger 0.10.0
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+Info : auto-selecting first available session transport "hla_swd". To override use 'transport select <transport>'.
+Info : The selected transport took over low-level target control. The results might differ compared to plain JTAG/SWD
+adapter speed: 2000 kHz
+adapter_nsrst_delay: 100
+none separate
+Info : Unable to match requested speed 2000 kHz, using 1800 kHz
+Info : Unable to match requested speed 2000 kHz, using 1800 kHz
+Info : clock speed 1800 kHz
+Info : STLINK v2 JTAG v37 API v2 SWIM v26 VID 0x0483 PID 0x374B
+Info : using stlink api v2
+Info : Target voltage: 2.901302
+Info : stm32f4x.cpu: hardware has 6 breakpoints, 4 watchpoints
+Info : Unable to match requested speed 2000 kHz, using 1800 kHz
+Info : Unable to match requested speed 2000 kHz, using 1800 kHz
+adapter speed: 1800 kHz
+target halted due to debug-request, current mode: Thread
+xPSR: 0x01000000 pc: 0x08008b7c msp: 0x20001000
+Info : Unable to match requested speed 8000 kHz, using 4000 kHz
+Info : Unable to match requested speed 8000 kHz, using 4000 kHz
+adapter speed: 4000 kHz
+Info : device id = 0x10076413
+Info : flash size = 1024kbytes
+target halted due to breakpoint, current mode: Thread
+xPSR: 0x61000000 pc: 0x20000046 msp: 0x20001000
+Error: Verification error address 0x08080000, read back 0x02, expected 0xff
+
+
+[ERROR  ] openocd error
+```
+
+### `tockloader update`
+
+```
+dspace@mini:~/develop/rust/libtock-c/examples$ tockloader update --board stm32f407g-disc1 --openocd blink/build/blink.tab
+[INFO   ] Using settings from KNOWN_BOARDS["stm32f407g-disc1"]
+[STATUS ] Updating application on the board...
+[INFO   ] Flashing app blink binary to board.
+[INFO   ] Finished in 3.782 seconds
+```

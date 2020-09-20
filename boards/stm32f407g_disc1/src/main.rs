@@ -73,7 +73,6 @@ impl Platform for STM32F407GDISC1 {
 }
 
 /// Helper function called during bring-up that configures DMA.
-/*
 unsafe fn setup_dma() {
     use stm32f407vg::dma1::{Dma1Peripheral, DMA1};
     use stm32f407vg::usart;
@@ -98,7 +97,6 @@ unsafe fn setup_dma() {
     cortexm4::nvic::Nvic::new(Dma1Peripheral::USART2_TX.get_stream_irqn()).enable();
     cortexm4::nvic::Nvic::new(Dma1Peripheral::USART2_RX.get_stream_irqn()).enable();
 }
-*/
 
 /// Helper function called during bring-up that configures multiplexed I/O.
 unsafe fn set_pin_primary_functions() {
@@ -172,7 +170,7 @@ pub unsafe fn reset_handler() {
 
     set_pin_primary_functions();
 
-    //setup_dma();
+    setup_dma();
 
     setup_peripherals();
 

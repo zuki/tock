@@ -4,23 +4,24 @@
 
 <!-- toc -->
 
-- [App Linked List](#app-linked-list)
-- [Empty Tock Apps](#empty-tock-apps)
-- [TBF Header](#tbf-header)
-  * [TBF Header Base](#tbf-header-base)
-  * [TLV Elements](#tlv-elements)
-  * [TLV Types](#tlv-types)
-    + [`1` Main](#1-main)
-    + [`2` Writeable Flash Region](#2-writeable-flash-region)
-    + [`3` Package Name](#3-package-name)
-    + [`5` Fixed Addresses](#5-fixed-addresses)
-- [Code](#code)
+- [Tock Binary Format](#tock-binary-format)
+  - [アプリの連結リスト](#アプリの連結リスト)
+  - [空のTockアプリ](#空のtockアプリ)
+  - [TBFヘッダー](#tbfヘッダー)
+    - [TBFヘッダのベース](#tbfヘッダのベース)
+    - [TLV要素](#tlv要素)
+    - [TLVの型](#tlvの型)
+      - [`1` Main](#1-main)
+      - [`2` Writeable flash regions（書き込み可能なフラッシュ領域）](#2-writeable-flash-regions書き込み可能なフラッシュ領域)
+      - [`3` Package Name（パッケージ名）](#3-package-nameパッケージ名)
+      - [`5` Fixed Addresses（固定アドレス）](#5-fixed-addresses固定アドレス)
+  - [コード](#コード)
 
 <!-- tocstop -->
 
-Tock process binaries are must be in the Tock Binary Format (TBF). A TBF
-includes a header portion, which encodes meta-data about the process, followed
-by a binary blob which is executed directly, followed by optional padding.
+Tockプロセスバイナリは、TBF (Tock Binary Format) でなければなりません。TBFは、プロセスに
+関するメタデータをエンコードするヘッダ部分と直接実行されるバイナリブロブ、オプションのパディングから
+なります。
 
 ```
 Tock App Binary:
@@ -37,57 +38,52 @@ Start of app -> +-------------------+
                 +-------------------+
 ```
 
-The header is interpreted by the kernel (and other tools, like tockloader) to
-understand important aspects of the app. In particular, the kernel must know
-where in the application binary is the entry point that it should start
-executing when running the app for the first time.
+ヘッダは、アプリの重要な側面を理解するためカーネル（および tockloaderなどのツール）により解釈されます。
+特に、カーネルは、アプリを初めて実行する際に実行を開始すべきエントリーポイントがアプリケーションバイナリの
+どこにあるのかを知る必要があります。
 
-After the header the app is free to include whatever binary data it wants, and
-the format is completely up to the app. All support for relocations must be
-handled by the app itself, for example.
+ヘッダの後は、アプリが望むバイナリデータを自由に含めることができ、そのフォーマットは完全にアプリ次第です。
+たとえば、再配置のためのすべてのサポートはアプリ自体によって処理されなければなりません。
 
-Finally, the app binary can be padded to a specific length. This is necessary
-for MPU restrictions where length and starting points must be at powers of two.
+最後に、アプリバイナリは特定の長さにパディングすることができます。これは、長さと始点が2の累乗でなければ
+ならないというMPUの制限のために必要です。
 
-## App Linked List
+## アプリの連結リスト
 
-Apps in Tock create an effective linked list structure in flash. That is, the
-start of the next app is immediately at the end of the previous app. Therefore,
-the TBF header must specify the length of the app so that the kernel can find
-the start of the next app.
+Tockのアプリは、フラッシュ内で実質的な連結リスト構造を作成します。つまり、次のアプリの開始点は、前の
+アプリの終了時点のすぐ後にあります。したがって、カーネルが次のアプリの開始を見つけることができるように、
+TBFヘッダはアプリの長さを指定しなければなりません。
 
-If there is a gap between apps an "empty app" can be inserted to keep the linked
-list structure intact.
+アプリ間にギャップがある場合は、連結リスト構造をそのまま維持するために「空のアプリ」を挿入することができます。
 
-Also, functionally Tock apps are sorted by size from longest to shortest. This
-is to match MPU rules about alignment.
+また、機能的には、Tockアプリはサイズの長いものから短いものへとソートされます。これは、MPUのアライメントに
+関する規則に一致します。
 
-## Empty Tock Apps
+## 空のTockアプリ
 
-An "app" need not contain any code. An app can be marked as disabled and
-effectively act as padding between apps.
+「アプリ」はコードを含む必要はありません。アプリは無効であるとマーク付けられ、実質的にはアプリ間の
+パディングとして機能します。
 
-## TBF Header
+## TBFヘッダー
 
-The fields of the TBF header are as shown below. All fields in the header are
-little-endian.
+TBFヘッダのフィールドは以下の通りである。ヘッダのすべてのフィールドはリトルエンディアンです。
 
 ```rust
 struct TbfHeader {
-    version: u16,            // Version of the Tock Binary Format (currently 2)
-    header_size: u16,        // Number of bytes in the complete TBF header
-    total_size: u32,         // Total padded size of the program image in bytes, including header
-    flags: u32,              // Various flags associated with the application
-    checksum: u32,           // XOR of all 4 byte words in the header, including existing optional structs
+    version: u16,            // Version of the Tock Binary Formatのバージョン（現在は2）
+    header_size: u16,        // TBFヘッダの総バイト数
+    total_size: u32,         // プログラムイメージのヘッダを含むバイトサイズ
+    flags: u32,              // このアプリケーションに関連するさまざまなフラグ
+    checksum: u32,           // 既存のオプションの構造体を含むヘッダの全4バイトワードのXOR
 
-    // Optional structs. All optional structs start on a 4-byte boundary.
+    // オプションの構造体。すべてのオプション構造は４バイト境界から開始する。
     main: Option<TbfHeaderMain>,
     pic_options: Option<TbfHeaderPicOption1Fields>,
     name: Option<TbfHeaderPackageName>,
     flash_regions: Option<TbfHeaderWriteableFlashRegions>,
 }
 
-// Identifiers for the optional header structs.
+// オプションのヘッダ構造体用の識別子。
 enum TbfHeaderTypes {
     TbfHeaderMain = 1,
     TbfHeaderWriteableFlashRegions = 2,
@@ -96,59 +92,55 @@ enum TbfHeaderTypes {
     TbfHeaderFixedAddresses = 5,
 }
 
-// Type-length-value header to identify each struct.
+// 各構造体を識別する型-長さ-値ヘッダ。
 struct TbfHeaderTlv {
-    tipe: TbfHeaderTypes,    // 16 bit specifier of which struct follows
-                             // When highest bit of the 16 bit specifier is set
-                             // it indicates out-of-tree (private) TLV entry
-    length: u16,             // Number of bytes of the following struct
+    tipe: TbfHeaderTypes,    // どの構造体に従うかを示す16ビットの識別子。
+                             // 16ビット識別子の最上位ビットがセットされた場合は、
+                             // ツリー外（プライベート）のTLVエントリを示す。
+    length: u16,             // 続く構造体のバイト数
 }
 
-// Main settings required for all apps. If this does not exist, the "app" is
-// considered padding and used to insert an empty linked-list element into the
-// app flash space.
+// すべてのアプリに必要な主な設定。これが存在しない場合、「アプリ」はパディングとみなされ、
+// 空の連結リスト要素をアプリのフラッシュスペースに挿入するために使用されます。
 struct TbfHeaderMain {
     base: TbfHeaderTlv,
-    init_fn_offset: u32,     // The function to call to start the application
-    protected_size: u32,     // The number of bytes the application cannot write
-    minimum_ram_size: u32,   // How much RAM the application is requesting
+    init_fn_offset: u32,     // アプリケーションを開始するためにコールする関数
+    protected_size: u32,     // アプリケーションが書き込みできないバイト数
+    minimum_ram_size: u32,   // アプリケーションが必要とするRAMの量
 }
 
-// Optional package name for the app.
+// アプリのパッケージ名（オプション）
 struct TbfHeaderPackageName {
     base: TbfHeaderTlv,
-    package_name: [u8],      // UTF-8 string of the application name
+    package_name: [u8],      // アプリケーション名のUTF-8文字列
 }
 
-// A defined flash region inside of the app's flash space.
+// アプリのフラッシュ空間内の定義されたフラッシュ領域
 struct TbfHeaderWriteableFlashRegion {
     writeable_flash_region_offset: u32,
     writeable_flash_region_size: u32,
 }
 
-// One or more specially identified flash regions the app intends to write.
+//アプリが書き込みを意図している1以上の特に識別されたフラッシュ領域
 struct TbfHeaderWriteableFlashRegions {
     base: TbfHeaderTlv,
     writeable_flash_regions: [TbfHeaderWriteableFlashRegion],
 }
 
-// Fixed and required addresses for process RAM and/or process flash.
+// RAMの処理およびフラッshの処理に必要な固定の必要なアドレス
 struct TbfHeaderV2FixedAddresses {
     start_process_ram: u32,
     start_process_flash: u32,
 }
 ```
 
-Since all headers are a multiple of four bytes, and all TLV structures must be a
-multiple of four bytes, the entire TBF header will always be a multiple of four
-bytes.
+すべてのヘッダは4バイトの倍数であり、すべてのTLV構造体は4バイトの倍数でなければならないので、
+TBFヘッダ全体は常に4バイトの倍数になります。
 
+### TBFヘッダのベース
 
-### TBF Header Base
-
-The TBF header contains a base header, followed by a sequence of
-type-length-value encoded elements. All fields in both the base header and TLV
-elements are little-endian. The base header is 16 bytes, and has 5 fields:
+TBFヘッダは、ベースヘッダとそれに続く型-長さ-値がエンコードされた要素シーケンスを含む。ベースヘッダと
+TLV要素のすべてのフィールドはリトルエンディアンである。ベースヘッダは16バイトで、5つのフィールドを持つ。
 
 ```
 0             2             4             6             8
@@ -159,14 +151,11 @@ elements are little-endian. The base header is 16 bytes, and has 5 fields:
 +---------------------------+---------------------------+
 ```
 
-  * `Version` a 16-bit unsigned integer specifying the TBF header version.
-    Always `2`.
-  * `Header Size` a 16-bit unsigned integer specifying the length of the
-    entire TBF header in bytes (including the base header and all TLV
-    elements).
-  * `Total Size` a 32-bit unsigned integer specifying the total size of the
-    TBF in bytes (including the header).
-  * `Flags` specifies properties of the process.
+  * `Version` TBFヘッダバージョンを示す16ビットの符号なし整数。常に`2`。
+  * `Header Size` TBFヘッダ全体（ベースヘッダとすべてのTLV要素を含む）の長さをバイト単位で示す
+    16ビットの符号なし整数。
+  * `Total Size` TBF全体（ヘッダを含む）のサイズをバイト単位で示す32ビットの符号なし整数。
+  * `Flags` プロセスの属性を指定する。
     ```
        3                   2                   1                   0
      1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
@@ -175,23 +164,21 @@ elements are little-endian. The base header is 16 bytes, and has 5 fields:
     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     ```
 
-    - Bit 0 marks the process enabled. A `1` indicates the process is
-      enabled. Disabled processes will not be launched at startup.
-    - Bit 1 marks the process as sticky. A `1` indicates the process is
-      sticky. Sticky processes require additional confirmation to be erased.
-      For example, `tockloader` requires the `--force` flag erase them.  This
-      is useful for services running as processes that should always be
-      available.
-    - Bits 2-31 are reserved and should be set to 0.
-  * `Checksum` the result of XORing each 4-byte word in the header, excluding
-    the word containing the checksum field itself.
+    - Bit 0 はプロセスが有効であるか否かを示す。`1`はプロセスが有効であることを示す。
+      有効でないプロセスは起動時に実行されない。
+    - Bit 1 はプロセスがスティッキーであるか否かを示す。`1`はプロセスがスティッキーであることをindicates the process is
+      示す。スティッキープロセスは削除時に追加の確認が行われる。たとえば、`tockloader`では
+      削除するのに`--force`フラグの指定が必要になる。これは常に利用可能であるべきプロセスとして
+      実行するサービスに有用である。
+    - Bits 2-31 はリザーブで0をセットする必要がある。
+  * `Checksum` は、チェックサムフィールドを含むワードを除いたヘッダーの各4倍とワードをXORした結果で
+    ある。
 
-### TLV Elements
+### TLV要素
 
-The header is followed immediately by a sequence of TLV elements. TLV
-elements are aligned to 4 bytes. If a TLV element size is not 4-byte aligned, it
-will be padded with up to 3 bytes. Each element begins with a 16-bit type and
-16-bit length followed by the element data:
+ヘッダの後には直接、TLV要素のシーケンスが続きます。TLV要素は4バイトにアラインされます。TLV要素のサイズが
+4バイトアラインでない場合は、最大3バイトのパディングが行われます。各要素は、16ビットの型と16 ビットの長さで
+始まり、要素データが続きます。
 
 ```
 0             2             4
@@ -200,23 +187,20 @@ will be padded with up to 3 bytes. Each element begins with a 16-bit type and
 +-------------+-------------+-----...---+
 ```
 
-  * `Type` is a 16-bit unsigned integer specifying the element type.
-  * `Length` is a 16-bit unsigned integer specifying the size of the data field
-    in bytes.
-  * `Data` is the element specific data. The format for the `data` field is
-    determined by its `type`.
+  * `Type` 要素の型を示す16ビットの符号なし整数。
+  * `Length` データフィードの長さをバイト単位で示す16ビットの符号なし整数。
+  * `Data` 要素固有のデータ。`data`フィールドの形式は`type`により決定される。
 
-### TLV Types
+### TLVの型
 
-TBF may contain arbitrary element types. To avoid type ID collisions
-between elements defined by the Tock project and elements defined
-out-of-tree, the ID space is partitioned into two segments. Type IDs
-defined by the Tock project will have their high bit (bit 15) unset,
-and type IDs defined out-of-tree should have their high bit set.
+TBFは任意の要素型を含むことができます。Tockプロジェクトで定義された要素と外部で定義された要素の間で
+型IDが衝突しないように、ID空間は2つのセグメントに分割されています。Tockプロジェクトで定義された型IDは
+最上位ビット（ビット15）がアンセットされ、外部で定義された型IDは最上位ビットがセットされている必要が
+あります。
 
 #### `1` Main
 
-The `Main` element has three 32-bit fields:
+`Main`要素は3つの32ビットフィールを持ちます。
 
 ```
 0             2             4             6             8
@@ -227,20 +211,16 @@ The `Main` element has three 32-bit fields:
 +---------------------------+---------------------------+
 ```
 
-  * `init_offset` the offset in bytes from the beginning of binary payload
-    (i.e. the actual application binary) that contains the first instruction to
-    execute (typically the `_start` symbol).
-  * `protected_size` the amount of flash, in bytes, after the header, to
-    prevent the process from writing to.
-  * `minimum_ram_size` the minimum amount of memory, in bytes, the process
-    needs.
+  * `init_offset` 最初の実行命令（通常は`_start`シンボル）を含むバイナリペイロード（すなわち、
+    実際のアプリケーションバイナリ）の開始点からのバイト単位のオフセット値。
+  * `protected_size` プロセスが書き込めないようにするヘッダ後のバイト単位のフラッシュの量。
+  * `minimum_ram_size` プロセスが必要とするバイト単位のメモリの最小量。
 
-If the Main TLV header is not present, these values all default to `0`.
+Main TLVヘッダが存在しない場合、これらの値はすべてのデフォルト値の`0`となる。
 
-#### `2` Writeable Flash Region
+#### `2` Writeable flash regions（書き込み可能なフラッシュ領域）
 
-`Writeable flash regions` indicate portions of the binary that the process
-intends to mutate in flash.
+`Writeable flash regions`は、フラッシュ内のプロセスが変更を行うバイナリの領域を示します。
 
 ```
 0             2             4             6             8
@@ -251,15 +231,14 @@ intends to mutate in flash.
 +---------------------------+
 ```
 
-  * `offset` the offset from the beginning of the binary of the writeable
-    region.
-  * `size` the size of the writeable region.
+  * `offset` 書き込み可能領域のバイナリ開始時点からのオフセット値。
+  * `size` 書き込み可能領域のサイズ。
 
 
-#### `3` Package Name
+#### `3` Package Name（パッケージ名）
 
-The `Package name` specifies a unique name for the binary. Its only field is
-an UTF-8 encoded package name.
+`Package name`は、バイナリのユニークな名前を指定します。唯一のフィールドはUTF−8エンコーディングの
+パッケージ名です。
 
 ```
 0             2             4
@@ -268,14 +247,14 @@ an UTF-8 encoded package name.
 +-------------+-------------+----------...-+
 ```
 
-  * `package_name` is an UTF-8 encoded package name
+  * `package_name`はUTF−8エンコーディングのパッケージ名です。
 
-#### `5` Fixed Addresses
+#### `5` Fixed Addresses（固定アドレス）
 
-`Fixed Addresses` allows processes to specify specific addresses they need for
-flash and RAM. Tock supports position-independent apps, but not all apps are
-position-independent. This allows the kernel (and other tools) to avoid loading
-a non-position-independent binary at an incorrect location.
+`Fixed Addresses`は、プロセスがフラッシュやRAMに必要な特定のアドレスを指定することを可能にします。
+Tockは位置非依存のアプリをサポートしますが、すべてのアプリが位置非依存であるわけではありません。
+これにより、カーネル（および他のツール）は、位置非依存でないバイナリを誤った場所にロードすることを
+避けることができます。
 
 ```
 0             2             4             6             8
@@ -286,17 +265,14 @@ a non-position-independent binary at an incorrect location.
 +---------------------------+
 ```
 
-  * `ram_address` the address in memory the process's memory address must start
-    at. If a fixed address is not required this should be set to `0xFFFFFFFF`.
-  * `flash_address` the address in flash that the process binary (not the
-    header) must be located at. This would match the value provided for flash to
-    the linker. If a fixed address is not required this should be set to
-    `0xFFFFFFFF`.
+  * `ram_address` プロセスのメモリアドレスがスタートすべきメモリ内のアドレス。固定アドレスが
+    不要な場合、`0xFFFFFFFF`を設定するべきです。
+  * `flash_address` プロセスバイナリ（ヘッダではない）が位置すべきフラッシュ内のアドレス。
+    フラッシュ用にリンカに提供された値と一致する。固定アドレスが不要な場合、`0xFFFFFFFF`を
+    設定するべきです。
 
-## Code
+## コード
 
-The process code itself has no particular format. It will reside in flash,
-but the specific address is determined by the platform. Code in the binary
-should be able to execute successfully at any address, e.g. using position
-independent code.
-
+プロセスのコード自体には特定のフォーマットはありません。それはフラッシュに存在しますが、特定のアドレスが
+プラットフォームによって決定されています。バイナリ内のコードは、位置非依存のコードを使用するなど、
+どのようなアドレスでも正常に実行できなければなりません。

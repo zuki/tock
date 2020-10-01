@@ -1,110 +1,104 @@
-Memory Isolation
+メモリ隔離
 =============
 
-This document describes how memory is isolated in Tock, in terms of access
-permissions of the kernel and processes.  Before reading this, make sure you
-have a good understanding of the [design of Tock](Design.md) and the [Tock
-memory layout](Memory_Layout.md).
+このドキュメントでは、カーネルとプロセスのアクセス許可の観点から、Tockでメモリが
+どのように隔離されているかを説明します。これを読む前に、[Tockの設計](Design.md)と
+[Tockのメモリレイアウト](Memory_Layout.md)を十分に理解していることを確認して
+ください。
 
 <!-- npm i -g markdown-toc; markdown-toc -i Memory_Isolation.md -->
 
 <!-- toc -->
 
-- [Process Isolation](#process-isolation)
-  * [Flash](#flash)
-  * [RAM](#ram)
+- [メモリ隔離](#メモリ隔離)
+  - [プロセスの隔離](#プロセスの隔離)
+    - [Flash](#flash)
+    - [RAM](#ram)
 
 <!-- tocstop -->
 
-Memory isolation is a key property of Tock. Without it, processes could just
-access any part of memory, and the security of the entire system would be
-compromised. The reason for this is that although Rust preserves memory safety (e.g. no double frees or
-buffer overflows) and type safety at compile-time, this doesn't prevent
-processes, which can be written in any language, from accessing certain
-addresses which they should not have access to in memory. Some other component
-is necessary to prevent this from happening, or systems can not safely support
-untrusted processes.
+メモリの隔離はTockの重要な属性です。これがなければ、プロセスはメモリの任意の部分に
+アクセスすることができ、システム全体のセキュリティが損なわれてしまいます。その理由は、
+Rustはコンパイル時にメモリの安全性（二重解放やバッファオーバーフローがないなど）と
+型の安全性を守りますが、どの言語でも記述可能なプロセスが、メモリ内のアクセスしては
+いけないアドレスにアクセスすることを防ぐことはできないからです。このようなことが
+起きないようにするためには何らかの別のコンポーネントが必要であり、さもないと
+システムは信頼できないプロセスを安全にサポートすることができません。
 
-To support untrusted applications, Tock uses the memory protection units (MPU)
-provided by many embedded microcontrollers. The MPU is a hardware component
-which can configure access permissions for certain memory regions. Three
-fundamental access types can be set for these memory regions: read (R), write
-(W) and execute (X). Full access implies all three access types are allowed in a
-certain memory region.
+信頼できないアプリケーションをサポートするために、Tockは多くの組み込みマイクロ
+コントローラに搭載されているメモリ保護ユニット（MPU）を使用しています。MPUは
+特定のメモリ領域にアクセス許可を設定できるハードウェアコンポーネントです。これらの
+メモリ領域には、読み取り（R）、書き込み（W）、実行（X）の3つの基本的なアクセス型を
+設定することができます。フルアクセスとは、特定のメモリ領域で3つのアクセス型が
+すべて許可されていることを意味します。
 
-Since processes are by default not allowed to access each others' memory, the MPU
-has to be configured for each process based on where that process is in flash
-and what memory it has allocated to it. The MPU configuration is hence
-different for each process. Therefore, with each context switch to a userland
-process, Tock reconfigures the MPU for that process.
+プロセスはデフォルトで互いのメモリへのアクセスを許可されていないので、MPUは、プロセスが
+フラッシュのどこに格納されているか、および、どのメモリが割り当てられているかに基づいて、
+各プロセスを設定しなければなりません。つまり、MPUの設定はプロセスごとに異なります。
+したがって、ユーザランドプロセスにコンテキストを切り替えるたびに、Tockはそのプロセス用
+にMPUを再構成します。
 
-When the system is executing kernel code, the MPU is disabled. This means there
-are no hardware restrictions preventing the kernel from accessing the entire
-address space. Instead, what the kernel can do is restricted by the
-Rust type system. For example, a capsule (which cannot use `unsafe`) cannot access
-a process's memory because it cannot create and dereference an arbitrary
-pointer. In general, Tock tries to minimize the amount of trusted code (i.e.
-code that can call `unsafe`), and tries to encapsulate code that does need
-`unsafe` to make it clear what that code does and how to use it in a manner that
-does not violate overall system safety.
+システムがカーネルコードを実行しているときは、MPUは無効になっています。これは、
+カーネルがアドレス空間全体にアクセスすることを妨げるハードウェア上の制限がないことを
+意味します。カーネルができることはRustの型システムによって制限されています。たとえば、
+カプセル（`unsafe`を使用できません）はプロセスのメモリにアクセスできません、任意の
+ポインタを作成することも逆参照することもできないからです。一般に、Tockは信頼できる
+コード（すなわち、`unsafe`を呼び出せるコード）の量を最小限に抑え、`unsafe`を必要と
+するコードをカプセル化して、そのコードが何をするのか、システム全体の安全性を侵害しない
+方法でそれをどのように使うのかを明確にしようとしています。
 
+## プロセスの隔離
 
-## Process Isolation
-
-From an architecture perspective, processes are considered to be arbitrary code
-that may be buggy or even malicious. Therefore, Tock takes care to ensure that
-misbehaving applications do not compromise the integrity of the overall system.
+アーキテクチャの観点から見ると、プロセスはバグのある、悪意さえあるかもしれない任意の
+コードであると考えられます。そのため、Tockでは、アプリケーションの動作不良がシステム
+全体の整合性を損なわないように注意を払っています。
 
 ### Flash
 
-Flash is the nonvolatile memory space on a microcontroller. Generally, processes
-cannot access arbitrary addresses in flash, and are certainly prohibited from
-accessing bootloader or kernel code. They are also prohibited from reading or
-writing the nonvolatile regions of other processes.
+フラッシュは、マイクロコントローラ上の不揮発性メモリ空間です。一般にプロセスは
+フラッシュ内の任意のアドレスにアクセスすることはできず、ブートローダやカーネル
+コードにアクセスすることは絶対に禁止されています。また、他のプロセスの不揮発性
+領域を読み書きすることも禁止されています。
 
-Processes do have access to their own memory in flash. Certain regions,
-including their Tock Binary Format (TBF) header and a protected region after the
-header, are read-only, as the kernel must be able to ensure the integrity of the
-header. In particular, the kernel needs to know the total size of the app to find
-the next app in flash. The kernel may also wish to store nonvolatile information
-about the app (e.g. how many times it has entered a failure state) that the app
-should not be able to alter.
+プロセスはフラッシュ内の各自のメモリにはアクセスできます。Tock Binary Format（TBF）
+ヘッダとヘッダの後の保護領域を含む特定の領域は読み取り専用になっています。カーネルが
+ヘッダの整合性を保証できなければならないからです。中でも、カーネルはフラッシュ内の次の
+アプリを見つけるためにアプリの合計サイズを知る必要があります。また、カーネルはアプリを
+変更することができないようにするためにアプリに関する不揮発性の情報（たとえば、Failure
+状態に何回入ったかなど）を保存したい場合もあるかもしれません。
 
-The remainder of the app, and in particular the actual code of the app, is
-considered to be owned by the app. The app can read the flash to execute its own
-code. If the MCU uses flash for its nonvolatile memory the app can not likely
-directly modify its own flash region, as flash typically requires some hardware
-peripheral interaction to erase or write flash. In this case, the app would
-require kernel support to modify its flash region.
-
+アプリの残りの部分、特にアプリの実際のコードは、アプリが所有していると考えられます。
+アプリは自身のコードを実行するためにフラッシュを読むことができます。MCUがその不揮発性
+メモリにフラッシュを使用している場合、アプリが自身のフラッシュ領域を直接変更することが
+できない可能性が高くなります。通常、フラッシュは消去したり書き込んだりするために何らかの
+ハードウェアペリフェラルとの相互作用を必要とするからです。この場合、アプリは自身の
+フラッシュ領域を変更するためにカーネルのサポートが必要になります。
 
 ### RAM
 
-Process RAM is memory space divided between all running apps. The figure below
-shows the memory space of a process.
+プロセスRAMは実行中のすべてのアプリ間で分割されるメモリ空間です。下図はプロセスの
+メモリ空間を示しています。
 
 ![Process' RAM](processram.png)
 
-A process has full access to a portion of its own RAM region. A segment of the
-RAM region, called the grant region, is reserved for use only by the kernel on
-behalf of the process. Because it contains kernel data structures, processes
-cannot read or write the grant region.
+プロセスは自身のRAM領域にはフルアクセスできます。グラント領域と呼ばれるRAM領域の
+セグメントはプロセスではなくカーネルの使用専用に予約されています。グラント領域には
+カーネルのデータ構造体が含まれているためプロセスはこの領域を読むことも書くことも
+できません。
 
-The remainder of the process's memory region can be used as the process sees
-fit, likely for a stack, heap, and data section. The process entirely controls
-how these are used. There are `mem` syscalls that the process can use to inform
-the kernel of where it has placed its stack and heap, but these are entirely
-used for debugging. The kernel does not need to know how the process has
-organized its memory for normal operation.
+プロセスのメモリ領域の残りの部分は、プロセスが適切と判断した通りにスタックやヒープ、
+データセクションとして使用することができます。プロセスはこれらの使用方法を完全に
+制御します。スタックとヒープをどこに置いたかをカーネルに知らせるためにプロセスが
+使用できるできる`mem`システムコールがありますが、これらは完全にデバッグ用です。
+通常操作のためにプロセスがどのようにメモリを組織化しているかをカーネルが知る必要は
+ありません。
 
-Processes can choose to explicitly share portions of their RAM with the kernel
-through the use of `allow` syscalls. This gives capsules read/write access to
-the process's memory for use with a specific capsule operation.
+プロセスは`allow`システムコールを使って自身のRAMの一部をカーネルと共有することを
+明示的に選択することができます。これによりカプセルは特定の操作で使用するための
+プロセスのメモリへの読み書きアクセスが可能になります。
 
-Processes can communicate with each other through an [inter-process
-communication (IPC) mechanism](https://book.tockos.org/tutorials/05_ipc.html).
-To use IPC, processes specify a buffer in their RAM to use as a shared buffer,
-and then notify the kernel that they would like to share this buffer with other
-processes. Then, other users of this IPC mechanism are allowed to read and write
-this buffer. Outside of IPC, a process is never able to read or write other
-processes' RAM.
+プロセスは、[プロセス間通信（IPC）機構](https://book.tockos.org/tutorials/05_ipc.html)により
+相互に通信することができます。IPCを使用するには、プロセスは共有バッファとして使用する
+ためにRAM内のバッファを指定し、このバッファを他のプロセスと共有したい旨をカーネルに
+通知します。すると、このIPC機構を使う他のユーザがこのバッファを読み書きすることが
+許されます。IPC以外ではプロセスは他のプロセスのRAMを読むことも書くこともできません。

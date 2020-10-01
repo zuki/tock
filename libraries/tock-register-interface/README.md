@@ -1,64 +1,62 @@
-# Tock Register Interface
+# Tockのレジスタインターフェース
 
-This crate provides an interface for defining and manipulating memory mapped
-registers and bitfields.
+このクレートはメモリマップドレジスタとビットフィールドの定義と操作のための
+インターフェースです。
 
-## Defining registers
+## レジスタの定義
 
-The crate provides three types for working with memory mapped registers:
-`ReadWrite`, `ReadOnly`, and `WriteOnly`, providing read-write, read-only, and
-write-only functionality, respectively.
+このクレートは、メモリマップドレジスタを操作する3つの型、`ReadWrite`、
+`ReadOnly`、`WriteOnly`を提供します。各型は各々、読み書き、読み取り専用、
+書き込み専用の機能を提供します。
 
-Defining the registers is done with the `register_structs` macro, which expects
-for each register an offset, a field name, and a type. Registers must be
-declared in increasing order of offsets and contiguously. Gaps when defining the
-registers must be explicitly annotated with an offset and gap identifier (by
-convention using a field named `_reservedN`), but without a type. The macro will
-then automatically take care of calculating the gap size and inserting a
-suitable filler struct. The end of the struct is marked with its size and the
-`@END` keyword, effectively pointing to the offset immediately past the list of
-registers.
+レジスタの定義は`register_structs`マクロで行います。このマクロは各レジスタについて、
+オフセット、フィールド名、型を求めます。レジスタはオフセットの昇順に連続して定義しなければ
+なりません。レジスタ定義の際にはギャップをオフセットとギャップ識別子（慣例により
+`_reservedN`という名前のフィールドを使用する）で明示的に注記する必要がありますが、
+型は指定しません。マクロは自動的にギャップサイズを計算し、適切なパッディングを構造体に
+挿入します。構造体の終わりにはそのサイズとレジスタリストの直前のオフセットを効率的に
+指すように`@END`キーワードでマーク付けします。
 
 ```rust
 use tock_registers::registers::{ReadOnly, ReadWrite, WriteOnly};
 
 register_structs! {
     Registers {
-        // Control register: read-write
-        // The 'Control' parameter constrains this register to only use fields from
-        // a certain group (defined below in the bitfields section).
+        // Controlレジスタ: read-write
+        // 'Control'パラメータは、このレジスタが特定のグループのフィールド
+        // （ビットフィールドセクションで定義されている）のみを使用するように
+        // 制約する。
         (0x000 => cr: ReadWrite<u8, Control::Register>),
 
-        // Status register: read-only
+        // Statusレジスタ: read-only
         (0x001 => s: ReadOnly<u8, Status::Register>),
 
-        // Registers can be bytes, halfwords, or words:
-        // Note that the second type parameter can be omitted, meaning that there
-        // are no bitfields defined for these registers.
+        // レジスタはバイト、ハーフワード、ワードのいずれか。Registers can be bytes, halfwords, or words:
+        // 2番めの型パラメタは省略可能なことに注意せよ。この場合、これらのレジスタには
+        // 定義されたビットフィールドが存在しないことを意味する。
         (0x002 => byte0: ReadWrite<u8>),
         (0x003 => byte1: ReadWrite<u8>),
         (0x004 => short: ReadWrite<u16>),
 
-        // Empty space between registers must be marked with a padding field,
-        // declared as follows. The length of this padding is automatically
-        // computed by the macro.
+        // レジスタ間の空空間は以下のように定義したパッディングフィールドでマーク
+        // する必要がある。このパッディングの長さはマクロにより自動的に計算される。
         (0x006 => _reserved),
         (0x008 => word: ReadWrite<u32>),
 
-        // The type for a register can be anything. Conveniently, you can use an
-        // array when there are a bunch of similar registers.
+        // レジスタの型は何でも良いが、都合の良いことに、一連の同じレジスタが
+        // 存在する場合は配列を使うことができる。
         (0x00C => array: [ReadWrite<u32>; 4]),
         (0x01C => ... ),
 
-        // Etc.
+        // その他その他
 
-        // The end of the struct is marked as follows.
+        // 構造体の最後は次のようにマーク付する。
         (0x100 => @END),
     }
 }
 ```
 
-This generates a C-style struct of the following form.
+これは次のような形のCスタイルの構造体を生成します。
 
 ```rust
 #[repr(C)]
@@ -89,14 +87,12 @@ struct Registers {
 }
 ```
 
-By default, `std` unit tests for the struct are generated as well (that is,
-tests attributed with `#[test]`). The unit tests make sure that the offsets and
-padding are consistent with the actual fields in the struct, and that alignment
-is correct.
+デフォルトで構造体の`std`ユニットテストも生成されます（すなわち、`#[test]`属性のついた
+テストです）。このユニットテストはオフセットとパディングが構造体の実際のフィールドと
+一致していることとアライメントが正しいことを確認します。
 
-Since those tests would break compilation in `custom-test-frameworks`
-environments, it is possible to opt out of the test generation. To do so, add
-the following cargo feature:
+これらのテストは`custom-test-frameworks`環境ではコンパイルを中断してしまうので、
+テスト生成を省略することができます。そのためには、以下のカーゴ機能を追加します。
 
 ```toml
 [dependencies.tock-registers]
@@ -104,13 +100,12 @@ version = "0.4.x"
 features = ["no_std_unit_tests"]
 ```
 
-WARNING: For now, the **unit tests checking offsets and alignments are not yet
-run** on `make ci-travis`. This means that leaving an unintentional gap between
-registers will **not** be caught. Instead, the `register_structs` macro will
-generate a struct with invalid offsets without warning. Please follow the
-discussion on https://github.com/tock/tock/pull/1393.
+警告: 今のところ、`make ci-travis`では**オフセットとアライメントをチェックするユニットテストは実行されません**。
+これは、レジスタ間に意図しないギャップが残った場合も検出**されない**ことを意味し、
+`register_structs`マクロは警告なしで不正なオフセットを持つ構造体を生成することに
+なります。https://github.com/tock/tock/pull/1393 の議論に従ってください。
 
-For example, the following call to the macro:
+たとえば、次のようにマクロを呼び出した場合、
 
 ```rust
 register_structs! {
@@ -122,9 +117,9 @@ register_structs! {
 }
 ```
 
-will generate the following struct, even though there is an unintentional gap of
-4 bytes between addresses `0x004` (the end of register `foo`) and `0x008` (the
-intended beginning of register `bar`).
+これは次の構造体を生成します。アドレス`0x004`（レジスタ`foo`の終わり）と`0x008`
+（意図したレジスタ`bar`の始まり）の間に意図しない4バイトのギャップがあります。
+
 
 ```rust
 #[repr(C)]
@@ -134,11 +129,10 @@ struct Registers {
 }
 ```
 
-By default, the visibility of the generated structs and fields is private. You
-can make them public using the `pub` keyword, just before the struct name or the
-field identifier.
+デフォルトで生成された構造体とフィールドの可視性はプライベートです。構造体名または
+フィールド識別子の直前に`pub`キーワードを付けることでそれらをpublicにすることができます。
 
-For example, the following call to the macro:
+たとえば、次のようにマクロを呼び出した場合、
 
 ```rust
 register_structs! {
@@ -150,7 +144,7 @@ register_structs! {
 }
 ```
 
-will generate the following struct.
+次の構造体を生成します。
 
 ```rust
 #[repr(C)]
@@ -160,41 +154,42 @@ pub struct Registers {
 }
 ```
 
-## Defining bitfields
+## ビットフィールドの定義
 
-Bitfields are defined through the `register_bitfields!` macro:
+ビットフィールドは`register_bitfields!`マクロで定義します。
 
 ```rust
 register_bitfields! [
-    // First parameter is the register width. Can be u8, u16, u32, or u64.
+    // 第1パラメタはレジスタの幅です。u8, u16, u32, u64が指定できます。
     u32,
 
-    // Each subsequent parameter is a register abbreviation, its descriptive
-    // name, and its associated bitfields.
-    // The descriptive name defines this 'group' of bitfields. Only registers
-    // defined as ReadWrite<_, Control::Register> can use these bitfields.
+    // 後続の各パラメータは、レジスタの略語、その記述名、関連するビットフィールドで
+    // ある。記述名はこのビットフィールドの「グループ」を定義する。
+    // ReadWrite<_, Control::Register>として定義されたレジスタだけが
+    // これらのビットフィールドを使用することができる。
     Control [
-        // Bitfields are defined as:
-        // name OFFSET(shift) NUMBITS(num) [ /* optional values */ ]
+        // ビットフィールドは次のように定義する。
+        // 名前 OFFSET(シフト数) NUMBITS(ビット数) [ /* オプションの値 */ ]
 
-        // This is a two-bit field which includes bits 4 and 5
+        // これはビット4と5から成る2ビットフィールである。
         RANGE OFFSET(4) NUMBITS(2) [
-            // Each of these defines a name for a value that the bitfield can be
-            // written with or matched against. Note that this set is not exclusive--
-            // the field can still be written with arbitrary constants.
+            // 以下の各々はビットフィールドに書き込む、またはマッチさせる
+            // ことができる値の名前を定義する。このセットは排他的なものでは
+            // ないことに注意されたい。フィールドには任意の定数を書き込むことが
+            // 可能である。
             VeryHigh = 0,
             High = 1,
             Low = 2
         ],
 
-        // A common case is single-bit bitfields, which usually just mean
-        // 'enable' or 'disable' something.
+        // よくあるのは1ビットのビットフィールドで、通常は単に何かを「有効」または
+        //「無効」にすることを意味します。
         EN  OFFSET(3) NUMBITS(1) [],
         INT OFFSET(2) NUMBITS(1) []
     ],
 
-    // Another example:
-    // Status register
+    // もう一つの例:
+    // Statusレジスタ
     Status [
         TXCOMPLETE  OFFSET(0) NUMBITS(1) [],
         TXINTERRUPT OFFSET(1) NUMBITS(1) [],
@@ -209,8 +204,7 @@ register_bitfields! [
         ERRORCOUNT OFFSET(6) NUMBITS(3) []
     ],
 
-    // In a simple case, offset can just be a number, and the number of bits
-    // is set to 1:
+    // 単純なケースでは、オフセットは単なる数字でよく、ビット数は1にセットされる。
     InterruptFlags [
         UNDES   10,
         TXEMPTY  9,
@@ -223,72 +217,69 @@ register_bitfields! [
 ]
 ```
 
-## Register Interface Summary
+## レジスタインターフェースのまとめ
 
-There are four types provided by the register interface: `ReadOnly`,
-`WriteOnly`, `ReadWrite`, and `Aliased`. They provide the following functions:
+レジスタインターフェースにより4つの型が提供されています。`ReadOnly`、`WriteOnly`、
+`ReadWrite`、`Aliased`です。これらは以下の関数を提供します。
 
 ```rust
 ReadOnly<T: IntLike, R: RegisterLongName = ()>
-.get() -> T                                    // Get the raw register value
-.read(field: Field<T, R>) -> T                 // Read the value of the given field
-.read_as_enum<E>(field: Field<T, R>) -> Option<E> // Read value of the given field as a enum member
-.is_set(field: Field<T, R>) -> bool            // Check if one or more bits in a field are set
-.matches_any(value: FieldValue<T, R>) -> bool  // Check if any specified parts of a field match
-.matches_all(value: FieldValue<T, R>) -> bool  // Check if all specified parts of a field match
-.extract() -> LocalRegisterCopy<T, R>          // Make local copy of register
+.get() -> T                                    // 生のレジスタ値を取得する
+.read(field: Field<T, R>) -> T                 // 指定したフィールドの値を読み取る
+.read_as_enum<E>(field: Field<T, R>) -> Option<E> // 指定したフィールドの値をenumメンバとして読み取る
+.is_set(field: Field<T, R>) -> bool            // フィールドの1つ以上のビットがセットされているかチェックする
+.matches_any(value: FieldValue<T, R>) -> bool  // 指定した任意の部分がフィールドにマッチするかチェックする
+.matches_all(value: FieldValue<T, R>) -> bool  // 指定したすべての部分がフィールドにマッチするかチェックする
+.extract() -> LocalRegisterCopy<T, R>          // レジスタのローカルコピーを作成する
 
 WriteOnly<T: IntLike, R: RegisterLongName = ()>
-.set(value: T)                                 // Set the raw register value
-.write(value: FieldValue<T, R>)                // Write the value of one or more fields,
-                                               //  overwriting other fields to zero
+.set(value: T)                                 // 生のレジスタ値をセットする
+.write(value: FieldValue<T, R>)                // 一つ以上のフィールドの値を書き込み、
+                                               //  その他のフィールドはゼロで上書きする
 ReadWrite<T: IntLike, R: RegisterLongName = ()>
-.get() -> T                                    // Get the raw register value
-.set(value: T)                                 // Set the raw register value
-.read(field: Field<T, R>) -> T                 // Read the value of the given field
-.read_as_enum<E>(field: Field<T, R>) -> Option<E> // Read value of the given field as a enum member
-.write(value: FieldValue<T, R>)                // Write the value of one or more fields,
-                                               //  overwriting other fields to zero
-.modify(value: FieldValue<T, R>)               // Write the value of one or more fields,
-                                               //  leaving other fields unchanged
-.modify_no_read(                               // Write the value of one or more fields,
-      original: LocalRegisterCopy<T, R>,       //  leaving other fields unchanged, but pass in
-      value: FieldValue<T, R>)                 //  the original value, instead of doing a register read
-.is_set(field: Field<T, R>) -> bool            // Check if one or more bits in a field are set
-.matches_any(value: FieldValue<T, R>) -> bool  // Check if any specified parts of a field match
-.matches_all(value: FieldValue<T, R>) -> bool  // Check if all specified parts of a field match
-.extract() -> LocalRegisterCopy<T, R>          // Make local copy of register
+.get() -> T                                    // 生のレジスタ値を取得する
+.set(value: T)                                 // 生のレジスタ値をセットする
+.read(field: Field<T, R>) -> T                 // 指定したフィールドの値を読み取る
+.read_as_enum<E>(field: Field<T, R>) -> Option<E> // 指定したフィールドの値をenumメンバとして読み取る
+.write(value: FieldValue<T, R>)                // 一つ以上のフィールドの値を書き込み、
+                                               //  その他のフィールドはゼロで上書きする
+.modify(value: FieldValue<T, R>)               // 一つ以上のフィールドの値を書き込み、
+                                               //  その他のフィールドは変更せずそのまま残す
+.modify_no_read(                               // 一つ以上のフィールドの値を書き込み、
+      original: LocalRegisterCopy<T, R>,       //  その他のフィールドは変更せずそのまま残すが、
+      value: FieldValue<T, R>)                 //  レジスタを読み取るのではなくオリジナル値を返す
+.is_set(field: Field<T, R>) -> bool            // フィールドの1つ以上のビットがセットされているかチェックする
+.matches_any(value: FieldValue<T, R>) -> bool  // 指定した任意の部分がフィールドにマッチするかチェックする
+.matches_all(value: FieldValue<T, R>) -> bool  // 指定したすべての部分がフィールドにマッチするかチェックする
+.extract() -> LocalRegisterCopy<T, R>          // レジスタのローカルコピーを作成する
 
 Aliased<T: IntLike, R: RegisterLongName = (), W: RegisterLongName = ()>
-.get() -> T                                    // Get the raw register value
-.set(value: T)                                 // Set the raw register value
-.read(field: Field<T, R>) -> T                 // Read the value of the given field
-.read_as_enum<E>(field: Field<T, R>) -> Option<E> // Read value of the given field as a enum member
-.write(value: FieldValue<T, W>)                // Write the value of one or more fields,
-                                               //  overwriting other fields to zero
-.is_set(field: Field<T, R>) -> bool            // Check if one or more bits in a field are set
-.matches_any(value: FieldValue<T, R>) -> bool  // Check if any specified parts of a field match
-.matches_all(value: FieldValue<T, R>) -> bool  // Check if all specified parts of a field match
-.extract() -> LocalRegisterCopy<T, R>          // Make local copy of register
+.get() -> T                                    // 生のレジスタ値を取得する
+.set(value: T)                                 // 生のレジスタ値をセットする
+.read(field: Field<T, R>) -> T                 // 指定したフィールドの値を読み取る
+.read_as_enum<E>(field: Field<T, R>) -> Option<E> // 指定したフィールドの値をenumメンバとして読み取る
+.write(value: FieldValue<T, W>)                // 一つ以上のフィールドの値を書き込み、
+                                               //  その他のフィールドはゼロで上書きする
+.is_set(field: Field<T, R>) -> bool            // フィールドの1つ以上のビットがセットされているかチェックする
+.matches_any(value: FieldValue<T, R>) -> bool  // 指定した任意の部分がフィールドにマッチするかチェックする
+.matches_all(value: FieldValue<T, R>) -> bool  // 指定したすべての部分がフィールドにマッチするかチェックする
+.extract() -> LocalRegisterCopy<T, R>          // レジスタのローカルコピーを作成する
 ```
 
-The `Aliased` type represents cases where read-only and write-only registers,
-with different meanings, are aliased to the same memory location.
+`Aliased`型は、異なる意味を持つ読み取り専用レジスタと書き込み専用レジスタが同じメモリ位置にエイリアスされている場合を表します。
 
-The first type parameter (the `IntLike` type) is `u8`, `u16`, `u32`, or `u64`.
+最初の型パラメータ（`IntLike`型）はu8、u16、u32、u64のいずれかです。
 
-## Example: Using registers and bitfields
+## レジスタとビットフィールの使用例
 
-Assuming we have defined a `Registers` struct and the corresponding bitfields as
-in the previous two sections. We also have an immutable reference to the
-`Registers` struct, named `registers`.
+先の2つのセクションで述べたように`Registers`構造体とそれに対応するビットフィールドを定義した仮定します。また、`registers`という名前の`Registers`構造体への不変参照があるとします。
 
 ```rust
 // -----------------------------------------------------------------------------
 // RAW ACCESS
 // -----------------------------------------------------------------------------
 
-// Get or set the raw value of the register directly. Nothing fancy:
+// レジスタの生値を直接、取得またはセットする。なんでもない。
 registers.cr.set(registers.cr.get() + 1);
 
 
@@ -296,11 +287,11 @@ registers.cr.set(registers.cr.get() + 1);
 // READ
 // -----------------------------------------------------------------------------
 
-// `range` will contain the value of the RANGE field, e.g. 0, 1, 2, or 3.
-// The type annotation is not necessary, but provided for clarity here.
+// `range`はRANGEフィールドの値（たとえば、0, 1, 2, 3のいずれか）を持つことになる。
+// 型アノテーションは不要であるが、ここでは明確にするため指定した。
 let range: u8 = registers.cr.read(Control::RANGE);
 
-// Or one can read `range` as a enum and `match` over it.
+// あるいは、enumとして`range`に読み取り、`match`させることができる。
 let range = registers.cr.read_as_enum(Control::RANGE);
 match range {
     Some(Control::RANGE::Value::VeryHigh) => { /* ... */ }
@@ -310,7 +301,7 @@ match range {
     None => unreachable!("invalid value")
 }
 
-// `en` will be 0 or 1
+// `en`は0か1である
 let en: u8 = registers.cr.read(Control::EN);
 
 
@@ -318,28 +309,27 @@ let en: u8 = registers.cr.read(Control::EN);
 // MODIFY
 // -----------------------------------------------------------------------------
 
-// Write a value to a bitfield without altering the values in other fields:
+// ビットフィールドに値を書き込む。他のフィールドの値は変えずにそのまま。
 registers.cr.modify(Control::RANGE.val(2)); // Leaves EN, INT unchanged
 
-// Named constants can be used instead of the raw values:
+// 生の値の代わりに名前付き定数を使用できる。
 registers.cr.modify(Control::RANGE::VeryHigh);
 
-// Another example of writing a field with a raw value:
-registers.cr.modify(Control::EN.val(0)); // Leaves RANGE, INT unchanged
+// 生の値をフィールドに書き込むもう一つの例。
+registers.cr.modify(Control::EN.val(0)); // RANGEとINTは変更せずそのまま
 
-// For one-bit fields, the named values SET and CLEAR are automatically
-// defined:
+// 1ビットフィールでは、名前付きの値、SETとCLEARが自動的に定義されている。
 registers.cr.modify(Control::EN::SET);
 
-// Write multiple values at once, without altering other fields:
+// 複数の値を一度に書き込む。他のフィールドは変えずにそのまま。
 registers.cr.modify(Control::EN::CLEAR + Control::RANGE::Low); // INT unchanged
 
-// Any number of non-overlapping fields can be combined:
+// フィールドが重ならなければ任意の数の値を組み合わせることができる。
 registers.cr.modify(Control::EN::CLEAR + Control::RANGE::High + CR::INT::SET);
 
-// In some cases (such as a protected register) .modify() may not be appropriate.
-// To enable updating a register without coupling the read and write, use
-// modify_no_read():
+// （保護レジスタのように）.modify()の使用は適切でない場合がある
+// 読み取りと書き込むが対になっていないレジスタの更新を可能にするためには
+// modify_no_read()を使用する。
 let original = registers.cr.extract();
 registers.cr.modify_no_read(original, Control::EN::CLEAR);
 
@@ -348,35 +338,38 @@ registers.cr.modify_no_read(original, Control::EN::CLEAR);
 // WRITE
 // -----------------------------------------------------------------------------
 
-// Same interface as modify, except that all unspecified fields are overwritten to zero.
-registers.cr.write(Control::RANGE.val(1)); // implictly sets all other bits to zero
+// modifyと同じインターフェスだが、指定しないフィールドはすべてゼロで
+// 上書きする。
+registers.cr.write(Control::RANGE.val(1)); // 暗示的に他のすべてのビットに
+                                           // ゼロをセットする
 
 // -----------------------------------------------------------------------------
 // BITFLAGS
 // -----------------------------------------------------------------------------
 
-// For one-bit fields, easily check if they are set or clear:
+// 1ビットフィールドでセットされているかクリアされているかを簡単にチェックする。
 let txcomplete: bool = registers.s.is_set(Status::TXCOMPLETE);
 
 // -----------------------------------------------------------------------------
 // MATCHING
 // -----------------------------------------------------------------------------
 
-// You can also query a specific register state easily with `matches_[any|all]`:
+// `matches_[any|all]`を使って指定したレジスタの状態を調べることもできる。
 
-// Doesn't care about the state of any field except TXCOMPLETE and MODE:
+// TXCOMPLETEとMODE以外のフィールドの状態については問わない。
 let ready: bool = registers.s.matches_all(Status::TXCOMPLETE:SET +
                                      Status::MODE::FullDuplex);
 
-// This is very useful for awaiting for a specific condition:
+// 指定した状態になるのを待つのに非常に便利。
 while !registers.s.matches_all(Status::TXCOMPLETE::SET +
                           Status::RXCOMPLETE::SET +
                           Status::TXINTERRUPT::CLEAR) {}
 
-// Or for checking whether any interrupts are enabled:
+// あるいは、任意の割り込みが有効になっているかをチェックする。
 let any_ints = registers.s.matches_any(Status::TXINTERRUPT + Status::RXINTERRUPT);
 
-// Also you can read a register with set of enumerated values as a enum and `match` over it:
+// また、一連のenum値を持つレジスタをenumとして読み取り、`match`させる
+// こともできる。
 let mode = registers.cr.read_as_enum(Status::MODE);
 
 match mode {
@@ -390,27 +383,26 @@ match mode {
 // LOCAL COPY
 // -----------------------------------------------------------------------------
 
-// More complex code may want to read a register value once and then keep it in
-// a local variable before using the normal register interface functions on the
-// local copy.
+// より複雑なコードでは、レジスタ値を一度読み取ってローカル変数に保存し、
+// そのローカルコピーを使って通常のレジスタインターフェイス関数を使用
+// したい場合がある。
 
-// Create a copy of the register value as a local variable.
+// レジスタ値のコピーをローカル変数として作成する。
 let local = registers.cr.extract();
 
-// Now all the functions for a ReadOnly register work.
+// これでReadOnlyレジスタのすべての関数が動作する。
 let txcomplete: bool = local.is_set(Status::TXCOMPLETE);
 
 // -----------------------------------------------------------------------------
 // In-Memory Registers
 // -----------------------------------------------------------------------------
 
-// In some cases, code may want to edit a memory location with all of the
-// register features described above, but the actual memory location is not a
-// fixed MMIO register but instead an arbitrary location in memory. If this
-// location is then shared with the hardware (i.e. via DMA) then the code
-// must do volatile reads and writes since the value may change without the
-// software knowing. To support this, the library includes an `InMemoryRegister`
-// type.
+// 上記のすべてのレジスタ機能においてメモリ配置場所を編集したい場合があるが、実際の
+// メモリ配置場所は固定されたMMIOレジスタではなく、メモリ内の任意の位置です。
+// この場所がハードウェアと共有された場合（すなわち、DMA経由で）、ソフトウェアが
+// 知らないうちに値が変更される可能性があるため、コードはvolatileな読み取りと
+// 書き込みを行う必要があります。 これをサポートするために、ライブラリには
+// `InMemoryRegister`型があります。
 
 let control: InMemoryRegister<u32, Control::Register> = InMemoryRegister::new(0)
 control.write(Contol::BYTE_COUNT.val(0) +
@@ -418,62 +410,63 @@ control.write(Contol::BYTE_COUNT.val(0) +
               Contol::LENGTH.val(10));
 ```
 
-Note that `modify` performs exactly one volatile load and one volatile store,
-`write` performs exactly one volatile store, and `read` performs exactly one
-volatile load. Thus, you are ensured that a single call will set or query all
-fields simultaneously.
+`modify`は正確に一回のvolatileロードと一回のvolatileストアを、
+`write`は正確に一回のvolatileストアを、`read`は正確に一回のvolatileロードを
+それぞれ実行することに注意してください。 したがって、1回の呼び出しで
+すべてのフィールドが同時に設定または照会されることが保証されます。
 
-## Performance
+## パフォーマンス
 
-Examining the binaries while testing this interface, everything compiles
-down to the optimal inlined bit twiddling instructions--in other words, there is
-zero runtime cost, as far as an informal preliminary study has found.
+このインターフェイスのテスト中にバイナリを調べると、すべてが最適なインライン
+ビット調整命令にコンパイルされています。言い換えれば、非公式の予備調査で
+判明した限り、実行時のコストはゼロです。
 
-## Nice type checking
+## 素敵な型チェック
 
-This interface helps the compiler catch some common types of bugs via type checking.
+このインターフェースは型チェックを介してコンパイラが一般的な種類のバグを捕捉する
+のに役立ちます。
 
-If you define the bitfields for e.g. a control register, you can give them a
-descriptive group name like `Control`. This group of bitfields will only work
-with a register of the type `ReadWrite<_, Control>` (or `ReadOnly/WriteOnly`,
-etc). For instance, if we have the bitfields and registers as defined above,
+たとえば、コントロールレジスタのビットフィールドを定義する場合、`Control`の
+ようなわかりやすいグループ名を付けることができます。このビットフィールドのグループは
+`ReadWrite <_、Control>`型（または`ReadOnly/WriteOnly`型など）のレジスタで
+しか機能しません。たとえば、上記で定義したビットフィールドとレジスタがある場合、
 
 ```rust
-// This line compiles, because registers.cr is associated with the Control group
-// of bitfields.
+// この行はコンパイルされる。registers.crはビットフィールドのContorlグループ
+// に関連付けられているからである。
 registers.cr.modify(Control::RANGE.val(1));
 
-// This line will not compile, because registers.s is associated with the Status
-// group, not the Control group.
+// この行はコンパイルされない。registers.sはControlグループではなく、
+// Statusグループに関連付けられているからである。
 let range = registers.s.read(Control::RANGE);
 ```
 
-## Naming conventions
+## 命名規約
 
-There are several related names in the register definitions. Below is a
-description of the naming convention for each:
+レジスタ定義にはいくつかの関連する名前があります。以下は、それぞれの命名規約の
+説明です。
 
 ```rust
 use tock_registers::registers::ReadWrite;
 
 #[repr(C)]
 struct Registers {
-    // The register name in the struct should be a lowercase version of the
-    // register abbreviation, as written in the datasheet:
+    // 構造体におけるレジスタ名はデータシートに記載されているレジスタの
+    // 省略形を小文字にしたものにするべきである。
     cr: ReadWrite<u8, Control::Register>,
 }
 
 register_bitfields! [
     u8,
 
-    // The name should be the long descriptive register name,
-    // camelcase, without the word 'register'.
+    // 名前は'register'を除いたキャメルケースの長い説明的なレジスタ名に
+    // するべきである。
     Control [
-        // The field name should be the capitalized abbreviated
-        // field name, as given in the datasheet.
+        // フィールド名はデータシートに記載されているフィールド名の省略形を
+        // 大文字にしたものにするべきである。
         RANGE OFFSET(4) NUMBITS(3) [
-            // Each of the field values should be camelcase,
-            // as descriptive of their value as possible.
+            // 各フィールド値はキャメルケースでその値をできるだけ説明する
+            // ものにするべきである。
             VeryHigh = 0,
             High = 1,
             Low = 2

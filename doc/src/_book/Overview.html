@@ -1,0 +1,699 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Overview · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Design.html" />
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2" data-path="Overview.html">
+            
+                <a href="Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="Design.html">
+            
+                <a href="Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="threat_model/">
+            
+                <a href="threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Lifetimes.html">
+            
+                <a href="Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Mutable_References.html">
+            
+                <a href="Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Soundness.html">
+            
+                <a href="Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="Compilation.html">
+            
+                <a href="Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="TockBinaryFormat.html">
+            
+                <a href="TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Memory_Layout.html">
+            
+                <a href="Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="Memory_Isolation.html">
+            
+                <a href="Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="Registers.html">
+            
+                <a href="Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Startup.html">
+            
+                <a href="Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="Syscalls.html">
+            
+                <a href="Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="Userland.html">
+            
+                <a href="Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="Networking_Stack.html">
+            
+                <a href="Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="Configuration.html">
+            
+                <a href="Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="syscalls/">
+            
+                <a href="syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="reference/">
+            
+                <a href="reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="Getting_Started.html">
+            
+                <a href="Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="Porting.html">
+            
+                <a href="Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="OutOfTree.html">
+            
+                <a href="OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="wg/">
+            
+                <a href="wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="CodeReview.html">
+            
+                <a href="CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Overview</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tock-overview">Tock Overview</h1>
+<p>Tock is a secure, embedded operating system for Cortex-M and RISC-V
+microcontrollers. Tock assumes the hardware includes a memory protection unit
+(MPU), as systems without an MPU cannot simultaneously support untrusted
+processes and retain Tock&apos;s safety and security properties. The Tock kernel and
+its extensions (called <em>capsules</em>) are written in Rust.</p>
+<p>Tock can run multiple, independent untrusted processes written in
+any language. The number of processes Tock can simultaneously support
+is constrained by MCU flash and RAM. Tock can be configured to use different
+scheduling algorithms, but the default Tock scheduler is preemptive and
+uses a round-robin policy. Tock uses a microkernel architecture: complex
+drivers and services are often implemented as untrusted processes, which
+other processes, such as applications, can invoke through inter-process
+commmunication (IPC).</p>
+<p>This document gives an overview of Tock&apos;s architecture, the different
+classes of code in Tock, the protection mechanisms it uses, and how this
+structure is reflected in the software&apos;s directory structure.</p>
+<!-- npm i -g markdown-toc; markdown-toc -i Overview.md -->
+<!-- toc -->
+<ul>
+<li><a href="#tock-architecture">Tock Architecture</a></li>
+<li><a href="#tock-directory-structure">Tock Directory Structure</a></li>
+</ul>
+<!-- tocstop -->
+<h2 id="tock-architecture">Tock Architecture</h2>
+<p><img src="tock-stack.png" alt="Tock architecture"></p>
+<p>The above Figure shows Tock&apos;s architecture. Code falls into one of three
+categories: the <em>core kernel</em>, <em>capsules</em>, and <em>processes</em>.</p>
+<p>The core kernel and capsules are both written in Rust. Rust is a
+type-safe systems language; other documents discuss the language and
+its implications to kernel design in greater detail, but the
+key idea is that Rust code can&apos;t use memory differently than intended
+(e.g., overflow buffers, forge pointers, or have pointers to dead
+stack frames). Because these restrictions prevent many things that
+an OS kernel has to do (such as access a peripheral that exists at a
+memory address specified in a datasheet), the very small core kernel
+is allowed to break them by using &quot;unsafe&quot; Rust code. Capsules,
+however, cannot use unsafe features. This means that the core kernel
+code is very small and carefully written, while new capsules added
+to the kernel are safe code and so do not have to be trusted.</p>
+<p>Processes can be written in any language. The kernel protects itself and
+other processes from bad process code by using a hardware memory
+protection unit (MPU). If a process tries to access memory it&apos;s not
+allowed to, this triggers an exception. The kernel handles this exception
+and kills the process.</p>
+<p>The kernel provides four major system calls:</p>
+<ul>
+<li>command: makes a call from the process into the kernel</li>
+<li>subscribe: registers a callback in the process for an upcall from the kernel</li>
+<li>allow: gives kernel access to memory in the process</li>
+<li>yield: suspends process until after a callback is invoked</li>
+</ul>
+<p>Every system call except yield is non-blocking. Commands that
+might take a long time (such as sending a message over a UART)
+return immediately and issue a callback when they complete.
+The yield system call blocks the process until a callback
+is invoked; userland code typically implements blocking
+functions by invoking a command and then using yield to wait
+until the callback completes.</p>
+<p>The command, subscribe, and allow system calls all take a driver
+ID as their first parameter. This indicates which driver in the
+kernel that system call is intended for. Drivers are capsules that
+implement the system call.</p>
+<h2 id="tock-directory-structure">Tock Directory Structure</h2>
+<p>Tock has several principal code directories.</p>
+<ul>
+<li><p><strong>arch</strong>: stores architecture-specific code. I.e., code that
+is Cortex-M0 and Cortex-M4 specific. This includes code for performing
+context switches and making system calls (trapping from user code to
+kernel code).</p>
+</li>
+<li><p><strong>boards</strong>: contains code for specific Tock platforms, such as
+the imix, the Hail, and the nrf52dk. This is typically the structure
+that defines all of the capsules the kernel has, the code to configure the
+MCU&apos;s IO pins into the proper states, initializing the kernel and loading
+processes. The principal file in this directory is <code>main.rs</code>, and the
+principal initialization function is <code>reset_handler</code> (which executes
+when the MCU resets). The board code also defines how system call device
+identifiers map to capsules, in the <code>with_driver</code> function.</p>
+</li>
+<li><p><strong>capsules</strong>: contains MCU-independent kernel extensions that
+can build on top of chip-specific implementations of particular peripherals.
+Some capsules provide system calls. For example, the <code>spi</code> module in capsules
+builds on top of a chip&apos;s SPI implementation to provide system calls on
+top of it.</p>
+</li>
+<li><p><strong>chips</strong>: contains microcontroller-specific code, such as the
+implementations of SPI, I2C, GPIO, UART, and other microcontroller-specific
+code. The distinction between chips and boards is the difference between
+a microcontroller and a full platform. For example, many microcontrollers
+have multiple UARTs. Which UART is the principal way to communicate with
+Tock, or which is used to control another chip, is defined by how the chip
+is placed on board and which pins are exposed. So a chip provides the UART
+implementation, but a board defines which UART is used for what.</p>
+</li>
+<li><p><strong>doc</strong>: contains the documentation for Tock, including
+specifications for internal interfaces and tutorials.</p>
+</li>
+<li><p><strong>kernel</strong>: contains microcontroller-independent kernel code,
+such as the scheduler, processes, and memory management. This directory
+and arch are where all core kernel code reside.</p>
+</li>
+<li><p><strong>libraries</strong>: contains libraries that we use internally and share
+externally. Several primitives have been created for Tock that we think could
+also be useful to other projects. This is a location where each crate is
+located.</p>
+</li>
+<li><p><strong>tools</strong>: contains associated tools to help in compilation and
+code maintenance, such as checking code formatting, converting binaries,
+and build scripts.</p>
+</li>
+<li><p><strong>vagrant</strong>: contains information on how to get Tock running in a
+virtual machine-esque environment.</p>
+</li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Overview","level":"1.2","depth":1,"next":{"title":"Design","level":"1.3","depth":1,"path":"Design.md","ref":"Design.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"Overview.md","mtime":"2020-09-14T07:33:27.028Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

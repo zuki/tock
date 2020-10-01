@@ -1,0 +1,793 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Compilation · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="TockBinaryFormat.html" />
+    
+    
+    <link rel="prev" href="Soundness.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="Overview.html">
+            
+                <a href="Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="Design.html">
+            
+                <a href="Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="threat_model/">
+            
+                <a href="threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Lifetimes.html">
+            
+                <a href="Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Mutable_References.html">
+            
+                <a href="Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Soundness.html">
+            
+                <a href="Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.4" data-path="Compilation.html">
+            
+                <a href="Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="TockBinaryFormat.html">
+            
+                <a href="TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Memory_Layout.html">
+            
+                <a href="Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="Memory_Isolation.html">
+            
+                <a href="Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="Registers.html">
+            
+                <a href="Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Startup.html">
+            
+                <a href="Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="Syscalls.html">
+            
+                <a href="Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="Userland.html">
+            
+                <a href="Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="Networking_Stack.html">
+            
+                <a href="Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="Configuration.html">
+            
+                <a href="Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="syscalls/">
+            
+                <a href="syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="reference/">
+            
+                <a href="reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="Getting_Started.html">
+            
+                <a href="Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="Porting.html">
+            
+                <a href="Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="OutOfTree.html">
+            
+                <a href="OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="wg/">
+            
+                <a href="wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="CodeReview.html">
+            
+                <a href="CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Compilation</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="how-does-tock-compile">How does Tock compile?</h1>
+<p>There are two types of compilation artifacts in Tock: the kernel and user-level
+processes (i.e. apps). Each type compiles differently. In addition, each
+platform has a different way of programming the kernel and processes. Below is
+an explanation of both kernel and process compilation as well as some examples
+of how platforms program each onto an actual board.</p>
+<!-- npm i -g markdown-toc; markdown-toc -i Compilation.md -->
+<!-- toc -->
+<ul>
+<li><a href="#compiling-the-kernel">Compiling the kernel</a><ul>
+<li><a href="#life-of-a-tock-compilation">Life of a Tock compilation</a></li>
+<li><a href="#llvm-binutils">LLVM Binutils</a></li>
+<li><a href="#special-apps-section">Special <code>.apps</code> section</a></li>
+</ul>
+</li>
+<li><a href="#compiling-a-process">Compiling a process</a><ul>
+<li><a href="#position-independent-code">Position Independent Code</a></li>
+<li><a href="#tock-binary-format">Tock Binary Format</a></li>
+<li><a href="#tock-application-bundle">Tock Application Bundle</a><ul>
+<li><a href="#tab-format">TAB Format</a></li>
+<li><a href="#metadata">Metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#loading-the-kernel-and-processes-onto-a-board">Loading the kernel and processes onto a board</a></li>
+</ul>
+<!-- tocstop -->
+<h2 id="compiling-the-kernel">Compiling the kernel</h2>
+<p>The kernel is divided into five Rust crates (i.e. packages):</p>
+<ul>
+<li><p>A core kernel crate containing key kernel operations such as handling
+interrupts and scheduling processes, shared kernel libraries such as
+<code>TakeCell</code>, and the Hardware Interface Layer (HIL) definitions. This is
+located in the <code>kernel/</code> folder.</p>
+</li>
+<li><p>An architecture (e.g. <em>ARM Cortex M4</em>) crate that implements context
+switching, and provides memory protection and systick drivers. This is
+located in the <code>arch/</code> folder.</p>
+</li>
+<li><p>A chip-specific (e.g. <em>Atmel SAM4L</em>) crate which handles interrupts and
+implements the hardware abstraction layer for a chip&apos;s peripherals. This is
+located in the <code>chips/</code> folder.</p>
+</li>
+<li><p>One (or more) crates for hardware independent drivers and virtualization
+layers. This is the <code>capsules/</code> folder in Tock. External projects using
+Tock may create additional crates for their own drivers.</p>
+</li>
+<li><p>A platform specific (e.g. <em>Imix</em>) crate that configures the chip and
+its peripherals, assigns peripherals to drivers, sets up virtualization
+layers, and defines a system call interface. This is located in <code>boards/</code>.</p>
+</li>
+</ul>
+<p>These crates are compiled using <a href="http://doc.crates.io" target="_blank">Cargo</a>, Rust&apos;s package
+manager, with the platform crate as the base of the dependency graph. In
+practice, the use of Cargo is masked by the Makefile system in Tock. Users can
+simply type <code>make</code> from the proper directory in <code>boards/</code> to build the kernel
+for that platform.</p>
+<p>Internally, the Makefile is simply invoking Cargo to handle the build. For
+example, <code>make</code> on the imix platform translates to:</p>
+<pre><code class="lang-bash">$ cargo build --release --target=thumbv7em-none-eabi
+</code></pre>
+<p>The <code>--release</code> argument tells Cargo to invoke the Rust compiler with
+optimizations turned on. <code>--target</code> points Cargo to the target specification
+which includes the LLVM data-layout definition and architecture definitions for
+the compiler.</p>
+<h3 id="life-of-a-tock-compilation">Life of a Tock compilation</h3>
+<p>When Cargo begins compiling the platform crate, it first resolves all
+dependencies recursively. It chooses package versions that satisfy the
+requirements across the dependency graph. Dependencies are defined in each
+crate&apos;s <code>Cargo.toml</code> file and refer to paths in the local file-system, a
+remote git repository, or a package published on <a href="http://crates.io" target="_blank">crates.io</a>.</p>
+<p>Second, Cargo compiles each crate in turn as dependencies are satisfied. Each
+crate is compiled as an <code>rlib</code> (an <code>ar</code> archive containing object files)
+and combined into an executable ELF file by the compilation of the platform
+crate.</p>
+<p>You can see each command executed by <code>cargo</code> by passing it the <code>--verbose</code>
+argument. In our build system, you can run <code>make V=1</code> to see the verbose
+commands.</p>
+<h3 id="llvm-binutils">LLVM Binutils</h3>
+<p>Tock uses the <code>lld</code>, <code>objcopy</code>, and <code>size</code> tools included with the Rust
+toolchain to produce kernel binaries that are executed on microcontrollers. This
+has three main ramifications:</p>
+<ol>
+<li>The tools are not entirely feature-compatible with the GNU versions. While
+they are very similar, there are edge cases where they do not behave exactly
+the same. This will likely improve with time, but it is worth noting in case
+unexpected issues arise.</li>
+<li>The tools will automatically update with Rust versions. The tools are
+provided in the <code>llvm-tools</code> rustup component that is compiled for and ships
+with every version of the Rust toolchain. Therefore, if Rust updates the
+version they use in the Rust repository, Tock will also see those updates.</li>
+<li>Tock no longer relies on an external dependency to provide these tools. That
+should ensure that all Tock developers are using the same version of the
+tools.</li>
+</ol>
+<h3 id="special-apps-section">Special <code>.apps</code> section</h3>
+<p>Tock kernels include a <code>.apps</code> section in the kernel .elf file that is at the
+same physical address where applications will be loaded. When compiling the
+kernel, this is just a placeholder and is not populated with any meaningful
+data. It exists to make it easy to update the kernel .elf file with an
+application binary to make a monolithic .elf file so that the kernel and apps
+can be flashed together.</p>
+<p>When the Tock build system creates the kernel binary, it explicitly removes this
+section so that the placeholder is not included in the kernel binary.</p>
+<p>To use the special <code>.apps</code> section, <code>objcopy</code> can replace the placeholder with an actual app binary. The general command looks like:</p>
+<pre><code class="lang-bash">$ arm-none-eabi-objcopy --update-section .apps=libtock-c/examples/c_hello/build/cortex-m4/cortex-m4.tbf target/thumbv7em-none-eabi/release/stm32f412gdiscovery.elf target/thumbv7em-none-eabi/release/stm32f4discovery-app.elf
+</code></pre>
+<p>This replaces the placeholder section <code>.apps</code> with the &quot;c_hello&quot; application TBF
+in the stm32f412gdiscovery.elf kernel ELF, and creates a new .elf called
+<code>stm32f4discovery-app.elf</code>.</p>
+<h2 id="compiling-a-process">Compiling a process</h2>
+<p>Unlike many other embedded systems, compilation of application code is entirely
+separated from the kernel in Tock. An application is combined with at least two
+libraries: <code>libtock</code> and <code>newlib</code> and built into a free-standing binary. The
+binary can then be uploaded onto a Tock platform with an already existing
+kernel to be loaded and run.</p>
+<p>Tock can support any programming language and compiler provided they meet
+the following requirements:</p>
+<ol>
+<li><p>The application must be built as position independent code (PIC).</p>
+</li>
+<li><p>The application must be linked with a loader script that places Flash
+contents above address <code>0x80000000</code> and RAM contents below it.</p>
+</li>
+<li><p>The application binary must start with a header detailing the location of
+sections in the binary.</p>
+</li>
+</ol>
+<p>The first requirement is explained directly below while the other two are
+detailed in <a href="#tock-binary-format">Tock Binary Format</a>.</p>
+<h3 id="position-independent-code">Position Independent Code</h3>
+<p>Since Tock loads applications separately from the kernel and is capable of
+running multiple applications concurrently, applications cannot know in advance
+at which address they will be loaded. This problem is common to many computer
+systems and is typically addressed by dynamically linking and loading code at
+runtime.</p>
+<p>Tock, however, makes a different choice and requires applications to be compiled
+as position independent code. Compiling with PIC makes all control flow relative
+to the current PC, rather than using jumps to specified absolute addresses. All
+data accesses are relative to the start of the data segment for that app, and
+the address of the data segment is stored in a register referred to as the <code>base
+register</code>. This allows the segments in Flash and RAM to be placed anywhere, and
+the OS only has to correctly initialize the base register.</p>
+<p>PIC code can be inefficient on some architectures such as x86, but the ARM
+instruction set is optimized for PIC operation and allows most code to execute
+with little to no overhead. Using PIC still requires some fixup at runtime, but
+the relocations are simple and cause only a one-time cost when an application
+is loaded.  A more in-depth discussion of dynamically loading applications can
+be found on the Tock website: <a href="http://www.tockos.org/blog/2016/dynamic-loading/" target="_blank">Dynamic Code Loading on a
+MCU</a>.</p>
+<p>For applications compiled with <code>arm-none-eabi-gcc</code>, building PIC code for Tock
+requires four flags:</p>
+<ul>
+<li><code>-fPIC</code>: only emit code that uses relative addresses.</li>
+<li><code>-msingle-pic-base</code>: force the use of a consistent <em>base register</em> for the
+data sections.</li>
+<li><code>-mpic-register=r9</code>: use register r9 as the base register.</li>
+<li><code>-mno-pic-data-is-text-relative</code>: do not assume that the data segment is
+placed at a constant offset from the text segment.</li>
+</ul>
+<p>Each Tock application uses a linker script that places Flash at address
+<code>0x80000000</code> and SRAM at address <code>0x00000000</code>. This allows relocations pointing
+at Flash to be easily differentiated from relocations pointing at RAM.</p>
+<h3 id="tock-binary-format">Tock Binary Format</h3>
+<p>In order to be loaded correctly, applications must follow the <a href="TockBinaryFormat.html">Tock Binary
+Format</a>. This means the initial bytes of a Tock app must
+follow this format so that Tock can load the application correctly.</p>
+<p>In practice, this is automatically handled for applications. As part of the
+compilation process, a tool called <a href="https://github.com/tock/elf2tab" target="_blank">Elf to TAB</a>
+does the conversion from ELF to Tock&apos;s expected binary format, ensuring that
+sections are placed in the expected order, adding a section that lists necessary
+load-time relocations, and creating the TBF header.</p>
+<h3 id="tock-application-bundle">Tock Application Bundle</h3>
+<p>To support ease-of-use and distributable applications, Tock applications are
+compiled for multiple architectures and bundled together into a &quot;Tock
+Application Bundle&quot; or <code>.tab</code> file. This creates a standalone file for an
+application that can be flashed onto any board that supports Tock, and removes
+the need for the board to be specified when the application is compiled.
+The TAB has enough information to be flashed on many or all Tock compatible
+boards, and the correct binary is chosen when the application is flashed
+and not when it is compiled.</p>
+<h4 id="tab-format">TAB Format</h4>
+<p><code>.tab</code> files are <code>tar</code>ed archives of TBF compatible binaries along with a
+<code>metadata.toml</code> file that includes some extra information about the application.
+A simplified example command that creates a <code>.tab</code> file is:</p>
+<pre><code class="lang-bash">tar cf app.tab cortex-m0.bin cortex-m4.bin metadata.toml
+</code></pre>
+<h4 id="metadata">Metadata</h4>
+<p>The <code>metadata.toml</code> file in the <code>.tab</code> file is a TOML file that contains a
+series of key-value pairs, one per line, that provides more detailed information
+and can help when flashing the application. Existing fields:</p>
+<pre><code>tab-version = 1                         // TAB file format version
+name = &quot;&lt;package name&gt;&quot;                 // Package name of the application
+only-for-boards = &lt;list of boards&gt;      // Optional list of board kernels that this application supports
+build-date = 2017-03-20T19:37:11Z       // When the application was compiled
+</code></pre><h2 id="loading-the-kernel-and-processes-onto-a-board">Loading the kernel and processes onto a board</h2>
+<p>There is no particular limitation on how code can be loaded onto a board. JTAG
+and various bootloaders are all equally possible. For example, the <code>hail</code> and
+<code>imix</code> platforms primarily use the serial &quot;tock-bootloader&quot;, and the other
+platforms use jlink or openocd to flash code over a JTAG connection. In general,
+these methods are subject to change based on whatever is easiest for users of
+the platform.</p>
+<p>In order to support multiple concurrent applications, the easiest option is to
+use <code>tockloader</code> (<a href="https://github.com/tock/tockloader" target="_blank">git repo</a>) to
+manage multiple applications on a platform. Importantly, while applications
+currently share the same upload process as the kernel, they are planned to
+support additional methods in the future. Application loading through wireless
+methods especially is targeted for future editions of Tock.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Compilation","level":"2.4","depth":1,"next":{"title":"Tock Binary Format","level":"2.5","depth":1,"path":"TockBinaryFormat.md","ref":"TockBinaryFormat.md","articles":[]},"previous":{"title":"Soundness","level":"2.3","depth":1,"path":"Soundness.md","ref":"Soundness.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"Compilation.md","mtime":"2020-09-14T07:33:27.025Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

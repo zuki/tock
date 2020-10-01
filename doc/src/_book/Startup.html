@@ -1,0 +1,730 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Startup · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Syscalls.html" />
+    
+    
+    <link rel="prev" href="Registers.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="Overview.html">
+            
+                <a href="Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="Design.html">
+            
+                <a href="Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="threat_model/">
+            
+                <a href="threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Lifetimes.html">
+            
+                <a href="Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Mutable_References.html">
+            
+                <a href="Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Soundness.html">
+            
+                <a href="Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="Compilation.html">
+            
+                <a href="Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="TockBinaryFormat.html">
+            
+                <a href="TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Memory_Layout.html">
+            
+                <a href="Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="Memory_Isolation.html">
+            
+                <a href="Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="Registers.html">
+            
+                <a href="Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.9" data-path="Startup.html">
+            
+                <a href="Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="Syscalls.html">
+            
+                <a href="Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="Userland.html">
+            
+                <a href="Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="Networking_Stack.html">
+            
+                <a href="Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="Configuration.html">
+            
+                <a href="Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="syscalls/">
+            
+                <a href="syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="reference/">
+            
+                <a href="reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="Getting_Started.html">
+            
+                <a href="Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="Porting.html">
+            
+                <a href="Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="OutOfTree.html">
+            
+                <a href="OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="wg/">
+            
+                <a href="wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="CodeReview.html">
+            
+                <a href="CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Startup</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tock-startup">Tock Startup</h1>
+<p>This document walks through how all of the components of Tock start up.</p>
+<!-- npm i -g markdown-toc; markdown-toc -i Startup.md -->
+<!-- toc -->
+<ul>
+<li><a href="#optional-bootloader">Optional Bootloader</a></li>
+<li><a href="#tock-first-instructions">Tock first instructions</a><ul>
+<li><a href="#arm-vector-table-and-irq-table">ARM Vector Table and IRQ table</a></li>
+<li><a href="#risc-v">RISC-V</a></li>
+</ul>
+</li>
+<li><a href="#reset-handler">Reset Handler</a><ul>
+<li><a href="#memory-initialization">Memory Initialization</a></li>
+<li><a href="#risc-v-trap-setup">RISC-V Trap setup</a></li>
+<li><a href="#mcu-setup">MCU Setup</a></li>
+<li><a href="#peripheral-and-capsule-initialization">Peripheral and Capsule Initialization</a></li>
+</ul>
+</li>
+<li><a href="#application-startup">Application Startup</a></li>
+<li><a href="#scheduler-execution">Scheduler Execution</a></li>
+</ul>
+<!-- tocstop -->
+<p>When a microcontroller boots (or resets, or services an interrupt) it loads an
+address for a function from a table indexed by interrupt type known as the
+<em>vector table</em>. The location of the vector table in memory is chip-specific,
+thus it is placed in a special section for linking.</p>
+<p>Cortex-M microcontrollers expect a vector table to be at address 0x00000000.
+This can either be a software bootloader or the Tock kernel itself.</p>
+<p>RISC-V gives hardware designers a great deal of design freedom for how
+booting works. Typically, after coming out of reset, a RISC-V processor
+will start executing out of ROM but this may be configurable. The HiFive1
+board, for example, supports booting out ROM, One-Time programmable (OTP)
+memory or a QSPI flash controller.</p>
+<h2 id="optional-bootloader">Optional Bootloader</h2>
+<p>Many Tock boards (including Hail and imix) use a software bootloader that
+executes when the MCU first boots. The bootloader provides a way to talk to the
+chip over serial and to load new code, as well as potentially other
+administrative tasks. When the bootloader has finished, it tells the MCU that
+the vector table has moved (to a known address), and then jumps to a new
+address.</p>
+<h2 id="tock-first-instructions">Tock first instructions</h2>
+<h3 id="arm-vector-table-and-irq-table">ARM Vector Table and IRQ table</h3>
+<p>On ARM chips, Tock splits the vector table into two sections, <code>.vectors</code> which
+hold the first 16 entries, common to all ARM cores, and <code>.irqs</code>, which is
+appended to the end and holds chip-specific interrupts.</p>
+<p>In the source code then, the vector table will appear as an array that is
+marked to be placed into the <code>.vectors</code> section.</p>
+<p>In Rust, a vector table will look something like this:</p>
+<pre><code class="lang-rust"><span class="hljs-meta">#[link_section=<span class="hljs-meta-string">&quot;.vectors&quot;</span>]</span>
+<span class="hljs-meta">#[used]</span> <span class="hljs-comment">// Ensures that the symbol is kept until the final binary</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">static</span> BASE_VECTORS: [<span class="hljs-keyword">unsafe</span> <span class="hljs-keyword">extern</span> <span class="hljs-function"><span class="hljs-keyword">fn</span></span>(); <span class="hljs-number">16</span>] = [
+    _estack,                        <span class="hljs-comment">// Initial stack pointer value</span>
+    tock_kernel_reset_handler,      <span class="hljs-comment">// Tock&apos;s reset handler function</span>
+    <span class="hljs-comment">/* NMI */</span> unhandled_interrupt,  <span class="hljs-comment">// Generic handler function</span>
+    ...
+</code></pre>
+<p>In C, a vector table will look something like this:</p>
+<pre><code class="lang-c">__attribute__ ((section(<span class="hljs-string">&quot;.vectors&quot;</span>)))
+<span class="hljs-keyword">interrupt_function_t</span> interrupt_table[] = {
+        (<span class="hljs-keyword">interrupt_function_t</span>) (&amp;_estack),
+        tock_kernel_reset_handler,
+        NMI_Handler,
+</code></pre>
+<p>At the time of this writing (November 2018), typical chips (like the <code>sam4l</code> and
+<code>nrf52</code>) use the same handler for all interrupts, and look something like:</p>
+<pre><code class="lang-rust"><span class="hljs-meta">#[link_section = <span class="hljs-meta-string">&quot;.vectors&quot;</span>]</span>
+<span class="hljs-meta">#[used]</span> <span class="hljs-comment">// Ensures that the symbol is kept until the final binary</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">static</span> IRQS: [<span class="hljs-keyword">unsafe</span> <span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> <span class="hljs-function"><span class="hljs-keyword">fn</span></span>(); <span class="hljs-number">80</span>] = [generic_isr; <span class="hljs-number">80</span>];
+</code></pre>
+<h3 id="risc-v">RISC-V</h3>
+<p>All RISC-V boards are linked to run the <code>_start</code> function as the first
+function that gets run before jumping to <code>reset_handler</code>. This is currently
+inline assembly as of this writing:</p>
+<pre><code class="lang-rust"><span class="hljs-meta">#[cfg(all(target_arch = <span class="hljs-meta-string">&quot;riscv32&quot;</span>, target_os = <span class="hljs-meta-string">&quot;none&quot;</span>))]</span>
+<span class="hljs-meta">#[link_section = <span class="hljs-meta-string">&quot;.riscv.start&quot;</span>]</span>
+<span class="hljs-meta">#[export_name = <span class="hljs-meta-string">&quot;_start&quot;</span>]</span>
+<span class="hljs-meta">#[naked]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">_start</span></span>() {
+    <span class="hljs-keyword">unsafe</span> {
+        asm! (<span class="hljs-string">&quot;
+</span></code></pre>
+<h2 id="reset-handler">Reset Handler</h2>
+<p>On boot, the MCU calls the reset handler function defined in vector
+table. In Tock, the implementation of the reset handler function is
+platform-specific and defined in <code>boards/&lt;board&gt;/src/main.rs</code> for each
+board.</p>
+<h3 id="memory-initialization">Memory Initialization</h3>
+<p>The first operation the reset handler does is setup the kernel&apos;s memory by
+copying it from flash. For the SAM4L, this is in the <code>init()</code> function in
+<code>chips/sam4l/src/lib.rs</code>.</p>
+<h3 id="risc-v-trap-setup">RISC-V Trap setup</h3>
+<p>The <code>mtvec</code> register needs to be set on RISC-V to handle traps. Setting
+of the vectors is handled by chip specific functions. The common RISC-V trap
+handler is <code>_start_trap</code>, defined in <code>arch/rv32i/src/lib.rs</code>. </p>
+<h3 id="mcu-setup">MCU Setup</h3>
+<p>Any normal MCU initialization is typically handled next. This includes
+things like enabling the correct clocks or setting up DMA channels.</p>
+<h3 id="peripheral-and-capsule-initialization">Peripheral and Capsule Initialization</h3>
+<p>After the MCU is set up, <code>reset_handler</code> initializes peripherals and
+capsules. Peripherals are on-chip subsystems, such as UARTs, ADCs, and
+SPI buses; they are chip-specific code that read and write
+memory-mapped I/O registers and are found in the corresponding <code>chips</code>
+directory. While peripherals are chip-specific implementations, they
+typically provide hardware-independent traits, called hardware
+independent layer (HIL) traits, found in <code>kernel/src/hil</code>.</p>
+<p>Capsules are software abstractions and services; they are
+chip-independent and found in the <code>capsules</code> directory. For example,
+on the imix and hail platforms, the SAM4L SPI peripheral is
+implemented in <code>chips/sam4l/src/spi.rs</code>, while the capsule that
+virtualizes the SPI so multiple capsules can share it is in
+<code>capsules/src/virtual_spi.rs</code>.  This virtualizer can be
+chip-independent because the chip-specific code implements the SPI HIL
+(<code>kernel/src/hil/spi.rs</code>). The capsule that implements a system call
+API to the SPI for processes is in <code>capsules/src/spi.rs</code>.</p>
+<p>Boards that initialize many peripherals and capsules use the <code>Component</code>
+trait to encapsulate this complexity from <code>reset_handler</code>. The <code>Component</code>
+trait (<code>kernel/src/component.rs</code>) encapsulates any initialization a
+particular peripheral, capsule, or set of capsules need inside a
+call to the function <code>finalize()</code>. Changing what the build of the kernel
+includes involve changing just which Components are initialized, rather
+than changing many lines of <code>reset_handler</code>. Components are typically
+found in the <code>components</code> crate in the <code>/boards</code> folder, but may also be
+board-specifc and found inside a <code>components</code> subdirectory of the board
+directory, e.g. <code>boards/imix/src/imix_components</code>.</p>
+<h2 id="application-startup">Application Startup</h2>
+<p>Once the kernel components have been setup and initialized, the applications
+must be loaded. This procedure essentially iterates over the processes stored in
+flash, extracts and validates their Tock Binary Format header, and adds them to
+an internal array of process structs.</p>
+<p>An example version of this loop is in <code>kernel/src/process.rs</code> as the
+<code>load_processes()</code> function. After setting up pointers, it tries to create a
+process from the starting address in flash and with a given amount of memory
+remaining. If the header is validated, it tries to load the process into memory
+and initialize all of the bookkeeping in the kernel associated with the process.
+This can fail if the process needs more memory than is available on the chip. If
+the process is successfully loaded the kernel importantly notes the address of
+the application&apos;s entry function which is called when the process is started.</p>
+<p>The load process loop ends when the kernel runs out of statically allocated
+memory to store processes in, available RAM for processes, or there is an
+invalid TBF header in flash.</p>
+<h2 id="scheduler-execution">Scheduler Execution</h2>
+<p>Tock provides a <code>Scheduler</code> trait that serves as an abstraction to allow for
+plugging in different scheduling algorithms. Schedulers should be initialized
+at the end of the reset handler.
+The final thing that the reset handler must do is call <code>kernel.kernel_loop()</code>.
+This starts the Tock scheduler and the main operation of the kernel.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Startup","level":"2.9","depth":1,"next":{"title":"Syscalls","level":"2.10","depth":1,"path":"Syscalls.md","ref":"Syscalls.md","articles":[]},"previous":{"title":"Registers","level":"2.8","depth":1,"path":"Registers.md","ref":"Registers.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"Startup.md","mtime":"2020-09-14T07:33:27.029Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

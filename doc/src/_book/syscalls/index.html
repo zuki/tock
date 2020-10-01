@@ -1,0 +1,982 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Syscall Interfaces · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../reference/" />
+    
+    
+    <link rel="prev" href="../Configuration.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../Overview.html">
+            
+                <a href="../Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../Design.html">
+            
+                <a href="../Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../threat_model/">
+            
+                <a href="../threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../Lifetimes.html">
+            
+                <a href="../Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../Mutable_References.html">
+            
+                <a href="../Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../Soundness.html">
+            
+                <a href="../Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../Compilation.html">
+            
+                <a href="../Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../TockBinaryFormat.html">
+            
+                <a href="../TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../Memory_Layout.html">
+            
+                <a href="../Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../Memory_Isolation.html">
+            
+                <a href="../Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="../Registers.html">
+            
+                <a href="../Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="../Startup.html">
+            
+                <a href="../Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="../Syscalls.html">
+            
+                <a href="../Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="../Userland.html">
+            
+                <a href="../Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="../Networking_Stack.html">
+            
+                <a href="../Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="../Configuration.html">
+            
+                <a href="../Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter active" data-level="3.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../reference/">
+            
+                <a href="../reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../Getting_Started.html">
+            
+                <a href="../Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../Porting.html">
+            
+                <a href="../Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../OutOfTree.html">
+            
+                <a href="../OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../wg/">
+            
+                <a href="../wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../CodeReview.html">
+            
+                <a href="../CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Syscall Interfaces</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tock-syscalls">Tock Syscalls</h1>
+<p>This folder contains the detailed documentation for the interfaces between
+userspace and the kernel. It includes details of the ABI interface, the kernel
+provided syscalls, and the driver specific interfaces (using <code>allow</code>,
+<code>schedule</code>, and <code>command</code>). For more information on the general syscalls, see
+<a href="../Syscalls.html">here</a>.</p>
+<!-- toc -->
+<ul>
+<li><a href="#syscall-binary-interface">Syscall Binary Interface</a></li>
+<li><a href="#core-kernel-provided-syscalls">Core Kernel Provided Syscalls</a></li>
+<li><a href="#capsule-provided-drivers">Capsule Provided Drivers</a><ul>
+<li><a href="#base">Base</a></li>
+<li><a href="#kernel">Kernel</a></li>
+<li><a href="#hardware-access">Hardware Access</a></li>
+<li><a href="#radio">Radio</a></li>
+<li><a href="#cryptography">Cryptography</a></li>
+<li><a href="#storage">Storage</a></li>
+<li><a href="#sensors">Sensors</a></li>
+<li><a href="#sensor-ics">Sensor ICs</a></li>
+<li><a href="#other-ics">Other ICs</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<h2 id="syscall-binary-interface">Syscall Binary Interface</h2>
+<p>Details of the <a href="../Syscalls.html">application binary interface</a>.</p>
+<h2 id="core-kernel-provided-syscalls">Core Kernel Provided Syscalls</h2>
+<ul>
+<li><a href="memop.md"><code>memop</code></a>: Memory-related operations.</li>
+</ul>
+<h2 id="capsule-provided-drivers">Capsule Provided Drivers</h2>
+<p>Each driver type that has been allocated a permanent driver number is listed in
+the tables below. The &quot;1.0&quot; column indicates whether the driver has been
+stabilized or not (a &quot;&#x2713;&quot; indicates stability) in the Tock 1.0 release.</p>
+<h3 id="base">Base</h3>
+<table>
+<thead>
+<tr>
+<th>1.0</th>
+<th>Driver Number</th>
+<th>Driver</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&#x2713;</td>
+<td>0x00000</td>
+<td><a href="00000_alarm.md">Alarm</a></td>
+<td>Used for timers in userspace</td>
+</tr>
+<tr>
+<td>&#x2713;</td>
+<td>0x00001</td>
+<td><a href="00001_console.md">Console</a></td>
+<td>UART console</td>
+</tr>
+<tr>
+<td>&#x2713;</td>
+<td>0x00002</td>
+<td><a href="00002_leds.md">LED</a></td>
+<td>Control LEDs on board</td>
+</tr>
+<tr>
+<td>&#x2713;</td>
+<td>0x00003</td>
+<td><a href="00003_buttons.md">Button</a></td>
+<td>Get interrupts from buttons on the board</td>
+</tr>
+<tr>
+<td>&#x2713;</td>
+<td>0x00005</td>
+<td><a href="00005_adc.md">ADC</a></td>
+<td>Sample analog-to-digital converter pins</td>
+</tr>
+<tr>
+<td></td>
+<td>0x00006</td>
+<td>DAC</td>
+<td>Digital to analog converter</td>
+</tr>
+<tr>
+<td></td>
+<td>0x00007</td>
+<td><a href="00007_analog_comparator.md">AnalogComparator</a></td>
+<td>Analog Comparator</td>
+</tr>
+<tr>
+<td></td>
+<td>0x00008</td>
+<td><a href="00008_low_level_debug.md">Low-Level Debug</a></td>
+<td>Low-level debugging tools</td>
+</tr>
+</tbody>
+</table>
+<h3 id="kernel">Kernel</h3>
+<table>
+<thead>
+<tr>
+<th>1.0</th>
+<th>Driver Number</th>
+<th>Driver</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>0x10000</td>
+<td>IPC</td>
+<td>Inter-process communication</td>
+</tr>
+</tbody>
+</table>
+<h3 id="hardware-access">Hardware Access</h3>
+<table>
+<thead>
+<tr>
+<th>1.0</th>
+<th>Driver Number</th>
+<th>Driver</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>0x00004</td>
+<td><a href="00004_gpio.md">GPIO</a></td>
+<td>Set and read GPIO pins</td>
+</tr>
+<tr>
+<td></td>
+<td>0x20000</td>
+<td>UART</td>
+<td>UART</td>
+</tr>
+<tr>
+<td></td>
+<td>0x20001</td>
+<td>SPI</td>
+<td>Raw SPI Master interface</td>
+</tr>
+<tr>
+<td></td>
+<td>0x20002</td>
+<td>SPI Slave</td>
+<td>Raw SPI slave interface</td>
+</tr>
+<tr>
+<td></td>
+<td>0x20003</td>
+<td>I2C Master</td>
+<td>Raw I2C Master interface</td>
+</tr>
+<tr>
+<td></td>
+<td>0x20004</td>
+<td>I2C Slave</td>
+<td>Raw I2C Slave interface</td>
+</tr>
+<tr>
+<td></td>
+<td>0x20005</td>
+<td>USB</td>
+<td>Universal Serial Bus interface</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note:</em> GPIO is slated for re-numbering in Tock 2.0.</p>
+<h3 id="radio">Radio</h3>
+<table>
+<thead>
+<tr>
+<th>1.0</th>
+<th>Driver Number</th>
+<th>Driver</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>0x30000</td>
+<td>BLE</td>
+<td>Bluetooth Low Energy</td>
+</tr>
+<tr>
+<td></td>
+<td>0x30001</td>
+<td>802.15.4</td>
+<td>IEEE 802.15.4</td>
+</tr>
+<tr>
+<td></td>
+<td>0x30002</td>
+<td><a href="30002_udp.md">UDP</a></td>
+<td>UDP / 6LoWPAN Interface</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cryptography">Cryptography</h3>
+<table>
+<thead>
+<tr>
+<th>1.0</th>
+<th>Driver Number</th>
+<th>Driver</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>0x40000</td>
+<td>AES</td>
+<td>AES Symmetric Key Cryptography</td>
+</tr>
+<tr>
+<td></td>
+<td>0x40001</td>
+<td>RNG</td>
+<td>Random number generator</td>
+</tr>
+<tr>
+<td></td>
+<td>0x40002</td>
+<td>CRC</td>
+<td>Cyclic Redundancy Check computation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage">Storage</h3>
+<table>
+<thead>
+<tr>
+<th>1.0</th>
+<th>Driver Number</th>
+<th>Driver</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>0x50000</td>
+<td>App Flash</td>
+<td>Allow apps to write their own flash</td>
+</tr>
+<tr>
+<td></td>
+<td>0x50001</td>
+<td>Nonvolatile Storage</td>
+<td>Generic interface for persistent storage</td>
+</tr>
+<tr>
+<td></td>
+<td>0x50002</td>
+<td>SDCard</td>
+<td>Raw block access to an SD card</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sensors">Sensors</h3>
+<table>
+<thead>
+<tr>
+<th>1.0</th>
+<th>Driver Number</th>
+<th>Driver</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&#x2713;</td>
+<td>0x60000</td>
+<td><a href="60000_ambient_temperature.md">Ambient Temp.</a></td>
+<td>Ambient temperature (centigrate)</td>
+</tr>
+<tr>
+<td>&#x2713;</td>
+<td>0x60001</td>
+<td><a href="60001_humidity.md">Humidity</a></td>
+<td>Humidity Sensor (percent)</td>
+</tr>
+<tr>
+<td>&#x2713;</td>
+<td>0x60002</td>
+<td><a href="60002_luminance.md">Luminance</a></td>
+<td>Ambient Light Sensor (lumens)</td>
+</tr>
+<tr>
+<td></td>
+<td>0x60003</td>
+<td>Pressure</td>
+<td>Pressure sensor</td>
+</tr>
+<tr>
+<td></td>
+<td>0x60004</td>
+<td>Ninedof</td>
+<td>Virtualized accelerometer/magnetometer/gyroscope</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sensor-ics">Sensor ICs</h3>
+<table>
+<thead>
+<tr>
+<th>1.0</th>
+<th>Driver Number</th>
+<th>Driver</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>0x70000</td>
+<td>TSL2561</td>
+<td>Light sensor</td>
+</tr>
+<tr>
+<td></td>
+<td>0x70001</td>
+<td>TMP006</td>
+<td>Temperature sensor</td>
+</tr>
+<tr>
+<td></td>
+<td>0x70004</td>
+<td>LPS25HB</td>
+<td>Pressure sensor</td>
+</tr>
+<tr>
+<td></td>
+<td>0x70005</td>
+<td><a href="70005_l3gd20.md">L3GD20</a></td>
+<td>3 axis gyroscope and temperature sensor</td>
+</tr>
+<tr>
+<td></td>
+<td>0x70006</td>
+<td><a href="70006_lsm303dlhc.md">LSM303DLHC</a></td>
+<td>3 axis accelerometer, magnetometer and temperature sensor</td>
+</tr>
+</tbody>
+</table>
+<h3 id="other-ics">Other ICs</h3>
+<table>
+<thead>
+<tr>
+<th>1.0</th>
+<th>Driver Number</th>
+<th>Driver</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>0x80000</td>
+<td>LTC294X</td>
+<td>Battery gauge IC</td>
+</tr>
+<tr>
+<td></td>
+<td>0x80001</td>
+<td>MAX17205</td>
+<td>Battery gauge IC</td>
+</tr>
+<tr>
+<td></td>
+<td>0x80002</td>
+<td>PCA9544A</td>
+<td>I2C address multiplexing</td>
+</tr>
+<tr>
+<td></td>
+<td>0x80003</td>
+<td>GPIO Async</td>
+<td>Asynchronous GPIO pins</td>
+</tr>
+<tr>
+<td></td>
+<td>0x80004</td>
+<td>nRF51822</td>
+<td>nRF serialization link to nRF51822 BLE SoC</td>
+</tr>
+<tr>
+<td></td>
+<td>0x80005</td>
+<td><a href="80005_hd44780.md">HD44780</a></td>
+<td>LCD HD44780 capsule</td>
+</tr>
+</tbody>
+</table>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Syscall Interfaces","level":"3.1","depth":1,"next":{"title":"Internal Kernel Interfaces","level":"3.2","depth":1,"path":"reference/README.md","ref":"reference/README.md","articles":[]},"previous":{"title":"Configuration","level":"2.13","depth":1,"path":"Configuration.md","ref":"Configuration.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"syscalls/README.md","mtime":"2020-09-14T07:33:27.082Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

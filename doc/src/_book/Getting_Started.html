@@ -1,0 +1,815 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Getting Started · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Porting.html" />
+    
+    
+    <link rel="prev" href="reference/" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="Overview.html">
+            
+                <a href="Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="Design.html">
+            
+                <a href="Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="threat_model/">
+            
+                <a href="threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Lifetimes.html">
+            
+                <a href="Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Mutable_References.html">
+            
+                <a href="Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Soundness.html">
+            
+                <a href="Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="Compilation.html">
+            
+                <a href="Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="TockBinaryFormat.html">
+            
+                <a href="TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Memory_Layout.html">
+            
+                <a href="Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="Memory_Isolation.html">
+            
+                <a href="Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="Registers.html">
+            
+                <a href="Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Startup.html">
+            
+                <a href="Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="Syscalls.html">
+            
+                <a href="Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="Userland.html">
+            
+                <a href="Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="Networking_Stack.html">
+            
+                <a href="Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="Configuration.html">
+            
+                <a href="Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="syscalls/">
+            
+                <a href="syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="reference/">
+            
+                <a href="reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter active" data-level="4.1" data-path="Getting_Started.html">
+            
+                <a href="Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="Porting.html">
+            
+                <a href="Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="OutOfTree.html">
+            
+                <a href="OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="wg/">
+            
+                <a href="wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="CodeReview.html">
+            
+                <a href="CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Getting Started</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tock-getting-started-guide">Tock Getting Started Guide</h1>
+<p>This covers how to install the toolchain on your platform to start using and
+developing Tock.</p>
+<!-- npm i -g markdown-toc; markdown-toc -i Getting_Started.md -->
+<!-- toc -->
+<ul>
+<li><a href="#requirements">Requirements</a><ul>
+<li><a href="#super-quick-setup">Super Quick Setup</a></li>
+<li><a href="#installing-requirements">Installing Requirements</a><ul>
+<li><a href="#rust-nightly">Rust (nightly)</a></li>
+<li><a href="#tockloader">Tockloader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#compiling-the-kernel">Compiling the Kernel</a></li>
+<li><a href="#loading-the-kernel-onto-a-board">Loading the kernel onto a board</a><ul>
+<li><a href="#installing-jlinkexe">Installing <code>JLinkExe</code></a></li>
+<li><a href="#installing-openocd">Installing <code>openocd</code></a></li>
+<li><a href="#linux-adding-a-udev-rule">(Linux): Adding a <code>udev</code> rule</a></li>
+</ul>
+</li>
+<li><a href="#installing-your-first-application">Installing your first application</a></li>
+<li><a href="#compiling-applications">Compiling applications</a></li>
+<li><a href="#developing-tockos">Developing TockOS</a><ul>
+<li><a href="#formatting-rust-source-code">Formatting Rust source code</a></li>
+<li><a href="#keeping-build-tools-up-to-date">Keeping build tools up to date</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<h2 id="requirements">Requirements</h2>
+<ol>
+<li><a href="http://www.rust-lang.org/" target="_blank">Rust</a></li>
+<li><a href="https://rustup.rs/" target="_blank">rustup</a> to install Rust (version &gt;= 1.11.0)</li>
+<li>Command line utilities: make</li>
+<li><p>A supported board or QEMU configuration.</p>
+<p>If you are just starting to work with TockOS, you should look in
+the <a href="../boards/README.md"><code>boards/</code> subdirectory</a> and choose one of
+the options with <code>tockloader</code> support to load applications, as that
+is the configuration that most examples and tutorials assume.</p>
+<p><strong>Note:</strong> QEMU support in Tock is in the early stages. Please be
+sure to check whether and how QEMU is supported for a board based on
+the table in the <a href="../boards/README.md"><code>boards/</code> subdirectory</a>.
+The <code>make ci-job-qemu</code> target is the authority on QEMU support.</p>
+<ul>
+<li>Info about testing Tock on QEMU<ul>
+<li>01/08/2020 : Among the boards supported by Tock, <a href="../boards/hifive1#running-in-qemu">SiFive HiFive1 RISC-V Board</a> can be tested in QEMU.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="super-quick-setup">Super Quick Setup</h3>
+<p>Nix:</p>
+<pre><code>$ nix-shell
+</code></pre><p>MacOS:</p>
+<pre><code>$ curl https://sh.rustup.rs -sSf | sh
+$ pip3 install --upgrade tockloader
+</code></pre><p>Ubuntu:</p>
+<pre><code>$ curl https://sh.rustup.rs -sSf | sh
+$ pip3 install --upgrade tockloader --user
+$ grep -q dialout &lt;(groups $(whoami)) || sudo usermod -a -G dialout $(whoami) # Note, will need to reboot if prompted for password
+</code></pre><p>Then build the kernel by running <code>make</code> in the <code>boards/&lt;platform&gt;</code> directory.</p>
+<h3 id="installing-requirements">Installing Requirements</h3>
+<p>These steps go into a little more depth. Note that the build system is capable
+of installing some of these tools, but you can also install them yourself.</p>
+<h4 id="rust-nightly">Rust (nightly)</h4>
+<p>We are using <code>nightly-2020-06-03</code>. We require
+installing it with <a href="http://www.rustup.rs" target="_blank">rustup</a> so you can manage multiple
+versions of Rust and continue using stable versions for other Rust code:</p>
+<pre><code class="lang-bash">$ curl https://sh.rustup.rs <span class="hljs-_">-s</span>Sf | sh
+</code></pre>
+<p>This will install <code>rustup</code> in your home directory, so you will need to
+source <code>~/.profile</code> or open a new shell to add the <code>.cargo/bin</code> directory
+to your <code>$PATH</code>.</p>
+<p>Then install the correct nightly version of Rust:</p>
+<pre><code class="lang-bash">$ rustup install nightly-2020-06-03
+</code></pre>
+<h4 id="tockloader">Tockloader</h4>
+<p><code>tockloader</code> programs the kernel and applications onto boards, and also has
+features that are generally useful for all Tock boards, such as easy-to-manage
+serial connections, along with the ability to list, add, replace, and remove
+applications over JTAG (or USB if a bootloader is installed).</p>
+<ol>
+<li><a href="https://github.com/tock/tockloader" target="_blank">tockloader</a> (version &gt;= 1.0)</li>
+</ol>
+<p>Tockloader is a Python application and can be installed with the Python
+package manager (pip).</p>
+<pre><code class="lang-bash">(Linux): pip3 install --upgrade tockloader --user
+(MacOS): pip3 install --upgrade tockloader
+</code></pre>
+<h2 id="compiling-the-kernel">Compiling the Kernel</h2>
+<p>Tock builds a unique kernel for every <em>board</em> it supports. Boards include
+details like pulling together the correct chips and pin assignments. To
+build a kernel, first choose a board, then navigate to that board directory.
+e.g. <code>cd boards/nordic/nrf52840dk ; make</code>.</p>
+<p>Some boards have special build options that can only be used within the board&apos;s
+directory.  All boards share a few common targets:</p>
+<ul>
+<li><code>all</code> (default): Compile Tock for this board.</li>
+<li><code>debug</code>: Generate build(s) for debugging support, details vary per board.</li>
+<li><code>doc</code>: Build documentation for this board.</li>
+<li><code>clean</code>: Remove built artifacts for this board.</li>
+<li><code>flash</code>: Load code using JTAG, if available.</li>
+<li><code>program</code>: Load code using a bootloader, if available.</li>
+</ul>
+<p>The <a href="../boards/README.md">board-specific READMEs</a> in each board&apos;s
+subdirectory provide more details for each platform.</p>
+<h2 id="loading-the-kernel-onto-a-board">Loading the kernel onto a board</h2>
+<p>The process to load the kernel onto the board depends on the board.
+There are two main variants: some boards (notably the
+<a href="../boards/imix/README.md">Imix</a> and <a href="../boards/hail/README.md">Hail</a>
+boards) have a serial bootloader, most other boards use a programming
+adapter that supports the JTAG or SWD protocol instead.</p>
+<p>To load a kernel onto a board using a serial bootloader, no other
+software is required and you can just run</p>
+<pre><code>$ make program
+</code></pre><p>in the board&apos;s directory. To load the kernel using a programming
+adapter, you need the appropriate software that supports the adapter
+and can then install the kernel by running</p>
+<pre><code>$ make flash
+</code></pre><p>Depending on the adapter, you will need either the free <code>openocd</code> or
+Segger&apos;s proprietary <code>JLinkExe</code>. Programming adapters are available as
+standalone devices (for example the <a href="https://www.segger.com/j-link-edu.html" target="_blank">JLink EDU JTAG
+debugger</a> available on
+<a href="https://www.digikey.com/product-detail/en/segger-microcontroller-systems/8.08.90-J-LINK-EDU/899-1008-ND/2263130" target="_blank">Digikey</a>),
+but most development boards come with an onboard programming and
+debugging adapter. In that case, the board you use determines which
+software you will need and the <code>Makefile</code> in the board directory will
+know which one to call. Again, the <a href="../boards/README.md">board-specific
+READMEs</a> provide the required details.</p>
+<h3 id="installing-jlinkexe">Installing <code>JLinkExe</code></h3>
+<p><code>JLink</code> is available <a href="https://www.segger.com/downloads/jlink" target="_blank">from the Segger
+website</a>. You want to install
+the &quot;J-Link Software and Documentation Pack&quot;. There are various
+packages available depending on operating system. We require a version
+greater than or equal to <code>5.0</code>.</p>
+<h3 id="installing-openocd">Installing <code>openocd</code></h3>
+<p><code>Openocd</code> works with various programming and debugging adapters. For
+most purposes, available distribution packages are sufficient and it can
+be installed with:</p>
+<pre><code class="lang-bash">(Linux/Debian): sudo apt-get install openocd
+(MacOS): brew install open-ocd
+</code></pre>
+<p>We require at least version <code>0.8.0</code> to support the SAM4L on <code>imix</code> if
+you choose to flash it using an adapter instead of the bootloader.
+Some boards (at the time of writing the HiFive1 RISC-V board) may
+require newer or unreleased versions, in that case you should follow
+the installation instructions on the <a href="http://openocd.org/getting-openocd/" target="_blank"><code>openocd</code>
+website</a>.</p>
+<h3 id="linux-adding-a-udev-rule">(Linux): Adding a <code>udev</code> rule</h3>
+<p>Depending on which programming adapter you use, you may want to add a
+<code>udev</code> rule in <code>/etc/udev/rules.d</code> that allows you to interact with
+the board as a user instead of as root. If you install the <code>deb</code>
+packet of the <code>JLink</code> software it will automatically install a
+<code>/etc/udev/rules.d/99-jlink.rules</code> that allows everyone to access the
+adapter. If you use something else, like for example the onboard
+programmer of a ST Nucleo board, you could install something like this as
+<code>/etc/udev/rules.d/99-stlinkv2-1.rules</code>:</p>
+<pre><code># stm32 nucleo boards, with onboard st/linkv2-1
+# ie, STM32F0, STM32F4.
+# STM32VL has st/linkv1, which is quite different
+
+SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;0483&quot;, ATTRS{idProduct}==&quot;374b&quot;, \
+    MODE:=&quot;0660&quot;, GROUP=&quot;dialout&quot;, \
+    SYMLINK+=&quot;stlinkv2-1_%n&quot;
+</code></pre><h2 id="installing-your-first-application">Installing your first application</h2>
+<p>A kernel alone isn&apos;t much use, as an embedded developer you want to
+see some LEDs blink.  Fortunately, there is an example <code>blink</code> app
+available from the TockOS app repository which <code>tockloader</code> can
+download and install (if you are using a board that is supported
+by <code>tockloader</code>).</p>
+<p>For certain boards (e.g. Hail and imix), <code>tockloader</code> can read
+attributes from the board to configure how it communicates with the
+board. For many boards, however, <code>tockloader</code> cannot know
+which board and communication method you want to use, so you have to
+tell it explicitly. For example:</p>
+<pre><code class="lang-bash">$ tockloader install --board nrf52dk --jlink blink
+Could not find TAB named <span class="hljs-string">&quot;blink&quot;</span> locally.
+
+[0]     No
+[1]     Yes
+
+Would you like to check the online TAB repository <span class="hljs-keyword">for</span> that app?[0] 1
+Installing apps on the board...
+Using known arch and jtag-device <span class="hljs-keyword">for</span> known board nrf52dk
+Finished <span class="hljs-keyword">in</span> 2.567 seconds
+</code></pre>
+<p>Boards that use <code>openocd</code> will of course require the parameter
+<code>--openocd</code> instead of <code>--jlink</code>.  If your board has a serial
+bootloader, <code>tockloader</code> should work without any additional arguments:</p>
+<pre><code>$ tockloader install blink
+</code></pre><p>However, you can specify the board type manually as well:</p>
+<pre><code>$ tockloader install --board imix blink
+</code></pre><p>You can also tell it which serial port to use (which is useful if you
+have multiple boards plugged in) by passing it the <code>--port</code> parameter
+like <code>--port /dev/ttyACM0</code> to use <code>/dev/ttyACM0</code>:</p>
+<pre><code>$ tockloader --port /dev/ttyACM0 install blink
+</code></pre><p>To see the list of boards <code>tockloader</code> knows about you can run:</p>
+<pre><code>$ tockloader list-known-boards
+</code></pre><p>If everything has worked until here, the LEDs on your board should now
+display a binary counter. Congratulations, you have a working TockOS
+installation on your board!</p>
+<h2 id="compiling-applications">Compiling applications</h2>
+<p>The last remaining step is to compile applications locally.
+All user-level code lives in two separate repositories:</p>
+<ul>
+<li><a href="https://github.com/tock/libtock-c" target="_blank">libtock-c</a>: C and C++ apps.</li>
+<li><a href="https://github.com/tock/libtock-rs" target="_blank">libtock-rs</a>: Rust apps.</li>
+</ul>
+<p>The C version of the Tock library and the example applications is older and more
+stable, so it is a good idea to look at these first. So look at the <a href="https://github.com/tock/libtock-c/blob/master/README.md" target="_blank">libtock-c
+README</a> and follow the
+steps therein.  Then you can do the same for the <a href="https://github.com/tock/libtock-rs/blob/master/README.md" target="_blank">libtock-rs
+README</a>.  This should
+give you a first impression of how to build and deploy applications for TockOS.</p>
+<p>For an introduction on how applications work in TockOS, have a look at
+the <a href="Userland.html">&quot;Userland&quot; document</a> in this directory.</p>
+<h2 id="developing-tockos">Developing TockOS</h2>
+<h3 id="formatting-rust-source-code">Formatting Rust source code</h3>
+<p>Rust includes a tool for automatically formatting Rust source
+code. Simply run:</p>
+<pre><code>$ make format
+</code></pre><p>from the root of the repository to format all rust code in the repository.</p>
+<h3 id="keeping-build-tools-up-to-date">Keeping build tools up to date</h3>
+<p>Occasionally, Tock updates to a new nightly version of Rust. The build system
+automatically checks whether the versions of <code>rustc</code> and <code>rustup</code> are correct
+for the build requirements, and updates them when necessary. After the
+installation of the initial four requirements, you shouldn&apos;t have to worry
+about keeping them up to date.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Getting Started","level":"4.1","depth":1,"next":{"title":"Porting Tock","level":"4.2","depth":1,"path":"Porting.md","ref":"Porting.md","articles":[]},"previous":{"title":"Internal Kernel Interfaces","level":"3.2","depth":1,"path":"reference/README.md","ref":"reference/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"Getting_Started.md","mtime":"2020-09-14T07:33:27.026Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

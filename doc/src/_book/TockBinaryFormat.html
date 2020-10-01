@@ -1,0 +1,818 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Tock Binary Format · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Memory_Layout.html" />
+    
+    
+    <link rel="prev" href="Compilation.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="Overview.html">
+            
+                <a href="Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="Design.html">
+            
+                <a href="Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="threat_model/">
+            
+                <a href="threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Lifetimes.html">
+            
+                <a href="Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Mutable_References.html">
+            
+                <a href="Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Soundness.html">
+            
+                <a href="Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="Compilation.html">
+            
+                <a href="Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.5" data-path="TockBinaryFormat.html">
+            
+                <a href="TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Memory_Layout.html">
+            
+                <a href="Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="Memory_Isolation.html">
+            
+                <a href="Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="Registers.html">
+            
+                <a href="Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Startup.html">
+            
+                <a href="Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="Syscalls.html">
+            
+                <a href="Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="Userland.html">
+            
+                <a href="Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="Networking_Stack.html">
+            
+                <a href="Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="Configuration.html">
+            
+                <a href="Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="syscalls/">
+            
+                <a href="syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="reference/">
+            
+                <a href="reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="Getting_Started.html">
+            
+                <a href="Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="Porting.html">
+            
+                <a href="Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="OutOfTree.html">
+            
+                <a href="OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="wg/">
+            
+                <a href="wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="CodeReview.html">
+            
+                <a href="CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Tock Binary Format</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tock-binary-format">Tock Binary Format</h1>
+<!-- npm i -g markdown-toc; markdown-toc -i Compilation.md -->
+<!-- toc -->
+<ul>
+<li><a href="#tock-binary-format">Tock Binary Format</a><ul>
+<li><a href="#&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x9023;&#x7D50;&#x30EA;&#x30B9;&#x30C8;">&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x9023;&#x7D50;&#x30EA;&#x30B9;&#x30C8;</a></li>
+<li><a href="#&#x7A7A;&#x306E;tock&#x30A2;&#x30D7;&#x30EA;">&#x7A7A;&#x306E;Tock&#x30A2;&#x30D7;&#x30EA;</a></li>
+<li><a href="#tbf&#x30D8;&#x30C3;&#x30C0;&#x30FC;">TBF&#x30D8;&#x30C3;&#x30C0;&#x30FC;</a><ul>
+<li><a href="#tbf&#x30D8;&#x30C3;&#x30C0;&#x306E;&#x30D9;&#x30FC;&#x30B9;">TBF&#x30D8;&#x30C3;&#x30C0;&#x306E;&#x30D9;&#x30FC;&#x30B9;</a></li>
+<li><a href="#tlv&#x8981;&#x7D20;">TLV&#x8981;&#x7D20;</a></li>
+<li><a href="#tlv&#x306E;&#x578B;">TLV&#x306E;&#x578B;</a><ul>
+<li><a href="#1-main"><code>1</code> Main</a></li>
+<li><a href="#2-writeable-flash-regions&#x66F8;&#x304D;&#x8FBC;&#x307F;&#x53EF;&#x80FD;&#x306A;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x9818;&#x57DF;"><code>2</code> Writeable flash regions&#xFF08;&#x66F8;&#x304D;&#x8FBC;&#x307F;&#x53EF;&#x80FD;&#x306A;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x9818;&#x57DF;&#xFF09;</a></li>
+<li><a href="#3-package-name&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x540D;"><code>3</code> Package Name&#xFF08;&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x540D;&#xFF09;</a></li>
+<li><a href="#5-fixed-addresses&#x56FA;&#x5B9A;&#x30A2;&#x30C9;&#x30EC;&#x30B9;"><code>5</code> Fixed Addresses&#xFF08;&#x56FA;&#x5B9A;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#xFF09;</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#&#x30B3;&#x30FC;&#x30C9;">&#x30B3;&#x30FC;&#x30C9;</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<p>Tock&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x306F;&#x3001;TBF (Tock Binary Format) &#x3067;&#x306A;&#x3051;&#x308C;&#x3070;&#x306A;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;TBF&#x306F;&#x3001;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x306B;
+&#x95A2;&#x3059;&#x308B;&#x30E1;&#x30BF;&#x30C7;&#x30FC;&#x30BF;&#x3092;&#x30A8;&#x30F3;&#x30B3;&#x30FC;&#x30C9;&#x3059;&#x308B;&#x30D8;&#x30C3;&#x30C0;&#x90E8;&#x5206;&#x3068;&#x76F4;&#x63A5;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x308B;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x30D6;&#x30ED;&#x30D6;&#x3001;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x30D1;&#x30C7;&#x30A3;&#x30F3;&#x30B0;&#x304B;&#x3089;
+&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<pre><code>Tock App Binary:
+
+Start of app -&gt; +-------------------+
+                | TBF Header        |
+                +-------------------+
+                | Compiled app      |
+                | binary            |
+                |                   |
+                |                   |
+                +-------------------+
+                | Optional padding  |
+                +-------------------+
+</code></pre><p>&#x30D8;&#x30C3;&#x30C0;&#x306F;&#x3001;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x91CD;&#x8981;&#x306A;&#x5074;&#x9762;&#x3092;&#x7406;&#x89E3;&#x3059;&#x308B;&#x305F;&#x3081;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#xFF08;&#x304A;&#x3088;&#x3073; tockloader&#x306A;&#x3069;&#x306E;&#x30C4;&#x30FC;&#x30EB;&#xFF09;&#x306B;&#x3088;&#x308A;&#x89E3;&#x91C8;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;
+&#x7279;&#x306B;&#x3001;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x306F;&#x3001;&#x30A2;&#x30D7;&#x30EA;&#x3092;&#x521D;&#x3081;&#x3066;&#x5B9F;&#x884C;&#x3059;&#x308B;&#x969B;&#x306B;&#x5B9F;&#x884C;&#x3092;&#x958B;&#x59CB;&#x3059;&#x3079;&#x304D;&#x30A8;&#x30F3;&#x30C8;&#x30EA;&#x30FC;&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x304C;&#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x306E;
+&#x3069;&#x3053;&#x306B;&#x3042;&#x308B;&#x306E;&#x304B;&#x3092;&#x77E5;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x30D8;&#x30C3;&#x30C0;&#x306E;&#x5F8C;&#x306F;&#x3001;&#x30A2;&#x30D7;&#x30EA;&#x304C;&#x671B;&#x3080;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x30C7;&#x30FC;&#x30BF;&#x3092;&#x81EA;&#x7531;&#x306B;&#x542B;&#x3081;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x3001;&#x305D;&#x306E;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x306F;&#x5B8C;&#x5168;&#x306B;&#x30A2;&#x30D7;&#x30EA;&#x6B21;&#x7B2C;&#x3067;&#x3059;&#x3002;
+&#x305F;&#x3068;&#x3048;&#x3070;&#x3001;&#x518D;&#x914D;&#x7F6E;&#x306E;&#x305F;&#x3081;&#x306E;&#x3059;&#x3079;&#x3066;&#x306E;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x306F;&#x30A2;&#x30D7;&#x30EA;&#x81EA;&#x4F53;&#x306B;&#x3088;&#x3063;&#x3066;&#x51E6;&#x7406;&#x3055;&#x308C;&#x306A;&#x3051;&#x308C;&#x3070;&#x306A;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;</p>
+<p>&#x6700;&#x5F8C;&#x306B;&#x3001;&#x30A2;&#x30D7;&#x30EA;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x306F;&#x7279;&#x5B9A;&#x306E;&#x9577;&#x3055;&#x306B;&#x30D1;&#x30C7;&#x30A3;&#x30F3;&#x30B0;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x3053;&#x308C;&#x306F;&#x3001;&#x9577;&#x3055;&#x3068;&#x59CB;&#x70B9;&#x304C;2&#x306E;&#x7D2F;&#x4E57;&#x3067;&#x306A;&#x3051;&#x308C;&#x3070;
+&#x306A;&#x3089;&#x306A;&#x3044;&#x3068;&#x3044;&#x3046;MPU&#x306E;&#x5236;&#x9650;&#x306E;&#x305F;&#x3081;&#x306B;&#x5FC5;&#x8981;&#x3067;&#x3059;&#x3002;</p>
+<h2 id="&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x9023;&#x7D50;&#x30EA;&#x30B9;&#x30C8;">&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x9023;&#x7D50;&#x30EA;&#x30B9;&#x30C8;</h2>
+<p>Tock&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306F;&#x3001;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x5185;&#x3067;&#x5B9F;&#x8CEA;&#x7684;&#x306A;&#x9023;&#x7D50;&#x30EA;&#x30B9;&#x30C8;&#x69CB;&#x9020;&#x3092;&#x4F5C;&#x6210;&#x3057;&#x307E;&#x3059;&#x3002;&#x3064;&#x307E;&#x308A;&#x3001;&#x6B21;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x958B;&#x59CB;&#x70B9;&#x306F;&#x3001;&#x524D;&#x306E;
+&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x7D42;&#x4E86;&#x6642;&#x70B9;&#x306E;&#x3059;&#x3050;&#x5F8C;&#x306B;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;&#x3057;&#x305F;&#x304C;&#x3063;&#x3066;&#x3001;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x304C;&#x6B21;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x958B;&#x59CB;&#x3092;&#x898B;&#x3064;&#x3051;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x3001;
+TBF&#x30D8;&#x30C3;&#x30C0;&#x306F;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x9577;&#x3055;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x306A;&#x3051;&#x308C;&#x3070;&#x306A;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;</p>
+<p>&#x30A2;&#x30D7;&#x30EA;&#x9593;&#x306B;&#x30AE;&#x30E3;&#x30C3;&#x30D7;&#x304C;&#x3042;&#x308B;&#x5834;&#x5408;&#x306F;&#x3001;&#x9023;&#x7D50;&#x30EA;&#x30B9;&#x30C8;&#x69CB;&#x9020;&#x3092;&#x305D;&#x306E;&#x307E;&#x307E;&#x7DAD;&#x6301;&#x3059;&#x308B;&#x305F;&#x3081;&#x306B;&#x300C;&#x7A7A;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x300D;&#x3092;&#x633F;&#x5165;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x307E;&#x305F;&#x3001;&#x6A5F;&#x80FD;&#x7684;&#x306B;&#x306F;&#x3001;Tock&#x30A2;&#x30D7;&#x30EA;&#x306F;&#x30B5;&#x30A4;&#x30BA;&#x306E;&#x9577;&#x3044;&#x3082;&#x306E;&#x304B;&#x3089;&#x77ED;&#x3044;&#x3082;&#x306E;&#x3078;&#x3068;&#x30BD;&#x30FC;&#x30C8;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;&#x3053;&#x308C;&#x306F;&#x3001;MPU&#x306E;&#x30A2;&#x30E9;&#x30A4;&#x30E1;&#x30F3;&#x30C8;&#x306B;
+&#x95A2;&#x3059;&#x308B;&#x898F;&#x5247;&#x306B;&#x4E00;&#x81F4;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<h2 id="&#x7A7A;&#x306E;tock&#x30A2;&#x30D7;&#x30EA;">&#x7A7A;&#x306E;Tock&#x30A2;&#x30D7;&#x30EA;</h2>
+<p>&#x300C;&#x30A2;&#x30D7;&#x30EA;&#x300D;&#x306F;&#x30B3;&#x30FC;&#x30C9;&#x3092;&#x542B;&#x3080;&#x5FC5;&#x8981;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;&#x30A2;&#x30D7;&#x30EA;&#x306F;&#x7121;&#x52B9;&#x3067;&#x3042;&#x308B;&#x3068;&#x30DE;&#x30FC;&#x30AF;&#x4ED8;&#x3051;&#x3089;&#x308C;&#x3001;&#x5B9F;&#x8CEA;&#x7684;&#x306B;&#x306F;&#x30A2;&#x30D7;&#x30EA;&#x9593;&#x306E;
+&#x30D1;&#x30C7;&#x30A3;&#x30F3;&#x30B0;&#x3068;&#x3057;&#x3066;&#x6A5F;&#x80FD;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<h2 id="tbf&#x30D8;&#x30C3;&#x30C0;&#x30FC;">TBF&#x30D8;&#x30C3;&#x30C0;&#x30FC;</h2>
+<p>TBF&#x30D8;&#x30C3;&#x30C0;&#x306E;&#x30D5;&#x30A3;&#x30FC;&#x30EB;&#x30C9;&#x306F;&#x4EE5;&#x4E0B;&#x306E;&#x901A;&#x308A;&#x3067;&#x3042;&#x308B;&#x3002;&#x30D8;&#x30C3;&#x30C0;&#x306E;&#x3059;&#x3079;&#x3066;&#x306E;&#x30D5;&#x30A3;&#x30FC;&#x30EB;&#x30C9;&#x306F;&#x30EA;&#x30C8;&#x30EB;&#x30A8;&#x30F3;&#x30C7;&#x30A3;&#x30A2;&#x30F3;&#x3067;&#x3059;&#x3002;</p>
+<pre><code class="lang-rust"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TbfHeader</span></span> {
+    version: u16,            <span class="hljs-comment">// Version of the Tock Binary Format&#x306E;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#xFF08;&#x73FE;&#x5728;&#x306F;2&#xFF09;</span>
+    header_size: u16,        <span class="hljs-comment">// TBF&#x30D8;&#x30C3;&#x30C0;&#x306E;&#x7DCF;&#x30D0;&#x30A4;&#x30C8;&#x6570;</span>
+    total_size: <span class="hljs-keyword">u32</span>,         <span class="hljs-comment">// &#x30D7;&#x30ED;&#x30B0;&#x30E9;&#x30E0;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x306E;&#x30D8;&#x30C3;&#x30C0;&#x3092;&#x542B;&#x3080;&#x30D0;&#x30A4;&#x30C8;&#x30B5;&#x30A4;&#x30BA;</span>
+    flags: <span class="hljs-keyword">u32</span>,              <span class="hljs-comment">// &#x3053;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x306B;&#x95A2;&#x9023;&#x3059;&#x308B;&#x3055;&#x307E;&#x3056;&#x307E;&#x306A;&#x30D5;&#x30E9;&#x30B0;</span>
+    checksum: <span class="hljs-keyword">u32</span>,           <span class="hljs-comment">// &#x65E2;&#x5B58;&#x306E;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x69CB;&#x9020;&#x4F53;&#x3092;&#x542B;&#x3080;&#x30D8;&#x30C3;&#x30C0;&#x306E;&#x5168;4&#x30D0;&#x30A4;&#x30C8;&#x30EF;&#x30FC;&#x30C9;&#x306E;XOR</span>
+
+    <span class="hljs-comment">// &#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x69CB;&#x9020;&#x4F53;&#x3002;&#x3059;&#x3079;&#x3066;&#x306E;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x69CB;&#x9020;&#x306F;&#xFF14;&#x30D0;&#x30A4;&#x30C8;&#x5883;&#x754C;&#x304B;&#x3089;&#x958B;&#x59CB;&#x3059;&#x308B;&#x3002;</span>
+    main: <span class="hljs-built_in">Option</span>&lt;TbfHeaderMain&gt;,
+    pic_options: <span class="hljs-built_in">Option</span>&lt;TbfHeaderPicOption1Fields&gt;,
+    name: <span class="hljs-built_in">Option</span>&lt;TbfHeaderPackageName&gt;,
+    flash_regions: <span class="hljs-built_in">Option</span>&lt;TbfHeaderWriteableFlashRegions&gt;,
+}
+
+<span class="hljs-comment">// &#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x30D8;&#x30C3;&#x30C0;&#x69CB;&#x9020;&#x4F53;&#x7528;&#x306E;&#x8B58;&#x5225;&#x5B50;&#x3002;</span>
+<span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">TbfHeaderTypes</span></span> {
+    TbfHeaderMain = <span class="hljs-number">1</span>,
+    TbfHeaderWriteableFlashRegions = <span class="hljs-number">2</span>,
+    TbfHeaderPackageName = <span class="hljs-number">3</span>,
+    TbfHeaderPicOption1 = <span class="hljs-number">4</span>,
+    TbfHeaderFixedAddresses = <span class="hljs-number">5</span>,
+}
+
+<span class="hljs-comment">// &#x5404;&#x69CB;&#x9020;&#x4F53;&#x3092;&#x8B58;&#x5225;&#x3059;&#x308B;&#x578B;-&#x9577;&#x3055;-&#x5024;&#x30D8;&#x30C3;&#x30C0;&#x3002;</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TbfHeaderTlv</span></span> {
+    tipe: TbfHeaderTypes,    <span class="hljs-comment">// &#x3069;&#x306E;&#x69CB;&#x9020;&#x4F53;&#x306B;&#x5F93;&#x3046;&#x304B;&#x3092;&#x793A;&#x3059;16&#x30D3;&#x30C3;&#x30C8;&#x306E;&#x8B58;&#x5225;&#x5B50;&#x3002;</span>
+                             <span class="hljs-comment">// 16&#x30D3;&#x30C3;&#x30C8;&#x8B58;&#x5225;&#x5B50;&#x306E;&#x6700;&#x4E0A;&#x4F4D;&#x30D3;&#x30C3;&#x30C8;&#x304C;&#x30BB;&#x30C3;&#x30C8;&#x3055;&#x308C;&#x305F;&#x5834;&#x5408;&#x306F;&#x3001;</span>
+                             <span class="hljs-comment">// &#x30C4;&#x30EA;&#x30FC;&#x5916;&#xFF08;&#x30D7;&#x30E9;&#x30A4;&#x30D9;&#x30FC;&#x30C8;&#xFF09;&#x306E;TLV&#x30A8;&#x30F3;&#x30C8;&#x30EA;&#x3092;&#x793A;&#x3059;&#x3002;</span>
+    length: u16,             <span class="hljs-comment">// &#x7D9A;&#x304F;&#x69CB;&#x9020;&#x4F53;&#x306E;&#x30D0;&#x30A4;&#x30C8;&#x6570;</span>
+}
+
+<span class="hljs-comment">// &#x3059;&#x3079;&#x3066;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306B;&#x5FC5;&#x8981;&#x306A;&#x4E3B;&#x306A;&#x8A2D;&#x5B9A;&#x3002;&#x3053;&#x308C;&#x304C;&#x5B58;&#x5728;&#x3057;&#x306A;&#x3044;&#x5834;&#x5408;&#x3001;&#x300C;&#x30A2;&#x30D7;&#x30EA;&#x300D;&#x306F;&#x30D1;&#x30C7;&#x30A3;&#x30F3;&#x30B0;&#x3068;&#x307F;&#x306A;&#x3055;&#x308C;&#x3001;</span>
+<span class="hljs-comment">// &#x7A7A;&#x306E;&#x9023;&#x7D50;&#x30EA;&#x30B9;&#x30C8;&#x8981;&#x7D20;&#x3092;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x30B9;&#x30DA;&#x30FC;&#x30B9;&#x306B;&#x633F;&#x5165;&#x3059;&#x308B;&#x305F;&#x3081;&#x306B;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TbfHeaderMain</span></span> {
+    base: TbfHeaderTlv,
+    init_fn_offset: <span class="hljs-keyword">u32</span>,     <span class="hljs-comment">// &#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x958B;&#x59CB;&#x3059;&#x308B;&#x305F;&#x3081;&#x306B;&#x30B3;&#x30FC;&#x30EB;&#x3059;&#x308B;&#x95A2;&#x6570;</span>
+    protected_size: <span class="hljs-keyword">u32</span>,     <span class="hljs-comment">// &#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x304C;&#x66F8;&#x304D;&#x8FBC;&#x307F;&#x3067;&#x304D;&#x306A;&#x3044;&#x30D0;&#x30A4;&#x30C8;&#x6570;</span>
+    minimum_ram_size: <span class="hljs-keyword">u32</span>,   <span class="hljs-comment">// &#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x304C;&#x5FC5;&#x8981;&#x3068;&#x3059;&#x308B;RAM&#x306E;&#x91CF;</span>
+}
+
+<span class="hljs-comment">// &#x30A2;&#x30D7;&#x30EA;&#x306E;&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x540D;&#xFF08;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#xFF09;</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TbfHeaderPackageName</span></span> {
+    base: TbfHeaderTlv,
+    package_name: [<span class="hljs-keyword">u8</span>],      <span class="hljs-comment">// &#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x540D;&#x306E;UTF-8&#x6587;&#x5B57;&#x5217;</span>
+}
+
+<span class="hljs-comment">// &#x30A2;&#x30D7;&#x30EA;&#x306E;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x7A7A;&#x9593;&#x5185;&#x306E;&#x5B9A;&#x7FA9;&#x3055;&#x308C;&#x305F;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x9818;&#x57DF;</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TbfHeaderWriteableFlashRegion</span></span> {
+    writeable_flash_region_offset: <span class="hljs-keyword">u32</span>,
+    writeable_flash_region_size: <span class="hljs-keyword">u32</span>,
+}
+
+<span class="hljs-comment">//&#x30A2;&#x30D7;&#x30EA;&#x304C;&#x66F8;&#x304D;&#x8FBC;&#x307F;&#x3092;&#x610F;&#x56F3;&#x3057;&#x3066;&#x3044;&#x308B;1&#x4EE5;&#x4E0A;&#x306E;&#x7279;&#x306B;&#x8B58;&#x5225;&#x3055;&#x308C;&#x305F;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x9818;&#x57DF;</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TbfHeaderWriteableFlashRegions</span></span> {
+    base: TbfHeaderTlv,
+    writeable_flash_regions: [TbfHeaderWriteableFlashRegion],
+}
+
+<span class="hljs-comment">// RAM&#x306E;&#x51E6;&#x7406;&#x304A;&#x3088;&#x3073;&#x30D5;&#x30E9;&#x30C3;sh&#x306E;&#x51E6;&#x7406;&#x306B;&#x5FC5;&#x8981;&#x306A;&#x56FA;&#x5B9A;&#x306E;&#x5FC5;&#x8981;&#x306A;&#x30A2;&#x30C9;&#x30EC;&#x30B9;</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TbfHeaderV2FixedAddresses</span></span> {
+    start_process_ram: <span class="hljs-keyword">u32</span>,
+    start_process_flash: <span class="hljs-keyword">u32</span>,
+}
+</code></pre>
+<p>&#x3059;&#x3079;&#x3066;&#x306E;&#x30D8;&#x30C3;&#x30C0;&#x306F;4&#x30D0;&#x30A4;&#x30C8;&#x306E;&#x500D;&#x6570;&#x3067;&#x3042;&#x308A;&#x3001;&#x3059;&#x3079;&#x3066;&#x306E;TLV&#x69CB;&#x9020;&#x4F53;&#x306F;4&#x30D0;&#x30A4;&#x30C8;&#x306E;&#x500D;&#x6570;&#x3067;&#x306A;&#x3051;&#x308C;&#x3070;&#x306A;&#x3089;&#x306A;&#x3044;&#x306E;&#x3067;&#x3001;
+TBF&#x30D8;&#x30C3;&#x30C0;&#x5168;&#x4F53;&#x306F;&#x5E38;&#x306B;4&#x30D0;&#x30A4;&#x30C8;&#x306E;&#x500D;&#x6570;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<h3 id="tbf&#x30D8;&#x30C3;&#x30C0;&#x306E;&#x30D9;&#x30FC;&#x30B9;">TBF&#x30D8;&#x30C3;&#x30C0;&#x306E;&#x30D9;&#x30FC;&#x30B9;</h3>
+<p>TBF&#x30D8;&#x30C3;&#x30C0;&#x306F;&#x3001;&#x30D9;&#x30FC;&#x30B9;&#x30D8;&#x30C3;&#x30C0;&#x3068;&#x305D;&#x308C;&#x306B;&#x7D9A;&#x304F;&#x578B;-&#x9577;&#x3055;-&#x5024;&#x304C;&#x30A8;&#x30F3;&#x30B3;&#x30FC;&#x30C9;&#x3055;&#x308C;&#x305F;&#x8981;&#x7D20;&#x30B7;&#x30FC;&#x30B1;&#x30F3;&#x30B9;&#x3092;&#x542B;&#x3080;&#x3002;&#x30D9;&#x30FC;&#x30B9;&#x30D8;&#x30C3;&#x30C0;&#x3068;
+TLV&#x8981;&#x7D20;&#x306E;&#x3059;&#x3079;&#x3066;&#x306E;&#x30D5;&#x30A3;&#x30FC;&#x30EB;&#x30C9;&#x306F;&#x30EA;&#x30C8;&#x30EB;&#x30A8;&#x30F3;&#x30C7;&#x30A3;&#x30A2;&#x30F3;&#x3067;&#x3042;&#x308B;&#x3002;&#x30D9;&#x30FC;&#x30B9;&#x30D8;&#x30C3;&#x30C0;&#x306F;16&#x30D0;&#x30A4;&#x30C8;&#x3067;&#x3001;5&#x3064;&#x306E;&#x30D5;&#x30A3;&#x30FC;&#x30EB;&#x30C9;&#x3092;&#x6301;&#x3064;&#x3002;</p>
+<pre><code>0             2             4             6             8
++-------------+-------------+---------------------------+
+| Version     | Header Size | Total Size                |
++-------------+-------------+---------------------------+
+| Flags                     | Checksum                  |
++---------------------------+---------------------------+
+</code></pre><ul>
+<li><code>Version</code> TBF&#x30D8;&#x30C3;&#x30C0;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3092;&#x793A;&#x3059;16&#x30D3;&#x30C3;&#x30C8;&#x306E;&#x7B26;&#x53F7;&#x306A;&#x3057;&#x6574;&#x6570;&#x3002;&#x5E38;&#x306B;<code>2</code>&#x3002;</li>
+<li><code>Header Size</code> TBF&#x30D8;&#x30C3;&#x30C0;&#x5168;&#x4F53;&#xFF08;&#x30D9;&#x30FC;&#x30B9;&#x30D8;&#x30C3;&#x30C0;&#x3068;&#x3059;&#x3079;&#x3066;&#x306E;TLV&#x8981;&#x7D20;&#x3092;&#x542B;&#x3080;&#xFF09;&#x306E;&#x9577;&#x3055;&#x3092;&#x30D0;&#x30A4;&#x30C8;&#x5358;&#x4F4D;&#x3067;&#x793A;&#x3059;
+16&#x30D3;&#x30C3;&#x30C8;&#x306E;&#x7B26;&#x53F7;&#x306A;&#x3057;&#x6574;&#x6570;&#x3002;</li>
+<li><code>Total Size</code> TBF&#x5168;&#x4F53;&#xFF08;&#x30D8;&#x30C3;&#x30C0;&#x3092;&#x542B;&#x3080;&#xFF09;&#x306E;&#x30B5;&#x30A4;&#x30BA;&#x3092;&#x30D0;&#x30A4;&#x30C8;&#x5358;&#x4F4D;&#x3067;&#x793A;&#x3059;32&#x30D3;&#x30C3;&#x30C8;&#x306E;&#x7B26;&#x53F7;&#x306A;&#x3057;&#x6574;&#x6570;&#x3002;</li>
+<li><p><code>Flags</code> &#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x306E;&#x5C5E;&#x6027;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x3002;</p>
+<pre><code>   3                   2                   1                   0
+ 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Reserved                                                  |S|E|
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</code></pre><ul>
+<li>Bit 0 &#x306F;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x304C;&#x6709;&#x52B9;&#x3067;&#x3042;&#x308B;&#x304B;&#x5426;&#x304B;&#x3092;&#x793A;&#x3059;&#x3002;<code>1</code>&#x306F;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x304C;&#x6709;&#x52B9;&#x3067;&#x3042;&#x308B;&#x3053;&#x3068;&#x3092;&#x793A;&#x3059;&#x3002;
+&#x6709;&#x52B9;&#x3067;&#x306A;&#x3044;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x306F;&#x8D77;&#x52D5;&#x6642;&#x306B;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x306A;&#x3044;&#x3002;</li>
+<li>Bit 1 &#x306F;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x304C;&#x30B9;&#x30C6;&#x30A3;&#x30C3;&#x30AD;&#x30FC;&#x3067;&#x3042;&#x308B;&#x304B;&#x5426;&#x304B;&#x3092;&#x793A;&#x3059;&#x3002;<code>1</code>&#x306F;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x304C;&#x30B9;&#x30C6;&#x30A3;&#x30C3;&#x30AD;&#x30FC;&#x3067;&#x3042;&#x308B;&#x3053;&#x3068;&#x3092;indicates the process is
+&#x793A;&#x3059;&#x3002;&#x30B9;&#x30C6;&#x30A3;&#x30C3;&#x30AD;&#x30FC;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x306F;&#x524A;&#x9664;&#x6642;&#x306B;&#x8FFD;&#x52A0;&#x306E;&#x78BA;&#x8A8D;&#x304C;&#x884C;&#x308F;&#x308C;&#x308B;&#x3002;&#x305F;&#x3068;&#x3048;&#x3070;&#x3001;<code>tockloader</code>&#x3067;&#x306F;
+&#x524A;&#x9664;&#x3059;&#x308B;&#x306E;&#x306B;<code>--force</code>&#x30D5;&#x30E9;&#x30B0;&#x306E;&#x6307;&#x5B9A;&#x304C;&#x5FC5;&#x8981;&#x306B;&#x306A;&#x308B;&#x3002;&#x3053;&#x308C;&#x306F;&#x5E38;&#x306B;&#x5229;&#x7528;&#x53EF;&#x80FD;&#x3067;&#x3042;&#x308B;&#x3079;&#x304D;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x3068;&#x3057;&#x3066;
+&#x5B9F;&#x884C;&#x3059;&#x308B;&#x30B5;&#x30FC;&#x30D3;&#x30B9;&#x306B;&#x6709;&#x7528;&#x3067;&#x3042;&#x308B;&#x3002;</li>
+<li>Bits 2-31 &#x306F;&#x30EA;&#x30B6;&#x30FC;&#x30D6;&#x3067;0&#x3092;&#x30BB;&#x30C3;&#x30C8;&#x3059;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308B;&#x3002;</li>
+</ul>
+</li>
+<li><code>Checksum</code> &#x306F;&#x3001;&#x30C1;&#x30A7;&#x30C3;&#x30AF;&#x30B5;&#x30E0;&#x30D5;&#x30A3;&#x30FC;&#x30EB;&#x30C9;&#x3092;&#x542B;&#x3080;&#x30EF;&#x30FC;&#x30C9;&#x3092;&#x9664;&#x3044;&#x305F;&#x30D8;&#x30C3;&#x30C0;&#x30FC;&#x306E;&#x5404;4&#x500D;&#x3068;&#x30EF;&#x30FC;&#x30C9;&#x3092;XOR&#x3057;&#x305F;&#x7D50;&#x679C;&#x3067;
+&#x3042;&#x308B;&#x3002;</li>
+</ul>
+<h3 id="tlv&#x8981;&#x7D20;">TLV&#x8981;&#x7D20;</h3>
+<p>&#x30D8;&#x30C3;&#x30C0;&#x306E;&#x5F8C;&#x306B;&#x306F;&#x76F4;&#x63A5;&#x3001;TLV&#x8981;&#x7D20;&#x306E;&#x30B7;&#x30FC;&#x30B1;&#x30F3;&#x30B9;&#x304C;&#x7D9A;&#x304D;&#x307E;&#x3059;&#x3002;TLV&#x8981;&#x7D20;&#x306F;4&#x30D0;&#x30A4;&#x30C8;&#x306B;&#x30A2;&#x30E9;&#x30A4;&#x30F3;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;TLV&#x8981;&#x7D20;&#x306E;&#x30B5;&#x30A4;&#x30BA;&#x304C;
+4&#x30D0;&#x30A4;&#x30C8;&#x30A2;&#x30E9;&#x30A4;&#x30F3;&#x3067;&#x306A;&#x3044;&#x5834;&#x5408;&#x306F;&#x3001;&#x6700;&#x5927;3&#x30D0;&#x30A4;&#x30C8;&#x306E;&#x30D1;&#x30C7;&#x30A3;&#x30F3;&#x30B0;&#x304C;&#x884C;&#x308F;&#x308C;&#x307E;&#x3059;&#x3002;&#x5404;&#x8981;&#x7D20;&#x306F;&#x3001;16&#x30D3;&#x30C3;&#x30C8;&#x306E;&#x578B;&#x3068;16 &#x30D3;&#x30C3;&#x30C8;&#x306E;&#x9577;&#x3055;&#x3067;
+&#x59CB;&#x307E;&#x308A;&#x3001;&#x8981;&#x7D20;&#x30C7;&#x30FC;&#x30BF;&#x304C;&#x7D9A;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<pre><code>0             2             4
++-------------+-------------+-----...---+
+| Type        | Length      | Data      |
++-------------+-------------+-----...---+
+</code></pre><ul>
+<li><code>Type</code> &#x8981;&#x7D20;&#x306E;&#x578B;&#x3092;&#x793A;&#x3059;16&#x30D3;&#x30C3;&#x30C8;&#x306E;&#x7B26;&#x53F7;&#x306A;&#x3057;&#x6574;&#x6570;&#x3002;</li>
+<li><code>Length</code> &#x30C7;&#x30FC;&#x30BF;&#x30D5;&#x30A3;&#x30FC;&#x30C9;&#x306E;&#x9577;&#x3055;&#x3092;&#x30D0;&#x30A4;&#x30C8;&#x5358;&#x4F4D;&#x3067;&#x793A;&#x3059;16&#x30D3;&#x30C3;&#x30C8;&#x306E;&#x7B26;&#x53F7;&#x306A;&#x3057;&#x6574;&#x6570;&#x3002;</li>
+<li><code>Data</code> &#x8981;&#x7D20;&#x56FA;&#x6709;&#x306E;&#x30C7;&#x30FC;&#x30BF;&#x3002;<code>data</code>&#x30D5;&#x30A3;&#x30FC;&#x30EB;&#x30C9;&#x306E;&#x5F62;&#x5F0F;&#x306F;<code>type</code>&#x306B;&#x3088;&#x308A;&#x6C7A;&#x5B9A;&#x3055;&#x308C;&#x308B;&#x3002;</li>
+</ul>
+<h3 id="tlv&#x306E;&#x578B;">TLV&#x306E;&#x578B;</h3>
+<p>TBF&#x306F;&#x4EFB;&#x610F;&#x306E;&#x8981;&#x7D20;&#x578B;&#x3092;&#x542B;&#x3080;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;Tock&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x3067;&#x5B9A;&#x7FA9;&#x3055;&#x308C;&#x305F;&#x8981;&#x7D20;&#x3068;&#x5916;&#x90E8;&#x3067;&#x5B9A;&#x7FA9;&#x3055;&#x308C;&#x305F;&#x8981;&#x7D20;&#x306E;&#x9593;&#x3067;
+&#x578B;ID&#x304C;&#x885D;&#x7A81;&#x3057;&#x306A;&#x3044;&#x3088;&#x3046;&#x306B;&#x3001;ID&#x7A7A;&#x9593;&#x306F;2&#x3064;&#x306E;&#x30BB;&#x30B0;&#x30E1;&#x30F3;&#x30C8;&#x306B;&#x5206;&#x5272;&#x3055;&#x308C;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;Tock&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x3067;&#x5B9A;&#x7FA9;&#x3055;&#x308C;&#x305F;&#x578B;ID&#x306F;
+&#x6700;&#x4E0A;&#x4F4D;&#x30D3;&#x30C3;&#x30C8;&#xFF08;&#x30D3;&#x30C3;&#x30C8;15&#xFF09;&#x304C;&#x30A2;&#x30F3;&#x30BB;&#x30C3;&#x30C8;&#x3055;&#x308C;&#x3001;&#x5916;&#x90E8;&#x3067;&#x5B9A;&#x7FA9;&#x3055;&#x308C;&#x305F;&#x578B;ID&#x306F;&#x6700;&#x4E0A;&#x4F4D;&#x30D3;&#x30C3;&#x30C8;&#x304C;&#x30BB;&#x30C3;&#x30C8;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x5FC5;&#x8981;&#x304C;
+&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<h4 id="1-main"><code>1</code> Main</h4>
+<p><code>Main</code>&#x8981;&#x7D20;&#x306F;3&#x3064;&#x306E;32&#x30D3;&#x30C3;&#x30C8;&#x30D5;&#x30A3;&#x30FC;&#x30EB;&#x3092;&#x6301;&#x3061;&#x307E;&#x3059;&#x3002;</p>
+<pre><code>0             2             4             6             8
++-------------+-------------+---------------------------+
+| Type (1)    | Length (12) | init_offset               |
++-------------+-------------+---------------------------+
+| protected_size            | min_ram_size              |
++---------------------------+---------------------------+
+</code></pre><ul>
+<li><code>init_offset</code> &#x6700;&#x521D;&#x306E;&#x5B9F;&#x884C;&#x547D;&#x4EE4;&#xFF08;&#x901A;&#x5E38;&#x306F;<code>_start</code>&#x30B7;&#x30F3;&#x30DC;&#x30EB;&#xFF09;&#x3092;&#x542B;&#x3080;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x30DA;&#x30A4;&#x30ED;&#x30FC;&#x30C9;&#xFF08;&#x3059;&#x306A;&#x308F;&#x3061;&#x3001;
+&#x5B9F;&#x969B;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#xFF09;&#x306E;&#x958B;&#x59CB;&#x70B9;&#x304B;&#x3089;&#x306E;&#x30D0;&#x30A4;&#x30C8;&#x5358;&#x4F4D;&#x306E;&#x30AA;&#x30D5;&#x30BB;&#x30C3;&#x30C8;&#x5024;&#x3002;</li>
+<li><code>protected_size</code> &#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x304C;&#x66F8;&#x304D;&#x8FBC;&#x3081;&#x306A;&#x3044;&#x3088;&#x3046;&#x306B;&#x3059;&#x308B;&#x30D8;&#x30C3;&#x30C0;&#x5F8C;&#x306E;&#x30D0;&#x30A4;&#x30C8;&#x5358;&#x4F4D;&#x306E;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x306E;&#x91CF;&#x3002;</li>
+<li><code>minimum_ram_size</code> &#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x304C;&#x5FC5;&#x8981;&#x3068;&#x3059;&#x308B;&#x30D0;&#x30A4;&#x30C8;&#x5358;&#x4F4D;&#x306E;&#x30E1;&#x30E2;&#x30EA;&#x306E;&#x6700;&#x5C0F;&#x91CF;&#x3002;</li>
+</ul>
+<p>Main TLV&#x30D8;&#x30C3;&#x30C0;&#x304C;&#x5B58;&#x5728;&#x3057;&#x306A;&#x3044;&#x5834;&#x5408;&#x3001;&#x3053;&#x308C;&#x3089;&#x306E;&#x5024;&#x306F;&#x3059;&#x3079;&#x3066;&#x306E;&#x30C7;&#x30D5;&#x30A9;&#x30EB;&#x30C8;&#x5024;&#x306E;<code>0</code>&#x3068;&#x306A;&#x308B;&#x3002;</p>
+<h4 id="2-writeable-flash-regions&#xFF08;&#x66F8;&#x304D;&#x8FBC;&#x307F;&#x53EF;&#x80FD;&#x306A;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x9818;&#x57DF;&#xFF09;"><code>2</code> Writeable flash regions&#xFF08;&#x66F8;&#x304D;&#x8FBC;&#x307F;&#x53EF;&#x80FD;&#x306A;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x9818;&#x57DF;&#xFF09;</h4>
+<p><code>Writeable flash regions</code>&#x306F;&#x3001;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x5185;&#x306E;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x304C;&#x5909;&#x66F4;&#x3092;&#x884C;&#x3046;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x306E;&#x9818;&#x57DF;&#x3092;&#x793A;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<pre><code>0             2             4             6             8
++-------------+-------------+---------------------------+
+| Type (2)    | Length (8)  | offset                    |
++-------------+-------------+-------------+-------------+
+| size                      |
++---------------------------+
+</code></pre><ul>
+<li><code>offset</code> &#x66F8;&#x304D;&#x8FBC;&#x307F;&#x53EF;&#x80FD;&#x9818;&#x57DF;&#x306E;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x958B;&#x59CB;&#x6642;&#x70B9;&#x304B;&#x3089;&#x306E;&#x30AA;&#x30D5;&#x30BB;&#x30C3;&#x30C8;&#x5024;&#x3002;</li>
+<li><code>size</code> &#x66F8;&#x304D;&#x8FBC;&#x307F;&#x53EF;&#x80FD;&#x9818;&#x57DF;&#x306E;&#x30B5;&#x30A4;&#x30BA;&#x3002;</li>
+</ul>
+<h4 id="3-package-name&#xFF08;&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x540D;&#xFF09;"><code>3</code> Package Name&#xFF08;&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x540D;&#xFF09;</h4>
+<p><code>Package name</code>&#x306F;&#x3001;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x306E;&#x30E6;&#x30CB;&#x30FC;&#x30AF;&#x306A;&#x540D;&#x524D;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x307E;&#x3059;&#x3002;&#x552F;&#x4E00;&#x306E;&#x30D5;&#x30A3;&#x30FC;&#x30EB;&#x30C9;&#x306F;UTF&#x2212;8&#x30A8;&#x30F3;&#x30B3;&#x30FC;&#x30C7;&#x30A3;&#x30F3;&#x30B0;&#x306E;
+&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x540D;&#x3067;&#x3059;&#x3002;</p>
+<pre><code>0             2             4
++-------------+-------------+----------...-+
+| Type (3)    |   Length    | package_name |
++-------------+-------------+----------...-+
+</code></pre><ul>
+<li><code>package_name</code>&#x306F;UTF&#x2212;8&#x30A8;&#x30F3;&#x30B3;&#x30FC;&#x30C7;&#x30A3;&#x30F3;&#x30B0;&#x306E;&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x540D;&#x3067;&#x3059;&#x3002;</li>
+</ul>
+<h4 id="5-fixed-addresses&#xFF08;&#x56FA;&#x5B9A;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#xFF09;"><code>5</code> Fixed Addresses&#xFF08;&#x56FA;&#x5B9A;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#xFF09;</h4>
+<p><code>Fixed Addresses</code>&#x306F;&#x3001;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x304C;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x3084;RAM&#x306B;&#x5FC5;&#x8981;&#x306A;&#x7279;&#x5B9A;&#x306E;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x3053;&#x3068;&#x3092;&#x53EF;&#x80FD;&#x306B;&#x3057;&#x307E;&#x3059;&#x3002;
+Tock&#x306F;&#x4F4D;&#x7F6E;&#x975E;&#x4F9D;&#x5B58;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x3092;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3057;&#x307E;&#x3059;&#x304C;&#x3001;&#x3059;&#x3079;&#x3066;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x304C;&#x4F4D;&#x7F6E;&#x975E;&#x4F9D;&#x5B58;&#x3067;&#x3042;&#x308B;&#x308F;&#x3051;&#x3067;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;
+&#x3053;&#x308C;&#x306B;&#x3088;&#x308A;&#x3001;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#xFF08;&#x304A;&#x3088;&#x3073;&#x4ED6;&#x306E;&#x30C4;&#x30FC;&#x30EB;&#xFF09;&#x306F;&#x3001;&#x4F4D;&#x7F6E;&#x975E;&#x4F9D;&#x5B58;&#x3067;&#x306A;&#x3044;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x3092;&#x8AA4;&#x3063;&#x305F;&#x5834;&#x6240;&#x306B;&#x30ED;&#x30FC;&#x30C9;&#x3059;&#x308B;&#x3053;&#x3068;&#x3092;
+&#x907F;&#x3051;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<pre><code>0             2             4             6             8
++-------------+-------------+---------------------------+
+| Type (5)    | Length (8)  | ram_address               |
++-------------+-------------+-------------+-------------+
+| flash_address             |
++---------------------------+
+</code></pre><ul>
+<li><code>ram_address</code> &#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x306E;&#x30E1;&#x30E2;&#x30EA;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x304C;&#x30B9;&#x30BF;&#x30FC;&#x30C8;&#x3059;&#x3079;&#x304D;&#x30E1;&#x30E2;&#x30EA;&#x5185;&#x306E;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x3002;&#x56FA;&#x5B9A;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x304C;
+&#x4E0D;&#x8981;&#x306A;&#x5834;&#x5408;&#x3001;<code>0xFFFFFFFF</code>&#x3092;&#x8A2D;&#x5B9A;&#x3059;&#x308B;&#x3079;&#x304D;&#x3067;&#x3059;&#x3002;</li>
+<li><code>flash_address</code> &#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#xFF08;&#x30D8;&#x30C3;&#x30C0;&#x3067;&#x306F;&#x306A;&#x3044;&#xFF09;&#x304C;&#x4F4D;&#x7F6E;&#x3059;&#x3079;&#x304D;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x5185;&#x306E;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x3002;
+&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x7528;&#x306B;&#x30EA;&#x30F3;&#x30AB;&#x306B;&#x63D0;&#x4F9B;&#x3055;&#x308C;&#x305F;&#x5024;&#x3068;&#x4E00;&#x81F4;&#x3059;&#x308B;&#x3002;&#x56FA;&#x5B9A;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x304C;&#x4E0D;&#x8981;&#x306A;&#x5834;&#x5408;&#x3001;<code>0xFFFFFFFF</code>&#x3092;
+&#x8A2D;&#x5B9A;&#x3059;&#x308B;&#x3079;&#x304D;&#x3067;&#x3059;&#x3002;</li>
+</ul>
+<h2 id="&#x30B3;&#x30FC;&#x30C9;">&#x30B3;&#x30FC;&#x30C9;</h2>
+<p>&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x306E;&#x30B3;&#x30FC;&#x30C9;&#x81EA;&#x4F53;&#x306B;&#x306F;&#x7279;&#x5B9A;&#x306E;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;&#x305D;&#x308C;&#x306F;&#x30D5;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x306B;&#x5B58;&#x5728;&#x3057;&#x307E;&#x3059;&#x304C;&#x3001;&#x7279;&#x5B9A;&#x306E;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x304C;
+&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x306B;&#x3088;&#x3063;&#x3066;&#x6C7A;&#x5B9A;&#x3055;&#x308C;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x5185;&#x306E;&#x30B3;&#x30FC;&#x30C9;&#x306F;&#x3001;&#x4F4D;&#x7F6E;&#x975E;&#x4F9D;&#x5B58;&#x306E;&#x30B3;&#x30FC;&#x30C9;&#x3092;&#x4F7F;&#x7528;&#x3059;&#x308B;&#x306A;&#x3069;&#x3001;
+&#x3069;&#x306E;&#x3088;&#x3046;&#x306A;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x3067;&#x3082;&#x6B63;&#x5E38;&#x306B;&#x5B9F;&#x884C;&#x3067;&#x304D;&#x306A;&#x3051;&#x308C;&#x3070;&#x306A;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Tock Binary Format","level":"2.5","depth":1,"next":{"title":"Memory Layout","level":"2.6","depth":1,"path":"Memory_Layout.md","ref":"Memory_Layout.md","articles":[]},"previous":{"title":"Compilation","level":"2.4","depth":1,"path":"Compilation.md","ref":"Compilation.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"TockBinaryFormat.md","mtime":"2020-09-23T08:43:08.260Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,1042 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Registers · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../doc/gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../doc/gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../doc/gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../doc/gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../doc/gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../doc/gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../../doc/Startup.html" />
+    
+    
+    <link rel="prev" href="../../doc/Memory_Isolation.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../doc/">
+            
+                <a href="../../doc/">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../doc/Overview.html">
+            
+                <a href="../../doc/Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../../doc/Design.html">
+            
+                <a href="../../doc/Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../../doc/threat_model/">
+            
+                <a href="../../doc/threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../../doc/Lifetimes.html">
+            
+                <a href="../../doc/Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../../doc/Mutable_References.html">
+            
+                <a href="../../doc/Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../../doc/Soundness.html">
+            
+                <a href="../../doc/Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../../doc/Compilation.html">
+            
+                <a href="../../doc/Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../../doc/TockBinaryFormat.html">
+            
+                <a href="../../doc/TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../../doc/Memory_Layout.html">
+            
+                <a href="../../doc/Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../../doc/Memory_Isolation.html">
+            
+                <a href="../../doc/Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.8" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="../../doc/Startup.html">
+            
+                <a href="../../doc/Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="../../doc/Syscalls.html">
+            
+                <a href="../../doc/Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="../../doc/Userland.html">
+            
+                <a href="../../doc/Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="../../doc/Networking_Stack.html">
+            
+                <a href="../../doc/Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="../../doc/Configuration.html">
+            
+                <a href="../../doc/Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../../doc/syscalls/">
+            
+                <a href="../../doc/syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../../doc/reference/">
+            
+                <a href="../../doc/reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../../doc/Getting_Started.html">
+            
+                <a href="../../doc/Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../../doc/Porting.html">
+            
+                <a href="../../doc/Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../../doc/OutOfTree.html">
+            
+                <a href="../../doc/OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../../doc/debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="../../doc/wg/">
+            
+                <a href="../../doc/wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" >
+            
+                <span>
+            
+                    
+                    [Code Review Process](CodeReview.md
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../../doc/wg/">
+            
+                <a href="../../doc/wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../../doc/CodeReview.html">
+            
+                <a href="../../doc/CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../doc" >Registers</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tock-register-interface">Tock Register Interface</h1>
+<p>This crate provides an interface for defining and manipulating memory mapped
+registers and bitfields.</p>
+<h2 id="defining-registers">Defining registers</h2>
+<p>The crate provides three types for working with memory mapped registers:
+<code>ReadWrite</code>, <code>ReadOnly</code>, and <code>WriteOnly</code>, providing read-write, read-only, and
+write-only functionality, respectively.</p>
+<p>Defining the registers is done with the <code>register_structs</code> macro, which expects
+for each register an offset, a field name, and a type. Registers must be
+declared in increasing order of offsets and contiguously. Gaps when defining the
+registers must be explicitly annotated with an offset and gap identifier (by
+convention using a field named <code>_reservedN</code>), but without a type. The macro will
+then automatically take care of calculating the gap size and inserting a
+suitable filler struct. The end of the struct is marked with its size and the
+<code>@END</code> keyword, effectively pointing to the offset immediately past the list of
+registers.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">use</span> tock_registers::registers::{ReadOnly, ReadWrite, WriteOnly};
+
+register_structs! {
+    Registers {
+        <span class="hljs-comment">// Control register: read-write</span>
+        <span class="hljs-comment">// The &apos;Control&apos; parameter constrains this register to only use fields from</span>
+        <span class="hljs-comment">// a certain group (defined below in the bitfields section).</span>
+        (<span class="hljs-number">0x000</span> =&gt; cr: ReadWrite&lt;<span class="hljs-keyword">u8</span>, Control::Register&gt;),
+
+        <span class="hljs-comment">// Status register: read-only</span>
+        (<span class="hljs-number">0x001</span> =&gt; s: ReadOnly&lt;<span class="hljs-keyword">u8</span>, Status::Register&gt;),
+
+        <span class="hljs-comment">// Registers can be bytes, halfwords, or words:</span>
+        <span class="hljs-comment">// Note that the second type parameter can be omitted, meaning that there</span>
+        <span class="hljs-comment">// are no bitfields defined for these registers.</span>
+        (<span class="hljs-number">0x002</span> =&gt; byte0: ReadWrite&lt;<span class="hljs-keyword">u8</span>&gt;),
+        (<span class="hljs-number">0x003</span> =&gt; byte1: ReadWrite&lt;<span class="hljs-keyword">u8</span>&gt;),
+        (<span class="hljs-number">0x004</span> =&gt; short: ReadWrite&lt;u16&gt;),
+
+        <span class="hljs-comment">// Empty space between registers must be marked with a padding field,</span>
+        <span class="hljs-comment">// declared as follows. The length of this padding is automatically</span>
+        <span class="hljs-comment">// computed by the macro.</span>
+        (<span class="hljs-number">0x006</span> =&gt; _reserved),
+        (<span class="hljs-number">0x008</span> =&gt; word: ReadWrite&lt;<span class="hljs-keyword">u32</span>&gt;),
+
+        <span class="hljs-comment">// The type for a register can be anything. Conveniently, you can use an</span>
+        <span class="hljs-comment">// array when there are a bunch of similar registers.</span>
+        (<span class="hljs-number">0x00C</span> =&gt; array: [ReadWrite&lt;<span class="hljs-keyword">u32</span>&gt;; <span class="hljs-number">4</span>]),
+        (<span class="hljs-number">0x01C</span> =&gt; ... ),
+
+        <span class="hljs-comment">// Etc.</span>
+
+        <span class="hljs-comment">// The end of the struct is marked as follows.</span>
+        (<span class="hljs-number">0x100</span> =&gt; @END),
+    }
+}
+</code></pre>
+<p>This generates a C-style struct of the following form.</p>
+<pre><code class="lang-rust"><span class="hljs-meta">#[repr(C)]</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Registers</span></span> {
+    <span class="hljs-comment">// Control register: read-write</span>
+    <span class="hljs-comment">// The &apos;Control&apos; parameter constrains this register to only use fields from</span>
+    <span class="hljs-comment">// a certain group (defined below in the bitfields section).</span>
+    cr: ReadWrite&lt;<span class="hljs-keyword">u8</span>, Control::Register&gt;,
+
+    <span class="hljs-comment">// Status register: read-only</span>
+    s: ReadOnly&lt;<span class="hljs-keyword">u8</span>, Status::Register&gt;
+
+    <span class="hljs-comment">// Registers can be bytes, halfwords, or words:</span>
+    <span class="hljs-comment">// Note that the second type parameter can be omitted, meaning that there</span>
+    <span class="hljs-comment">// are no bitfields defined for these registers.</span>
+    byte0: ReadWrite&lt;<span class="hljs-keyword">u8</span>&gt;,
+    byte1: ReadWrite&lt;<span class="hljs-keyword">u8</span>&gt;,
+    short: ReadWrite&lt;u16&gt;,
+
+    <span class="hljs-comment">// The padding length was automatically computed as 0x008 - 0x006.</span>
+    _reserved: [<span class="hljs-keyword">u8</span>; <span class="hljs-number">2</span>],
+    word: ReadWrite&lt;<span class="hljs-keyword">u32</span>&gt;,
+
+    <span class="hljs-comment">// Arrays are expanded as-is, like any other type.</span>
+    array: [ReadWrite&lt;<span class="hljs-keyword">u32</span>&gt;; <span class="hljs-number">4</span>],
+
+    <span class="hljs-comment">// Etc.</span>
+}
+</code></pre>
+<p>By default, <code>std</code> unit tests for the struct are generated as well (that is,
+tests attributed with <code>#[test]</code>). The unit tests make sure that the offsets and
+padding are consistent with the actual fields in the struct, and that alignment
+is correct.</p>
+<p>Since those tests would break compilation in <code>custom-test-frameworks</code>
+environments, it is possible to opt out of the test generation. To do so, add
+the following cargo feature:</p>
+<pre><code class="lang-toml"><span class="hljs-section">[dependencies.tock-registers]</span>
+<span class="hljs-attr">version</span> = <span class="hljs-string">&quot;0.4.x&quot;</span>
+<span class="hljs-attr">features</span> = [<span class="hljs-string">&quot;no_std_unit_tests&quot;</span>]
+</code></pre>
+<p>WARNING: For now, the <strong>unit tests checking offsets and alignments are not yet
+run</strong> on <code>make ci-travis</code>. This means that leaving an unintentional gap between
+registers will <strong>not</strong> be caught. Instead, the <code>register_structs</code> macro will
+generate a struct with invalid offsets without warning. Please follow the
+discussion on <a href="https://github.com/tock/tock/pull/1393" target="_blank">https://github.com/tock/tock/pull/1393</a>.</p>
+<p>For example, the following call to the macro:</p>
+<pre><code class="lang-rust">register_structs! {
+    Registers {
+        (<span class="hljs-number">0x000</span> =&gt; foo: ReadOnly&lt;<span class="hljs-keyword">u8</span>&gt;),
+        (<span class="hljs-number">0x008</span> =&gt; bar: ReadOnly&lt;<span class="hljs-keyword">u8</span>&gt;),
+        (<span class="hljs-number">0x009</span> =&gt; @END),
+    }
+}
+</code></pre>
+<p>will generate the following struct, even though there is an unintentional gap of
+4 bytes between addresses <code>0x004</code> (the end of register <code>foo</code>) and <code>0x008</code> (the
+intended beginning of register <code>bar</code>).</p>
+<pre><code class="lang-rust"><span class="hljs-meta">#[repr(C)]</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Registers</span></span> {
+    foo: ReadOnly&lt;<span class="hljs-keyword">u32</span>&gt;,
+    bar: ReadOnly&lt;<span class="hljs-keyword">u32</span>&gt;,
+}
+</code></pre>
+<p>By default, the visibility of the generated structs and fields is private. You
+can make them public using the <code>pub</code> keyword, just before the struct name or the
+field identifier.</p>
+<p>For example, the following call to the macro:</p>
+<pre><code class="lang-rust">register_structs! {
+    <span class="hljs-keyword">pub</span> Registers {
+        (<span class="hljs-number">0x000</span> =&gt; foo: ReadOnly&lt;<span class="hljs-keyword">u32</span>&gt;),
+        (<span class="hljs-number">0x004</span> =&gt; <span class="hljs-keyword">pub</span> bar: ReadOnly&lt;<span class="hljs-keyword">u32</span>&gt;),
+        (<span class="hljs-number">0x008</span> =&gt; @END),
+    }
+}
+</code></pre>
+<p>will generate the following struct.</p>
+<pre><code class="lang-rust"><span class="hljs-meta">#[repr(C)]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Registers</span></span> {
+    foo: ReadOnly&lt;<span class="hljs-keyword">u32</span>&gt;,
+    <span class="hljs-keyword">pub</span> bar: ReadOnly&lt;<span class="hljs-keyword">u32</span>&gt;,
+}
+</code></pre>
+<h2 id="defining-bitfields">Defining bitfields</h2>
+<p>Bitfields are defined through the <code>register_bitfields!</code> macro:</p>
+<pre><code class="lang-rust">register_bitfields! [
+    <span class="hljs-comment">// First parameter is the register width. Can be u8, u16, u32, or u64.</span>
+    <span class="hljs-keyword">u32</span>,
+
+    <span class="hljs-comment">// Each subsequent parameter is a register abbreviation, its descriptive</span>
+    <span class="hljs-comment">// name, and its associated bitfields.</span>
+    <span class="hljs-comment">// The descriptive name defines this &apos;group&apos; of bitfields. Only registers</span>
+    <span class="hljs-comment">// defined as ReadWrite&lt;_, Control::Register&gt; can use these bitfields.</span>
+    Control [
+        <span class="hljs-comment">// Bitfields are defined as:</span>
+        <span class="hljs-comment">// name OFFSET(shift) NUMBITS(num) [ /* optional values */ ]</span>
+
+        <span class="hljs-comment">// This is a two-bit field which includes bits 4 and 5</span>
+        RANGE OFFSET(<span class="hljs-number">4</span>) NUMBITS(<span class="hljs-number">2</span>) [
+            <span class="hljs-comment">// Each of these defines a name for a value that the bitfield can be</span>
+            <span class="hljs-comment">// written with or matched against. Note that this set is not exclusive--</span>
+            <span class="hljs-comment">// the field can still be written with arbitrary constants.</span>
+            VeryHigh = <span class="hljs-number">0</span>,
+            High = <span class="hljs-number">1</span>,
+            Low = <span class="hljs-number">2</span>
+        ],
+
+        <span class="hljs-comment">// A common case is single-bit bitfields, which usually just mean</span>
+        <span class="hljs-comment">// &apos;enable&apos; or &apos;disable&apos; something.</span>
+        EN  OFFSET(<span class="hljs-number">3</span>) NUMBITS(<span class="hljs-number">1</span>) [],
+        INT OFFSET(<span class="hljs-number">2</span>) NUMBITS(<span class="hljs-number">1</span>) []
+    ],
+
+    <span class="hljs-comment">// Another example:</span>
+    <span class="hljs-comment">// Status register</span>
+    Status [
+        TXCOMPLETE  OFFSET(<span class="hljs-number">0</span>) NUMBITS(<span class="hljs-number">1</span>) [],
+        TXINTERRUPT OFFSET(<span class="hljs-number">1</span>) NUMBITS(<span class="hljs-number">1</span>) [],
+        RXCOMPLETE  OFFSET(<span class="hljs-number">2</span>) NUMBITS(<span class="hljs-number">1</span>) [],
+        RXINTERRUPT OFFSET(<span class="hljs-number">3</span>) NUMBITS(<span class="hljs-number">1</span>) [],
+        MODE        OFFSET(<span class="hljs-number">4</span>) NUMBITS(<span class="hljs-number">3</span>) [
+            FullDuplex = <span class="hljs-number">0</span>,
+            HalfDuplex = <span class="hljs-number">1</span>,
+            Loopback = <span class="hljs-number">2</span>,
+            Disabled = <span class="hljs-number">3</span>
+        ],
+        ERRORCOUNT OFFSET(<span class="hljs-number">6</span>) NUMBITS(<span class="hljs-number">3</span>) []
+    ],
+
+    <span class="hljs-comment">// In a simple case, offset can just be a number, and the number of bits</span>
+    <span class="hljs-comment">// is set to 1:</span>
+    InterruptFlags [
+        UNDES   <span class="hljs-number">10</span>,
+        TXEMPTY  <span class="hljs-number">9</span>,
+        NSSR     <span class="hljs-number">8</span>,
+        OVRES    <span class="hljs-number">3</span>,
+        MODF     <span class="hljs-number">2</span>,
+        TDRE     <span class="hljs-number">1</span>,
+        RDRF     <span class="hljs-number">0</span>
+    ]
+]
+</code></pre>
+<h2 id="register-interface-summary">Register Interface Summary</h2>
+<p>There are four types provided by the register interface: <code>ReadOnly</code>,
+<code>WriteOnly</code>, <code>ReadWrite</code>, and <code>Aliased</code>. They provide the following functions:</p>
+<pre><code class="lang-rust">ReadOnly&lt;T: IntLike, R: RegisterLongName = ()&gt;
+.get() -&gt; T                                    <span class="hljs-comment">// Get the raw register value</span>
+.read(field: Field&lt;T, R&gt;) -&gt; T                 <span class="hljs-comment">// Read the value of the given field</span>
+.read_as_enum&lt;E&gt;(field: Field&lt;T, R&gt;) -&gt; <span class="hljs-built_in">Option</span>&lt;E&gt; <span class="hljs-comment">// Read value of the given field as a enum member</span>
+.is_set(field: Field&lt;T, R&gt;) -&gt; <span class="hljs-keyword">bool</span>            <span class="hljs-comment">// Check if one or more bits in a field are set</span>
+.matches_any(value: FieldValue&lt;T, R&gt;) -&gt; <span class="hljs-keyword">bool</span>  <span class="hljs-comment">// Check if any specified parts of a field match</span>
+.matches_all(value: FieldValue&lt;T, R&gt;) -&gt; <span class="hljs-keyword">bool</span>  <span class="hljs-comment">// Check if all specified parts of a field match</span>
+.extract() -&gt; LocalRegisterCopy&lt;T, R&gt;          <span class="hljs-comment">// Make local copy of register</span>
+
+WriteOnly&lt;T: IntLike, R: RegisterLongName = ()&gt;
+.set(value: T)                                 <span class="hljs-comment">// Set the raw register value</span>
+.write(value: FieldValue&lt;T, R&gt;)                <span class="hljs-comment">// Write the value of one or more fields,</span>
+                                               <span class="hljs-comment">//  overwriting other fields to zero</span>
+ReadWrite&lt;T: IntLike, R: RegisterLongName = ()&gt;
+.get() -&gt; T                                    <span class="hljs-comment">// Get the raw register value</span>
+.set(value: T)                                 <span class="hljs-comment">// Set the raw register value</span>
+.read(field: Field&lt;T, R&gt;) -&gt; T                 <span class="hljs-comment">// Read the value of the given field</span>
+.read_as_enum&lt;E&gt;(field: Field&lt;T, R&gt;) -&gt; <span class="hljs-built_in">Option</span>&lt;E&gt; <span class="hljs-comment">// Read value of the given field as a enum member</span>
+.write(value: FieldValue&lt;T, R&gt;)                <span class="hljs-comment">// Write the value of one or more fields,</span>
+                                               <span class="hljs-comment">//  overwriting other fields to zero</span>
+.modify(value: FieldValue&lt;T, R&gt;)               <span class="hljs-comment">// Write the value of one or more fields,</span>
+                                               <span class="hljs-comment">//  leaving other fields unchanged</span>
+.modify_no_read(                               <span class="hljs-comment">// Write the value of one or more fields,</span>
+      original: LocalRegisterCopy&lt;T, R&gt;,       <span class="hljs-comment">//  leaving other fields unchanged, but pass in</span>
+      value: FieldValue&lt;T, R&gt;)                 <span class="hljs-comment">//  the original value, instead of doing a register read</span>
+.is_set(field: Field&lt;T, R&gt;) -&gt; <span class="hljs-keyword">bool</span>            <span class="hljs-comment">// Check if one or more bits in a field are set</span>
+.matches_any(value: FieldValue&lt;T, R&gt;) -&gt; <span class="hljs-keyword">bool</span>  <span class="hljs-comment">// Check if any specified parts of a field match</span>
+.matches_all(value: FieldValue&lt;T, R&gt;) -&gt; <span class="hljs-keyword">bool</span>  <span class="hljs-comment">// Check if all specified parts of a field match</span>
+.extract() -&gt; LocalRegisterCopy&lt;T, R&gt;          <span class="hljs-comment">// Make local copy of register</span>
+
+Aliased&lt;T: IntLike, R: RegisterLongName = (), W: RegisterLongName = ()&gt;
+.get() -&gt; T                                    <span class="hljs-comment">// Get the raw register value</span>
+.set(value: T)                                 <span class="hljs-comment">// Set the raw register value</span>
+.read(field: Field&lt;T, R&gt;) -&gt; T                 <span class="hljs-comment">// Read the value of the given field</span>
+.read_as_enum&lt;E&gt;(field: Field&lt;T, R&gt;) -&gt; <span class="hljs-built_in">Option</span>&lt;E&gt; <span class="hljs-comment">// Read value of the given field as a enum member</span>
+.write(value: FieldValue&lt;T, W&gt;)                <span class="hljs-comment">// Write the value of one or more fields,</span>
+                                               <span class="hljs-comment">//  overwriting other fields to zero</span>
+.is_set(field: Field&lt;T, R&gt;) -&gt; <span class="hljs-keyword">bool</span>            <span class="hljs-comment">// Check if one or more bits in a field are set</span>
+.matches_any(value: FieldValue&lt;T, R&gt;) -&gt; <span class="hljs-keyword">bool</span>  <span class="hljs-comment">// Check if any specified parts of a field match</span>
+.matches_all(value: FieldValue&lt;T, R&gt;) -&gt; <span class="hljs-keyword">bool</span>  <span class="hljs-comment">// Check if all specified parts of a field match</span>
+.extract() -&gt; LocalRegisterCopy&lt;T, R&gt;          <span class="hljs-comment">// Make local copy of register</span>
+</code></pre>
+<p>The <code>Aliased</code> type represents cases where read-only and write-only registers,
+with different meanings, are aliased to the same memory location.</p>
+<p>The first type parameter (the <code>IntLike</code> type) is <code>u8</code>, <code>u16</code>, <code>u32</code>, or <code>u64</code>.</p>
+<h2 id="example-using-registers-and-bitfields">Example: Using registers and bitfields</h2>
+<p>Assuming we have defined a <code>Registers</code> struct and the corresponding bitfields as
+in the previous two sections. We also have an immutable reference to the
+<code>Registers</code> struct, named <code>registers</code>.</p>
+<pre><code class="lang-rust"><span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+<span class="hljs-comment">// RAW ACCESS</span>
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">// Get or set the raw value of the register directly. Nothing fancy:</span>
+registers.cr.set(registers.cr.get() + <span class="hljs-number">1</span>);
+
+
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+<span class="hljs-comment">// READ</span>
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">// `range` will contain the value of the RANGE field, e.g. 0, 1, 2, or 3.</span>
+<span class="hljs-comment">// The type annotation is not necessary, but provided for clarity here.</span>
+<span class="hljs-keyword">let</span> range: <span class="hljs-keyword">u8</span> = registers.cr.read(Control::RANGE);
+
+<span class="hljs-comment">// Or one can read `range` as a enum and `match` over it.</span>
+<span class="hljs-keyword">let</span> range = registers.cr.read_as_enum(Control::RANGE);
+<span class="hljs-keyword">match</span> range {
+    <span class="hljs-literal">Some</span>(Control::RANGE::Value::VeryHigh) =&gt; { <span class="hljs-comment">/* ... */</span> }
+    <span class="hljs-literal">Some</span>(Control::RANGE::Value::High) =&gt; { <span class="hljs-comment">/* ... */</span> }
+    <span class="hljs-literal">Some</span>(Control::RANGE::Value::Low) =&gt; { <span class="hljs-comment">/* ... */</span> }
+
+    <span class="hljs-literal">None</span> =&gt; <span class="hljs-built_in">unreachable!</span>(<span class="hljs-string">&quot;invalid value&quot;</span>)
+}
+
+<span class="hljs-comment">// `en` will be 0 or 1</span>
+<span class="hljs-keyword">let</span> en: <span class="hljs-keyword">u8</span> = registers.cr.read(Control::EN);
+
+
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+<span class="hljs-comment">// MODIFY</span>
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">// Write a value to a bitfield without altering the values in other fields:</span>
+registers.cr.modify(Control::RANGE.val(<span class="hljs-number">2</span>)); <span class="hljs-comment">// Leaves EN, INT unchanged</span>
+
+<span class="hljs-comment">// Named constants can be used instead of the raw values:</span>
+registers.cr.modify(Control::RANGE::VeryHigh);
+
+<span class="hljs-comment">// Another example of writing a field with a raw value:</span>
+registers.cr.modify(Control::EN.val(<span class="hljs-number">0</span>)); <span class="hljs-comment">// Leaves RANGE, INT unchanged</span>
+
+<span class="hljs-comment">// For one-bit fields, the named values SET and CLEAR are automatically</span>
+<span class="hljs-comment">// defined:</span>
+registers.cr.modify(Control::EN::SET);
+
+<span class="hljs-comment">// Write multiple values at once, without altering other fields:</span>
+registers.cr.modify(Control::EN::CLEAR + Control::RANGE::Low); <span class="hljs-comment">// INT unchanged</span>
+
+<span class="hljs-comment">// Any number of non-overlapping fields can be combined:</span>
+registers.cr.modify(Control::EN::CLEAR + Control::RANGE::High + CR::INT::SET);
+
+<span class="hljs-comment">// In some cases (such as a protected register) .modify() may not be appropriate.</span>
+<span class="hljs-comment">// To enable updating a register without coupling the read and write, use</span>
+<span class="hljs-comment">// modify_no_read():</span>
+<span class="hljs-keyword">let</span> original = registers.cr.extract();
+registers.cr.modify_no_read(original, Control::EN::CLEAR);
+
+
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+<span class="hljs-comment">// WRITE</span>
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">// Same interface as modify, except that all unspecified fields are overwritten to zero.</span>
+registers.cr.write(Control::RANGE.val(<span class="hljs-number">1</span>)); <span class="hljs-comment">// implictly sets all other bits to zero</span>
+
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+<span class="hljs-comment">// BITFLAGS</span>
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">// For one-bit fields, easily check if they are set or clear:</span>
+<span class="hljs-keyword">let</span> txcomplete: <span class="hljs-keyword">bool</span> = registers.s.is_set(Status::TXCOMPLETE);
+
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+<span class="hljs-comment">// MATCHING</span>
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">// You can also query a specific register state easily with `matches_[any|all]`:</span>
+
+<span class="hljs-comment">// Doesn&apos;t care about the state of any field except TXCOMPLETE and MODE:</span>
+<span class="hljs-keyword">let</span> ready: <span class="hljs-keyword">bool</span> = registers.s.matches_all(Status::TXCOMPLETE:SET +
+                                     Status::MODE::FullDuplex);
+
+<span class="hljs-comment">// This is very useful for awaiting for a specific condition:</span>
+<span class="hljs-keyword">while</span> !registers.s.matches_all(Status::TXCOMPLETE::SET +
+                          Status::RXCOMPLETE::SET +
+                          Status::TXINTERRUPT::CLEAR) {}
+
+<span class="hljs-comment">// Or for checking whether any interrupts are enabled:</span>
+<span class="hljs-keyword">let</span> any_ints = registers.s.matches_any(Status::TXINTERRUPT + Status::RXINTERRUPT);
+
+<span class="hljs-comment">// Also you can read a register with set of enumerated values as a enum and `match` over it:</span>
+<span class="hljs-keyword">let</span> mode = registers.cr.read_as_enum(Status::MODE);
+
+<span class="hljs-keyword">match</span> mode {
+    <span class="hljs-literal">Some</span>(Status::MODE::FullDuplex) =&gt; { <span class="hljs-comment">/* ... */</span> }
+    <span class="hljs-literal">Some</span>(Status::MODE::HalfDuplex) =&gt; { <span class="hljs-comment">/* ... */</span> }
+
+    <span class="hljs-literal">None</span> =&gt; <span class="hljs-built_in">unreachable!</span>(<span class="hljs-string">&quot;invalid value&quot;</span>)
+}
+
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+<span class="hljs-comment">// LOCAL COPY</span>
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">// More complex code may want to read a register value once and then keep it in</span>
+<span class="hljs-comment">// a local variable before using the normal register interface functions on the</span>
+<span class="hljs-comment">// local copy.</span>
+
+<span class="hljs-comment">// Create a copy of the register value as a local variable.</span>
+<span class="hljs-keyword">let</span> local = registers.cr.extract();
+
+<span class="hljs-comment">// Now all the functions for a ReadOnly register work.</span>
+<span class="hljs-keyword">let</span> txcomplete: <span class="hljs-keyword">bool</span> = local.is_set(Status::TXCOMPLETE);
+
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+<span class="hljs-comment">// In-Memory Registers</span>
+<span class="hljs-comment">// -----------------------------------------------------------------------------</span>
+
+<span class="hljs-comment">// In some cases, code may want to edit a memory location with all of the</span>
+<span class="hljs-comment">// register features described above, but the actual memory location is not a</span>
+<span class="hljs-comment">// fixed MMIO register but instead an arbitrary location in memory. If this</span>
+<span class="hljs-comment">// location is then shared with the hardware (i.e. via DMA) then the code</span>
+<span class="hljs-comment">// must do volatile reads and writes since the value may change without the</span>
+<span class="hljs-comment">// software knowing. To support this, the library includes an `InMemoryRegister`</span>
+<span class="hljs-comment">// type.</span>
+
+<span class="hljs-keyword">let</span> control: InMemoryRegister&lt;<span class="hljs-keyword">u32</span>, Control::Register&gt; = InMemoryRegister::new(<span class="hljs-number">0</span>)
+control.write(Contol::BYTE_COUNT.val(<span class="hljs-number">0</span>) +
+              Contol::ENABLE::Yes +
+              Contol::LENGTH.val(<span class="hljs-number">10</span>));
+</code></pre>
+<p>Note that <code>modify</code> performs exactly one volatile load and one volatile store,
+<code>write</code> performs exactly one volatile store, and <code>read</code> performs exactly one
+volatile load. Thus, you are ensured that a single call will set or query all
+fields simultaneously.</p>
+<h2 id="performance">Performance</h2>
+<p>Examining the binaries while testing this interface, everything compiles
+down to the optimal inlined bit twiddling instructions--in other words, there is
+zero runtime cost, as far as an informal preliminary study has found.</p>
+<h2 id="nice-type-checking">Nice type checking</h2>
+<p>This interface helps the compiler catch some common types of bugs via type checking.</p>
+<p>If you define the bitfields for e.g. a control register, you can give them a
+descriptive group name like <code>Control</code>. This group of bitfields will only work
+with a register of the type <code>ReadWrite&lt;_, Control&gt;</code> (or <code>ReadOnly/WriteOnly</code>,
+etc). For instance, if we have the bitfields and registers as defined above,</p>
+<pre><code class="lang-rust"><span class="hljs-comment">// This line compiles, because registers.cr is associated with the Control group</span>
+<span class="hljs-comment">// of bitfields.</span>
+registers.cr.modify(Control::RANGE.val(<span class="hljs-number">1</span>));
+
+<span class="hljs-comment">// This line will not compile, because registers.s is associated with the Status</span>
+<span class="hljs-comment">// group, not the Control group.</span>
+<span class="hljs-keyword">let</span> range = registers.s.read(Control::RANGE);
+</code></pre>
+<h2 id="naming-conventions">Naming conventions</h2>
+<p>There are several related names in the register definitions. Below is a
+description of the naming convention for each:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">use</span> tock_registers::registers::ReadWrite;
+
+<span class="hljs-meta">#[repr(C)]</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Registers</span></span> {
+    <span class="hljs-comment">// The register name in the struct should be a lowercase version of the</span>
+    <span class="hljs-comment">// register abbreviation, as written in the datasheet:</span>
+    cr: ReadWrite&lt;<span class="hljs-keyword">u8</span>, Control::Register&gt;,
+}
+
+register_bitfields! [
+    <span class="hljs-keyword">u8</span>,
+
+    <span class="hljs-comment">// The name should be the long descriptive register name,</span>
+    <span class="hljs-comment">// camelcase, without the word &apos;register&apos;.</span>
+    Control [
+        <span class="hljs-comment">// The field name should be the capitalized abbreviated</span>
+        <span class="hljs-comment">// field name, as given in the datasheet.</span>
+        RANGE OFFSET(<span class="hljs-number">4</span>) NUMBITS(<span class="hljs-number">3</span>) [
+            <span class="hljs-comment">// Each of the field values should be camelcase,</span>
+            <span class="hljs-comment">// as descriptive of their value as possible.</span>
+            VeryHigh = <span class="hljs-number">0</span>,
+            High = <span class="hljs-number">1</span>,
+            Low = <span class="hljs-number">2</span>
+        ]
+    ]
+]
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../../doc/Memory_Isolation.html" class="navigation navigation-prev " aria-label="Previous page: Memory Isolation">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../../doc/Startup.html" class="navigation navigation-next " aria-label="Next page: Startup">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Registers","level":"2.8","depth":1,"next":{"title":"Startup","level":"2.9","depth":1,"path":"Startup.md","ref":"Startup.md","articles":[]},"previous":{"title":"Memory Isolation","level":"2.7","depth":1,"path":"Memory_Isolation.md","ref":"Memory_Isolation.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"../libraries/tock-register-interface/README.md","mtime":"2020-09-14T07:33:27.113Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:30:17.588Z"},"basePath":"../../doc","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../doc/gitbook/gitbook.js"></script>
+    <script src="../../doc/gitbook/theme.js"></script>
+    
+        
+        <script src="../../doc/gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../../doc/gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../doc/gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../doc/gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../doc/gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../doc/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../doc/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

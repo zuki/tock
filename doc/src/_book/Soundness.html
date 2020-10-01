@@ -1,0 +1,729 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Soundness · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Compilation.html" />
+    
+    
+    <link rel="prev" href="Mutable_References.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="Overview.html">
+            
+                <a href="Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="Design.html">
+            
+                <a href="Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="threat_model/">
+            
+                <a href="threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Lifetimes.html">
+            
+                <a href="Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Mutable_References.html">
+            
+                <a href="Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.3" data-path="Soundness.html">
+            
+                <a href="Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="Compilation.html">
+            
+                <a href="Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="TockBinaryFormat.html">
+            
+                <a href="TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Memory_Layout.html">
+            
+                <a href="Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="Memory_Isolation.html">
+            
+                <a href="Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="Registers.html">
+            
+                <a href="Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Startup.html">
+            
+                <a href="Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="Syscalls.html">
+            
+                <a href="Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="Userland.html">
+            
+                <a href="Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="Networking_Stack.html">
+            
+                <a href="Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="Configuration.html">
+            
+                <a href="Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="syscalls/">
+            
+                <a href="syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="reference/">
+            
+                <a href="reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="Getting_Started.html">
+            
+                <a href="Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="Porting.html">
+            
+                <a href="Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="OutOfTree.html">
+            
+                <a href="OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="wg/">
+            
+                <a href="wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="CodeReview.html">
+            
+                <a href="CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Soundness</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="soundness-and-unsafe-issues">Soundness and Unsafe Issues</h2>
+<p>An operating system necessarily must use unsafe code. This document explains
+the rationale behind some of the key mechanisms in Tock that do use unsafe code
+but should still preserve safety in the overall OS.</p>
+<!-- npm i -g markdown-toc; markdown-toc -i Soundness.md -->
+<!-- toc -->
+<ul>
+<li><a href="#static_init"><code>static_init!</code></a><ul>
+<li><a href="#use">Use</a></li>
+<li><a href="#soundness">Soundness</a></li>
+<li><a href="#alternatives">Alternatives</a></li>
+</ul>
+</li>
+<li><a href="#capabilities-restricting-access-to-certain-functions-and-operations">Capabilities: Restricting Access to Certain Functions and Operations</a><ul>
+<li><a href="#capability-examples">Capability Examples</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<h2 id="staticinit"><code>static_init!</code></h2>
+<p>The &quot;type&quot; of <code>static_init!</code> is basically:</p>
+<pre><code class="lang-rust">T =&gt; (<span class="hljs-function"><span class="hljs-keyword">fn</span></span>() -&gt; T) -&gt; &amp;<span class="hljs-symbol">&apos;static</span> <span class="hljs-keyword">mut</span> T
+</code></pre>
+<p>Meaning that given a function that returns something of type <code>T</code>, <code>static_init!</code>
+returns a mutable reference to <code>T</code> with static lifetime.</p>
+<p>This is effectively meant to be equivalent to declaring a mutable static
+variable:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">static</span> <span class="hljs-keyword">mut</span> MY_VAR: SomeT = SomeT::const_constructor();
+</code></pre>
+<p>Then creating a reference to it:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> my_ref: &amp;<span class="hljs-symbol">&apos;static</span> <span class="hljs-keyword">mut</span> = &amp;<span class="hljs-keyword">mut</span> MY_VAR;
+</code></pre>
+<p>However, the rvalue in static declarations must be <code>const</code> (because Rust doesn&apos;t
+have pre-initialization sections). So <code>static_init!</code> basically allows static
+variables that have non-const initializers.</p>
+<p>Note that in both of these cases, the caller must wrap the calls in <code>unsafe</code>
+since references a mutable variable is unsafe (due to aliasing rules).</p>
+<h3 id="use">Use</h3>
+<p><code>static_init!</code> is used in Tock to initialize capsules, which will eventually
+reference each other. In all cases, these references are immutable. It is
+important for these to be statically allocated for two reasons. First, it helps
+surface memory pressure issues at link time (if they are allocated on the stack,
+they won&apos;t trivially show up as out-of-memory link errors if the stack isn&apos;t
+sized properly). Second, the lifetimes of mutually-dependent capsules needs to
+be equal, and <code>&apos;static</code> is a convenient way of achieving this.</p>
+<p>However, in a few cases, it is useful to start with a mutable reference in order
+to enforce <em>who</em> can make certain calls. For example, setting up buffers in the
+SPI driver is, for practical reasons, deferred until after construction but we
+would like to enforce that it can only be called by the platform initialization
+function (before <code>main</code> starts). This is enforced because all references after
+the platform is setup are immutable, and the <code>config_buffers</code> method takes an
+<code>&amp;mut self</code> (<em>Note: it looks like this is not strictly necessary, so maybe not a
+big deal if we can&apos;t do this</em>).</p>
+<h3 id="soundness">Soundness</h3>
+<p>The thing that would make the use of <code>static_init!</code> unsafe is if it was used to
+create aliases to mutable references. The fact that it returns an <code>&amp;&apos;static mut</code>
+is a red flag, so it bears explanation why I think this is OK.</p>
+<p>Just as with any <code>&amp;mut</code>, as soon as it is reborrowed it can no longer be used.
+What we do in Tock, specifically, is use it mutably in some cases immediately
+after calling <code>static_init!</code>, then reborrow it immutably to pass into capsules.
+If a particular capsule happened to treat accept an <code>&amp;mut</code>, the compiler would
+try to move the reference and it would either fail that call (if it&apos;s already
+reborrowed immutably elsewhere) or disallow further reborrows. Note that this is
+fine if it is indeed not used as a shared reference (although I don&apos;t think we
+have examples of that use).</p>
+<p>It is important, though, that the same code calling <code>static_init!</code> is not
+executed twice. This creates two major issues. First, it could technically
+result in multiple mutable references. Second, it would run the constructor
+twice, which may create other soundness or functional issues with existing
+references to the same memory. I believe this is not different that code that
+takes a mutable reference to a static variable. Again, importantly both cases
+must be wrapped with <code>unsafe</code>.</p>
+<h3 id="alternatives">Alternatives</h3>
+<p>It seems technically possible to return an immutable static reference from
+<code>static_init!</code> instead. It would require a bit of code changes, and wouldn&apos;t
+allow us to restrict certain capsule methods to initialization, but may not be a
+particularly big deal.</p>
+<p>Also, something something static variables of type <code>Option</code> everywhere (ugh...
+but maybe reasonable).</p>
+<h2 id="capabilities-restricting-access-to-certain-functions-and-operations">Capabilities: Restricting Access to Certain Functions and Operations</h2>
+<p>Certain operations and functions, particularly those in the kernel crate, are
+not &quot;unsafe&quot; from a language perspective, but are unsafe from an isolation and
+system operation perspective. For example, restarting a process, conceptually,
+does not violate type or memory safety (even though the specific implementation
+in Tock does), but it would violate overall system safety if any code in the
+kernel could restart any arbitrary process. Therefore, Tock must be careful with
+how it provides a function like <code>restart_process()</code>, and, in particular, must
+not allow capsules, which are untrusted code that must be sandboxed by Rust, to
+have access to the <code>restart_process()</code> function.</p>
+<p>Luckily, Rust provides a primitive for doing this restriction: use of the
+<code>unsafe</code> keyword. Any function marked as <code>unsafe</code> can only be called from a
+different <code>unsafe</code> function or from an <code>unsafe</code> block. Therefore, by removing
+the ability to define an <code>unsafe</code> block, using the <code>#![forbid(unsafe_code)]</code>
+attribute in a crate, all modules in that crate cannot call any functions marked
+with <code>unsafe</code>. In the case of Tock, the capsules crate is marked with this
+attribute, and therefore all capsules cannot use <code>unsafe</code> functions. While this
+approach is effective, it is very coarse-grained: it provides either access to
+all <code>unsafe</code> functions or none. To provide more nuanced control, Tock includes
+a mechanism called Capabilities.</p>
+<p>Capabilities are essentially zero-memory objects that are required to call
+certain functions. Abstractly, restricted functions, like <code>restart_process()</code>,
+would require that the caller has a certain capability:</p>
+<pre><code>restart_process(process_id: usize, capability: ProcessRestartCapability) {}
+</code></pre><p>Any attempt to call that function without possessing that capability would
+result in code that does not compile. To prevent unauthorized uses of
+capabilities, capabilities can only be created by trusted code. In Tock, this is
+implemented by defining capabilities as unsafe traits, which can only be
+implemented for an object by code capable of calling <code>unsafe</code>. Therefore, code
+in the untrusted capsules crate cannot generate a capability on its own, and
+instead must be passed the capability by module in a different crate.</p>
+<p>Capabilities can be defined for very broad purposes or very narrowly, and code
+can &quot;request&quot; multiple capabilities. Multiple capabilities in Tock can be passed
+by implementing multiple capability traits for a single object.</p>
+<h3 id="capability-examples">Capability Examples</h3>
+<ol>
+<li><p>One example of how capabilities are useful in Tock is with loading processes.
+Loading processes is left as a responsibility of the board, since a board may
+choose to handle its processes in a certain way, or not support userland
+processes at all. However, the kernel crate provides a helpful function
+called <code>load_processes()</code> that provides the Tock standard method for finding
+and loading processes. This function is defined in the kernel crate so that
+all Tock boards can share it, which necessitates that the function be made
+public. This has the effect that <em>all</em> modules with access to the kernel
+crate can call <code>load_processes()</code>, even though calling it twice would lead to
+unwanted behavior. One approach is to mark the function as <code>unsafe</code>, so only
+trusted code can call it. This is effective, but not explicit, and conflates
+language-level safety with system operation-level safety. By instead
+requiring that the caller of <code>load_processes()</code> has a certain capability, the
+expectations of the caller are more explicit, and the unsafe function does
+not have to be repurposed.</p>
+</li>
+<li><p>A similar example is a function like <code>restart_all_processes()</code> which causes
+all processes on the board to enter a fault state and restart from their
+original <code>_start</code> point with all grants removed. Again, this is a function
+that could violate the system-level goals, but could be very useful in
+certain situations or for debugging grant cleanup when apps fail. Unlike
+<code>load_processes()</code>, however, it might make sense for a capsule to be able to
+call <code>restart_all_processes()</code>, in response to a certain event or to act as a
+watchdog. In that case, restricting access by marking it as <code>unsafe</code> will not
+work: capsules cannot call unsafe code. By using capabilities, only a caller
+with the correct capability can call <code>restart_all_processes()</code>, and
+individual boards can be very explicit about which capsules they grant which
+capabilities.</p>
+</li>
+</ol>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Soundness","level":"2.3","depth":1,"next":{"title":"Compilation","level":"2.4","depth":1,"path":"Compilation.md","ref":"Compilation.md","articles":[]},"previous":{"title":"Mutable References","level":"2.2","depth":1,"path":"Mutable_References.md","ref":"Mutable_References.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"Soundness.md","mtime":"2020-09-14T07:33:27.029Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,812 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Porting Tock · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="OutOfTree.html" />
+    
+    
+    <link rel="prev" href="Getting_Started.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="Overview.html">
+            
+                <a href="Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="Design.html">
+            
+                <a href="Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="threat_model/">
+            
+                <a href="threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Lifetimes.html">
+            
+                <a href="Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Mutable_References.html">
+            
+                <a href="Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Soundness.html">
+            
+                <a href="Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="Compilation.html">
+            
+                <a href="Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="TockBinaryFormat.html">
+            
+                <a href="TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Memory_Layout.html">
+            
+                <a href="Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="Memory_Isolation.html">
+            
+                <a href="Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="Registers.html">
+            
+                <a href="Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Startup.html">
+            
+                <a href="Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="Syscalls.html">
+            
+                <a href="Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="Userland.html">
+            
+                <a href="Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="Networking_Stack.html">
+            
+                <a href="Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="Configuration.html">
+            
+                <a href="Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="syscalls/">
+            
+                <a href="syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="reference/">
+            
+                <a href="reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="Getting_Started.html">
+            
+                <a href="Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.2" data-path="Porting.html">
+            
+                <a href="Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="OutOfTree.html">
+            
+                <a href="OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="wg/">
+            
+                <a href="wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="CodeReview.html">
+            
+                <a href="CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Porting Tock</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tock&#x306E;&#x30DD;&#x30FC;&#x30C6;&#x30A3;&#x30F3;&#x30B0;">Tock&#x306E;&#x30DD;&#x30FC;&#x30C6;&#x30A3;&#x30F3;&#x30B0;</h1>
+<p>&#x3053;&#x306E;&#x30AC;&#x30A4;&#x30C9;&#x306F;&#x65B0;&#x3057;&#x3044;&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x306B;Tock&#x3092;&#x30DD;&#x30FC;&#x30C6;&#x30A3;&#x30F3;&#x30B0;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x3092;&#x6271;&#x3044;&#x307E;&#x3059;&#x3002;</p>
+<p><em>It is a work in progress. Comments and pull requests are appreciated!</em></p>
+<!-- npm i -g markdown-toc; markdown-toc -i Porting.md -->
+<!-- toc -->
+<ul>
+<li><a href="#tock&#x306E;&#x30DD;&#x30FC;&#x30C6;&#x30A3;&#x30F3;&#x30B0;">Tock&#x306E;&#x30DD;&#x30FC;&#x30C6;&#x30A3;&#x30F3;&#x30B0;</a><ul>
+<li><a href="#&#x6982;&#x8981;">&#x6982;&#x8981;</a></li>
+<li><a href="#&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x8A73;&#x7D30;">&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x8A73;&#x7D30;</a><ul>
+<li><a href="#arch&#x30AF;&#x30EC;&#x30FC;&#x30C8;"><code>arch</code>&#x30AF;&#x30EC;&#x30FC;&#x30C8;</a></li>
+<li><a href="#chip&#x30AF;&#x30EC;&#x30FC;&#x30C8;"><code>chip</code>&#x30AF;&#x30EC;&#x30FC;&#x30C8;</a></li>
+<li><a href="#board&#x30DC;&#x30FC;&#x30C9;"><code>board</code>&#x30DC;&#x30FC;&#x30C9;</a><ul>
+<li><a href="#&#x30DC;&#x30FC;&#x30C9;&#x306E;&#x30B5;&#x30DD;&#x30FC;&#x30C8;">&#x30DC;&#x30FC;&#x30C9;&#x306E;&#x30B5;&#x30DD;&#x30FC;&#x30C8;</a><ul>
+<li><a href="#panic&#x5225;&#x540D;iors"><code>panic!</code>&#xFF08;&#x5225;&#x540D;&#x3001;<code>io.rs</code>&#xFF09;</a></li>
+<li><a href="#&#x30DC;&#x30FC;&#x30C8;&#x7528;&#x306E;cargotoml&#x3068;buildrs">&#x30DC;&#x30FC;&#x30C8;&#x7528;&#x306E;Cargo.toml&#x3068;build.rs</a></li>
+<li><a href="#&#x30DC;&#x30FC;&#x30C9;&#x7528;&#x306E;makefile">&#x30DC;&#x30FC;&#x30C9;&#x7528;&#x306E;Makefile</a><ul>
+<li><a href="#&#x30D3;&#x30EB;&#x30C9;&#x3057;&#x305F;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x3092;&#x30DC;&#x30FC;&#x30C9;&#x306B;&#x306E;&#x305B;&#x308B;">&#x30D3;&#x30EB;&#x30C9;&#x3057;&#x305F;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x3092;&#x30DC;&#x30FC;&#x30C9;&#x306B;&#x306E;&#x305B;&#x308B;</a></li>
+</ul>
+</li>
+<li><a href="#&#x30DC;&#x30FC;&#x30C9;&#x7528;&#x306E;readme">&#x30DC;&#x30FC;&#x30C9;&#x7528;&#x306E;README</a></li>
+</ul>
+</li>
+<li><a href="#&#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x30ED;&#x30FC;&#x30C9;">&#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x30ED;&#x30FC;&#x30C9;</a></li>
+<li><a href="#&#x3088;&#x304F;&#x3042;&#x308B;&#x843D;&#x3068;&#x3057;&#x7A74;">&#x3088;&#x304F;&#x3042;&#x308B;&#x843D;&#x3068;&#x3057;&#x7A74;</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#adding-a-platform-to-tock-repository">Adding a Platform to Tock Repository</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<h2 id="&#x6982;&#x8981;">&#x6982;&#x8981;</h2>
+<p>&#x9AD8;&#x30EC;&#x30D9;&#x30EB;&#x3067;&#x306F;&#x3001;Tock&#x3092;&#x65B0;&#x3057;&#x3044;&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x306B;&#x79FB;&#x690D;&#x3059;&#x308B;&#x306B;&#x306F;&#x3001;&#x65B0;&#x3057;&#x3044; &quot;board&quot;&#x3092;&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x3068;&#x3057;&#x3066;&#x4F5C;&#x6210;&#x3057;&#x3001;
+&#x5834;&#x5408;&#x306B;&#x3088;&#x3063;&#x3066;&#x306F;&#x3055;&#x3089;&#x306B;&#x3001;&quot;chip&quot;&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x3068;&quot;arch&quot;&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x3092;&#x8FFD;&#x52A0;&#x3059;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;board&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x306F;&#x3001;
+chip&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x3068;&#x5171;&#x306B;&#x30AB;&#x30D7;&#x30BB;&#x30EB;&#x3092;&#x3064;&#x306A;&#x304E;&#x5408;&#x308F;&#x305B;&#x308B;&#x3053;&#x3068;&#x3067;&#x3001;&#x30CF;&#x30FC;&#x30C9;&#x30A6;&#x30A7;&#x30A2;&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x4E0A;&#x3067;&#x5229;&#x7528;&#x53EF;&#x80FD;&#x306A;
+&#x30EA;&#x30BD;&#x30FC;&#x30B9;&#x3092;&#x6B63;&#x3057;&#x304F;&#x6307;&#x5B9A;&#x3057;&#x307E;&#x3059; (&#x30D4;&#x30F3;&#x306E;&#x5272;&#x308A;&#x5F53;&#x3066;&#x3001;&#x30DC;&#x30FC;&#x30EC;&#x30FC;&#x30C8;&#x306E;&#x8A2D;&#x5B9A;&#x3001;&#x30CF;&#x30FC;&#x30C9;&#x30A6;&#x30A7;&#x30A2;&#x30DA;&#x30EA;&#x30D5;&#x30A7;&#x30E9;&#x30EB;&#x306E;&#x5272;&#x308A;&#x5F53;&#x3066;&#x306A;&#x3069;)&#x3002;
+chip&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x306F;&#x3001;<code>kernel/src/hil</code>&#x306B;&#x3042;&#x308B;&#x30C8;&#x30EC;&#x30A4;&#x30C8;&#x3092;&#x5B9F;&#x88C5;&#x3059;&#x308B;&#x3053;&#x3068;&#x306B;&#x3088;&#x308A;&#x7279;&#x5B9A;&#x306E;&#x30DE;&#x30A4;&#x30AF;&#x30ED;&#x30B3;&#x30F3;&#x30C8;&#x30ED;&#x30FC;&#x30E9;&#x7528;&#x306E;
+&#x30DA;&#x30EA;&#x30D5;&#x30A7;&#x30E9;&#x30EB;&#x30C9;&#x30E9;&#x30A4;&#x30D0;&#xFF08;UART&#x3001;GPIO&#x3001;&#x30A2;&#x30E9;&#x30FC;&#x30E0;&#x306A;&#x3069;&#xFF09;&#x3092;&#x5B9F;&#x88C5;&#x3057;&#x307E;&#x3059;&#x3002;&#x5BFE;&#x8C61;&#x306E;&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x304C;&#x65E2;&#x306B;Tock&#x3067;
+&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x30DE;&#x30A4;&#x30AF;&#x30ED;&#x30B3;&#x30F3;&#x30C8;&#x30ED;&#x30FC;&#x30E9;&#x3092;&#x4F7F;&#x7528;&#x3057;&#x3066;&#x3044;&#x308B;&#x5834;&#x5408;&#x306F;&#x3001;&#x65E2;&#x5B58;&#x306E;chip&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x3092;&#x4F7F;&#x7528;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;
+arch&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x306F;&#x7279;&#x5B9A;&#x306E;&#x30CF;&#x30FC;&#x30C9;&#x30A6;&#x30A7;&#x30A2;&#x30A2;&#x30FC;&#x30AD;&#x30C6;&#x30AF;&#x30C1;&#x30E3;&#x7528;&#x306E;&#x4F4E;&#x30EC;&#x30D9;&#x30EB;&#x306E;&#x30B3;&#x30FC;&#x30C9;&#x3092;&#x5B9F;&#x88C5;&#x3057;&#x307E;&#x3059; (&#x305F;&#x3068;&#x3048;&#x3070;&#x3001;&#x30C1;&#x30C3;&#x30D7;&#x306E;
+&#x8D77;&#x52D5;&#x6642;&#x306B;&#x884C;&#x3046;&#x3053;&#x3068;&#x3084;&#x30B7;&#x30B9;&#x30C6;&#x30E0;&#x30B3;&#x30FC;&#x30EB;&#x306E;&#x5B9F;&#x88C5;&#x65B9;&#x6CD5;&#x306A;&#x3069;)&#x3002;</p>
+<h2 id="&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x8A73;&#x7D30;">&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x8A73;&#x7D30;</h2>
+<p>&#x3053;&#x306E;&#x30BB;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x3067;&#x306F;&#x65B0;&#x305F;&#x306A;&#x30CF;&#x30FC;&#x30C9;&#x30A6;&#x30A7;&#x30A2;&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x306E;&#x30DD;&#x30FC;&#x30C6;&#x30A3;&#x30F3;&#x30B0;&#x306B;&#x5FC5;&#x8981;&#x306A;&#x5404;&#x7A2E;&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x306E;&#x5B9F;&#x88C5;&#x306B;
+&#x5FC5;&#x8981;&#x306A;&#x3053;&#x3068;&#x3092;&#x3088;&#x308A;&#x8A73;&#x7D30;&#x306B;&#x8AAC;&#x660E;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<h3 id="arch&#x30AF;&#x30EC;&#x30FC;&#x30C8;"><code>arch</code>&#x30AF;&#x30EC;&#x30FC;&#x30C8;</h3>
+<p>Tock&#x306F;&#x73FE;&#x5728;&#x3001;ARM Cortex-M0&#x3001;Cortex-M3&#x3001;Cortex M4&#x3068;riscv32imac
+&#x30A2;&#x30FC;&#x30AD;&#x30C6;&#x30AF;&#x30C1;&#x30E3;&#x3092;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3057;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;Tock&#x306B;&#x306F;&#x30A2;&#x30FC;&#x30AD;&#x30C6;&#x30AF;&#x30C1;&#x30E3;&#x56FA;&#x6709;&#x306E;&#x30B3;&#x30FC;&#x30C9;&#x306F;
+&#x3042;&#x307E;&#x308A;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;&#x56FA;&#x6709;&#x306E;&#x30B3;&#x30FC;&#x30C9;&#x304C;&#x5FC5;&#x8981;&#x306A;&#x3082;&#x306E;&#x306F;&#x4EE5;&#x4E0B;&#x306E;&#x3068;&#x304A;&#x308A;&#x3067;&#x3059;&#x3002;</p>
+<ul>
+<li>&#x30B7;&#x30B9;&#x30B3;&#x30FC;&#x30EB;&#x306E;&#x5165;&#x53E3;/&#x51FA;&#x53E3;</li>
+<li>&#x5272;&#x308A;&#x8FBC;&#x307F;&#x306E;&#x8A2D;&#x5B9A;</li>
+<li>&#x4E0A;&#x534A;&#x5206;&#x306E;&#x5272;&#x308A;&#x8FBC;&#x307F;&#x30CF;&#x30F3;&#x30C9;&#x30E9;</li>
+<li>MPU&#x306E;&#x8A2D;&#x5B9A;&#xFF08;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308C;&#x3070;&#xFF09;</li>
+<li>&#x30D1;&#x30EF;&#x30FC;&#x7BA1;&#x7406;&#x306E;&#x8A2D;&#x5B9A;&#xFF08;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308C;&#x3070;&#xFF09;</li>
+</ul>
+<p>Tock&#x3092;&#x4ED6;&#x306E;ARM Cortex M&#xFF08;&#x5177;&#x4F53;&#x7684;&#x306B;&#x306F; M0+, M23, M4F, M7)&#x3084;riscv32&#x306E;
+&#x30D0;&#x30EA;&#x30A2;&#x30F3;&#x30C8;&#x306B;&#x79FB;&#x690D;&#x3059;&#x308B;&#x306E;&#x306F;&#x304B;&#x306A;&#x308A;&#x7C21;&#x5358;&#x3060;&#x3068;&#x601D;&#x3044;&#x307E;&#x3059;&#x3002;&#x4ED6;&#x306E;&#x30A2;&#x30FC;&#x30AD;&#x30C6;&#x30AF;&#x30C1;&#x30E3;&#x3078;&#x306E;Tock&#x306E;
+&#x79FB;&#x690D;&#x306F;&#x304A;&#x305D;&#x3089;&#x304F;&#x3082;&#x3063;&#x3068;&#x5927;&#x5909;&#x306A;&#x4F5C;&#x696D;&#x306B;&#x306A;&#x308B;&#x3067;&#x3057;&#x3087;&#x3046;&#x3002;&#x6211;&#x3005;&#x306F;&#x30A2;&#x30FC;&#x30AD;&#x30C6;&#x30AF;&#x30C1;&#x30E3;&#x306B;&#x4F9D;&#x5B58;
+&#x3057;&#x306A;&#x3044;&#x3053;&#x3068;&#x3092;&#x76EE;&#x6307;&#x3057;&#x3066;&#x3044;&#x307E;&#x3059;&#x304C;&#x5C11;&#x6570;&#x306E;&#x30A2;&#x30FC;&#x30AD;&#x30C6;&#x30AF;&#x30C1;&#x30E3;&#x3067;&#x3057;&#x304B;&#x30C6;&#x30B9;&#x30C8;&#x3055;&#x308C;&#x3066;&#x3044;&#x307E;&#x305B;&#x3093;&#x3002;</p>
+<p>Tock&#x3092;&#x65B0;&#x3057;&#x3044;&#x30A2;&#x30FC;&#x30AD;&#x30C6;&#x30AF;&#x30C1;&#x30E3;&#x306B;&#x79FB;&#x690D;&#x3059;&#x308B;&#x3053;&#x3068;&#x306B;&#x8208;&#x5473;&#x304C;&#x3042;&#x308B;&#x5834;&#x5408;&#x306F;&#x3001;&#x3042;&#x307E;&#x308A;&#x6DF1;&#x304F;
+&#x6398;&#x308A;&#x4E0B;&#x3052;&#x308B;&#x524D;&#x306B;&#x30E1;&#x30FC;&#x30EB;&#x3084;Slack&#x3067;&#x958B;&#x767A;&#x30C1;&#x30FC;&#x30E0;&#x306B;&#x9023;&#x7D61;&#x3092;&#x53D6;&#x3063;&#x305F;&#x65B9;&#x304C;&#x826F;&#x3044;&#x3067;&#x3057;&#x3087;&#x3046;&#x3002;</p>
+<h3 id="chip&#x30AF;&#x30EC;&#x30FC;&#x30C8;"><code>chip</code>&#x30AF;&#x30EC;&#x30FC;&#x30C8;</h3>
+<p><code>chip</code>&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x306F;&#x7279;&#x5B9A;&#x306E;&#x30DE;&#x30A4;&#x30AF;&#x30ED;&#x30B3;&#x30F3;&#x30C8;&#x30ED;&#x30FC;&#x30E9;&#x56FA;&#x6709;&#x306E;&#x3082;&#x306E;&#x3067;&#x3059;&#x304C;&#x3001;&#x30DE;&#x30A4;&#x30AF;&#x30ED;
+&#x30B3;&#x30F3;&#x30C8;&#x30ED;&#x30FC;&#x30E9;&#x30D5;&#x30A1;&#x30DF;&#x30EA;&#x306B;&#x5BFE;&#x3057;&#x3066;&#x4E00;&#x822C;&#x7684;&#x306B;&#x306A;&#x308B;&#x3088;&#x3046;&#x306B;&#x3059;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;&#x305F;&#x3068;&#x3048;&#x3070;&#x3001;
+<code>nRF58240</code>&#x3068;<code>nRF58230</code>&#x306E;&#x4E21;&#x30DE;&#x30A4;&#x30AF;&#x30ED;&#x30B3;&#x30F3;&#x30C8;&#x30ED;&#x30FC;&#x30E9;&#x306E;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x306F;
+<code>chips/nrf52</code>&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x3068;<code>chips/nrf5x</code>&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x3067;&#x5171;&#x6709;&#x3055;&#x308C;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;
+&#x3053;&#x308C;&#x306B;&#x3088;&#x308A;&#x3001;&#x91CD;&#x8907;&#x3059;&#x308B;&#x30B3;&#x30FC;&#x30C9;&#x304C;&#x6E1B;&#x308A;&#x3001;&#x65B0;&#x305F;&#x306A;&#x30DE;&#x30A4;&#x30AF;&#x30ED;&#x30B3;&#x30F3;&#x30C8;&#x30ED;&#x30FC;&#x30E9;&#x306E;&#x8FFD;&#x52A0;&#x3092;&#x5BB9;&#x6613;&#x306B;
+&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<p><code>chip</code>&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x306B;&#x306F;<code>kernel/src/hil</code>&#x3067;&#x5B9A;&#x7FA9;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x30A4;&#x30F3;&#x30BF;&#x30FC;&#x30D5;&#x30A7;&#x30FC;&#x30B9;&#x306E;
+&#x30DE;&#x30A4;&#x30AF;&#x30ED;&#x30B3;&#x30F3;&#x30C8;&#x30ED;&#x30FC;&#x30E9;&#x56FA;&#x6709;&#x306E;&#x5B9F;&#x88C5;&#x304C;&#x542B;&#x307E;&#x308C;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x30C1;&#x30C3;&#x30D7;&#x306B;&#x306F;&#x6570;&#x591A;&#x304F;&#x306E;&#x6A5F;&#x80FD;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x304C;&#x3001;Tock&#x306F;&#x305D;&#x308C;&#x3089;&#x3092;&#x8868;&#x73FE;&#x3059;&#x308B;&#x591A;&#x304F;&#x306E;&#x30A4;&#x30F3;&#x30BF;&#x30FC;
+&#x30D5;&#x30A7;&#x30FC;&#x30B9;&#x3092;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3057;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;&#x65B0;&#x305F;&#x306A;&#x30C1;&#x30C3;&#x30D7;&#x306E;&#x5B9F;&#x88C5;&#x3092;&#x5C11;&#x3057;&#x305A;&#x3064;&#x884C;&#x3063;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;
+&#x30EA;&#x30BB;&#x30C3;&#x30C8;&#x3068;&#x521D;&#x671F;&#x5316;&#x3092;&#x884C;&#x3046;&#x30B3;&#x30FC;&#x30C9;&#x304C;&#x52D5;&#x304F;&#x3088;&#x3046;&#x306B;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;&#x305D;&#x308C;&#x3092;&#x30C1;&#x30C3;&#x30D7;&#x306E;
+&#x30C7;&#x30D5;&#x30A9;&#x30EB;&#x30C8;&#x30AF;&#x30ED;&#x30C3;&#x30AF;&#x3067;&#x52D5;&#x4F5C;&#x3059;&#x308B;&#x3088;&#x3046;&#x306B;&#x8A2D;&#x5B9A;&#x3057;&#x3001;GPIO&#x30A4;&#x30F3;&#x30BF;&#x30FC;&#x30D5;&#x30A7;&#x30FC;&#x30B9;&#x3092;&#x8FFD;&#x52A0;&#x3057;&#x3066;
+&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;&#x305D;&#x306E;&#x30C1;&#x30C3;&#x30D7;&#x3092;&#x4F7F;&#x3046;&#x6700;&#x5C0F;&#x306E;&#x30DC;&#x30FC;&#x30C9;&#x3092;&#x307E;&#x3068;&#x3081;&#x3066;&#x3001;GPIO&#x3092;&#x4F7F;&#x3046;&#x30A8;&#x30F3;&#x30C9;
+&#x30C4;&#x30FC;&#x30A8;&#x30F3;&#x30C9;&#x306E;&#x30E6;&#x30FC;&#x30B6;&#x30FC;&#x30E9;&#x30F3;&#x30C9;&#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3067;&#x691C;&#x8A3C;&#x3059;&#x308B;&#x306E;&#x304C;&#x826F;&#x3044;&#x3067;&#x3057;&#x3087;&#x3046;&#x3002;</p>
+<p>GPIO&#x306E;&#x3088;&#x3046;&#x306A;&#x5C0F;&#x3055;&#x306A;&#x3082;&#x306E;&#x304C;&#x52D5;&#x4F5C;&#x3059;&#x308B;&#x3088;&#x3046;&#x306B;&#x306A;&#x3063;&#x305F;&#x3089;&#x3001;&#x305D;&#x308C;&#x306F;Tock&#x306B;&#x30D7;&#x30EB;
+&#x30EA;&#x30AF;&#x30A8;&#x30B9;&#x30C8;&#x3092;&#x884C;&#x3046;&#x7D76;&#x597D;&#x306E;&#x6A5F;&#x4F1A;&#x3067;&#x3059;&#x3002;&#x305D;&#x308C;&#x306F;&#x3053;&#x306E;&#x30C1;&#x30C3;&#x30D7;&#x306B;&#x5BFE;&#x3059;&#x308B;&#x3042;&#x306A;&#x305F;&#x306E;&#x52AA;&#x529B;&#x3092;
+&#x4ED6;&#x306E;&#x4EBA;&#x306B;&#x77E5;&#x3089;&#x305B;&#x308B;&#x3053;&#x3068;&#x306B;&#x306A;&#x308A;&#x3001;&#x3046;&#x307E;&#x304F;&#x3044;&#x3051;&#x3070;&#x4ED6;&#x306E;&#x4EBA;&#x304B;&#x3089;&#x306E;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3092;&#x5F15;&#x304D;&#x5BC4;&#x305B;&#x308B;
+&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x307E;&#x305F;&#x3001;&#x30B3;&#x30FC;&#x30C9;&#x3092;&#x3055;&#x3089;&#x306B;&#x66F8;&#x304D;&#x7D99;&#x3050;&#x524D;&#x306B;Tock&#x306E;&#x30B3;&#x30A2;&#x30C1;&#x30FC;&#x30E0;&#x304B;&#x3089;
+&#x30D5;&#x30A3;&#x30FC;&#x30C9;&#x30D0;&#x30C3;&#x30AF;&#x3092;&#x5F97;&#x308B;&#x30C1;&#x30E3;&#x30F3;&#x30B9;&#x3067;&#x3082;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x4F5C;&#x696D;&#x3092;&#x9032;&#x3081;&#x3066;&#x3044;&#x304F;&#x3068;&#x30C1;&#x30C3;&#x30D7;&#x306F;&#x5408;&#x7406;&#x7684;&#x306A;&#x4F5C;&#x696D;&#x5358;&#x4F4D;&#x306B;&#x5206;&#x89E3;&#x3055;&#x308C;&#x3066;&#x3044;&#x304F;&#x50BE;&#x5411;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;
+&#x5BFE;&#x8C61;&#x306E;&#x30C1;&#x30C3;&#x30D7;&#x7528;&#x306B;<code>kernel::hil::UART</code>&#x306E;&#x3088;&#x3046;&#x306A;&#x3082;&#x306E;&#x3092;&#x5B9F;&#x88C5;&#x3057;&#x3066;&#x3001;&#x30D7;&#x30EB;
+&#x30EA;&#x30AF;&#x30A8;&#x30B9;&#x30C8;&#x3092;&#x63D0;&#x51FA;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;&#x65B0;&#x3057;&#x3044;&#x30DA;&#x30EA;&#x30D5;&#x30A7;&#x30E9;&#x30EB;&#x3092;&#x9078;&#x3093;&#x3067;&#x305D;&#x308C;&#x3092;&#x7E70;&#x308A;&#x8FD4;&#x3057;&#x3066;
+&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
+<h3 id="board&#x30DC;&#x30FC;&#x30C9;"><code>board</code>&#x30DC;&#x30FC;&#x30C9;</h3>
+<p><code>boards/src</code>&#x306B;&#x3042;&#x308B;<code>board</code>&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x306F;&#x7269;&#x7406;&#x7684;&#x306A;&#x30CF;&#x30FC;&#x30C9;&#x30A6;&#x30A7;&#x30A2;&#x30D7;&#x30E9;&#x30C3;&#x30C8;
+&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x306B;&#x56FA;&#x6709;&#x306E;&#x3082;&#x306E;&#x3067;&#x3059;&#x3002;&#x57FA;&#x672C;&#x7684;&#x306B;&#x3001;&#x30DC;&#x30FC;&#x30C9;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306F;&#x7279;&#x5B9A;&#x306E;&#x30CF;&#x30FC;&#x30C9;&#x30A6;&#x30A7;&#x30A2;&#x3092;
+&#x8A2D;&#x5B9A;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x3092;&#x69CB;&#x6210;&#x3059;&#x308B;&#x3082;&#x306E;&#x3067;&#x3059;&#x3002;&#x3053;&#x308C;&#x306B;&#x306F;&#x3001;&#x30BB;&#x30F3;&#x30B5;&#x30FC;&#x7528;&#x306E;&#x30C9;&#x30E9;&#x30A4;&#x30D0;&#x306E;
+&#x30A4;&#x30F3;&#x30B9;&#x30BF;&#x30F3;&#x30B9;&#x5316;&#x3001;&#x3053;&#x308C;&#x3089;&#x30BB;&#x30F3;&#x30B5;&#x3068;&#x901A;&#x4FE1;&#x30D0;&#x30B9;&#x3068;&#x306E;&#x30DE;&#x30C3;&#x30D4;&#x30F3;&#x30B0;&#x3001;GPIO&#x30D4;&#x30F3;&#x306E;&#x8A2D;&#x5B9A;&#x306A;&#x3069;&#x304C;
+&#x542B;&#x307E;&#x308C;&#x307E;&#x3059;&#x3002;</p>
+<p>Tock&#x306F;board&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x306E;&#x8A2D;&#x5B9A;&#x306B;&#x300C;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x300D;&#x3092;&#x6D3B;&#x7528;&#x3057;&#x307E;&#x3059;&#x3002;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;
+&#x3068;&#x306F;&#x3001;&#x7279;&#x5B9A;&#x306E;&#x30C9;&#x30E9;&#x30A4;&#x30D0;&#x7528;&#x306E;&#x3059;&#x3079;&#x3066;&#x306E;&#x8A2D;&#x5B9A;&#x30B3;&#x30FC;&#x30C9;&#x3092;&#x542B;&#x3080;&#x69CB;&#x9020;&#x4F53;&#x306E;&#x3053;&#x3068;&#x3067;&#x3042;&#x308A;&#x3001;&#x7279;&#x5B9A;&#x306E;
+&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x306B;&#x56FA;&#x6709;&#x306E;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x30DC;&#x30FC;&#x30C9;&#x306B;&#x6E21;&#x3059;&#x3088;&#x3046;&#x8981;&#x6C42;&#x3059;&#x308B;&#x3060;&#x3051;&#x3067;&#x3059;&#x3002;
+&#x305F;&#x3068;&#x3048;&#x3070;&#x3001;</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> ambient_light = AmbientLightComponent::new(board_kernel, mux_i2c, mux_alarm)
+    .finalize(components::isl29035_component_helper!(sam4l::ast::Ast));
+</code></pre>
+<p>&#x4E0A;&#x306E;&#x30B3;&#x30FC;&#x30C9;&#x306F;&#x3001;&#x30A2;&#x30F3;&#x30D3;&#x30A8;&#x30F3;&#x30C8;&#x30E9;&#x30A4;&#x30C8;&#x30BB;&#x30F3;&#x30B5;&#x30FC;&#x7528;&#x306E;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x306E;&#x30A4;&#x30F3;&#x30B9;&#x30BF;&#x30F3;&#x30B9;&#x3092;
+&#x4F5C;&#x6210;&#x3057;&#x307E;&#x3059;&#x3002;&#x30DC;&#x30FC;&#x30C9;&#x306E;&#x521D;&#x671F;&#x5316;&#x306F;&#x307B;&#x3068;&#x3093;&#x3069;&#x306E;&#x5834;&#x5408;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x3092;&#x4F7F;&#x3063;&#x3066;&#x884C;&#x3046;&#x3079;&#x304D;
+&#x3067;&#x3059;&#x304C;&#x3001;&#x307E;&#x3060;&#x3059;&#x3079;&#x3066;&#x306E;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x304C;&#x4F5C;&#x6210;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x308F;&#x3051;&#x3067;&#x306F;&#x306A;&#x3044;&#x306E;&#x3067;&#x3001;&#x4E00;&#x822C;&#x7684;&#x306B;&#x3001;
+&#x30DC;&#x30FC;&#x30C9;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306F;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x3068;&#x5197;&#x9577;&#x306A;&#x30C9;&#x30E9;&#x30A4;&#x30D0;&#x521D;&#x671F;&#x5316;&#x30B3;&#x30FC;&#x30C9;&#x304C;&#x6DF7;&#x5728;&#x3057;&#x305F;&#x3082;&#x306E;&#x306B;
+&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;&#x6700;&#x5584;&#x306E;&#x7B56;&#x306F;&#x3001;&#x65E2;&#x5B58;&#x306E;&#x30DC;&#x30FC;&#x30C9;&#x306E;<code>main.rs</code>&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x304B;&#x3089;&#x59CB;&#x3081;&#x3066;&#x3001;&#x305D;&#x308C;&#x3092;
+&#x9069;&#x5FDC;&#x3055;&#x305B;&#x308B;&#x3053;&#x3068;&#x3067;&#x3059;&#x3002;&#x307E;&#x305A;&#x306F;&#x307B;&#x3068;&#x3093;&#x3069;&#x306E;&#x30AB;&#x30D7;&#x30BB;&#x30EB;&#x3092;&#x524A;&#x9664;&#x3057;&#x3001;&#x52D5;&#x4F5C;&#x3059;&#x308B;&#x3088;&#x3046;&#x306B;&#x306A;&#x308B;&#x307E;&#x3067;
+&#x5C11;&#x3057;&#x305A;&#x3064;&#x30AB;&#x30D7;&#x30BB;&#x30EB;&#x3092;&#x8FFD;&#x52A0;&#x3057;&#x3066;&#x3044;&#x304F;&#x3068;&#x3088;&#x3044;&#x3067;&#x3057;&#x3087;&#x3046;&#x3002;</p>
+<blockquote>
+<p>&#x8B66;&#x544A;: &#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x306F;&#x30B7;&#x30F3;&#x30B0;&#x30EB;&#x30C8;&#x30F3;&#x3067;&#x3059;&#x3002;&#x8907;&#x6570;&#x56DE;&#x30A4;&#x30F3;&#x30B9;&#x30BF;&#x30F3;&#x30B9;&#x5316;&#x3059;&#x308B;&#x3053;&#x3068;&#x306F;
+&#x3067;&#x304D;&#x307E;&#x305B;&#x3093;&#x3002;&#x8907;&#x6570;&#x56DE;&#x30A4;&#x30F3;&#x30B9;&#x30BF;&#x30F3;&#x30B9;&#x5316;&#x3055;&#x308C;&#x306A;&#x3044;&#x3088;&#x3046;&#x306B;&#x3001;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x306F;&#x30EA;&#x30BB;&#x30C3;&#x30C8;
+&#x30CF;&#x30F3;&#x30C9;&#x30E9;&#x3067;&#x30A4;&#x30F3;&#x30B9;&#x30BF;&#x30F3;&#x30B9;&#x5316;&#x3059;&#x308B;&#x3079;&#x304D;&#x3067;&#x3059;&#x3002;</p>
+</blockquote>
+<h4 id="&#x30DC;&#x30FC;&#x30C9;&#x306E;&#x30B5;&#x30DD;&#x30FC;&#x30C8;">&#x30DC;&#x30FC;&#x30C9;&#x306E;&#x30B5;&#x30DD;&#x30FC;&#x30C8;</h4>
+<p>&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x30B3;&#x30FC;&#x30C9;&#x306B;&#x52A0;&#x3048;&#x3066;&#x3001;&#x30DC;&#x30FC;&#x30C9;&#x306F;&#x3044;&#x304F;&#x3064;&#x304B;&#x306E;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3082;&#x5FC5;&#x8981;&#x3068;&#x3057;&#x307E;&#x3059;&#x3002;
+&#x3053;&#x308C;&#x306F;&#x3001;&#x30DC;&#x30FC;&#x30C9;&#x540D;&#x3084;&#x30B3;&#x30FC;&#x30C9;&#x3092;&#x30DC;&#x30FC;&#x30C9;&#x306B;&#x30ED;&#x30FC;&#x30C9;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x3001;&#x30E6;&#x30FC;&#x30B6;&#x30E9;&#x30F3;&#x30C9;
+&#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x304C;&#x3053;&#x306E;&#x30DC;&#x30FC;&#x30C9;&#x306B;&#x5FC5;&#x8981;&#x3068;&#x3059;&#x308B;&#x306A;&#x306B;&#x304B;&#x7279;&#x5225;&#x306A;&#x3053;&#x3068;&#x306A;&#x3069;&#x306E;&#x30E1;&#x30BF;&#x30C7;&#x30FC;&#x30BF;&#x3092;
+&#x6307;&#x5B9A;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<h5 id="panic&#xFF08;&#x5225;&#x540D;&#x3001;iors&#xFF09;"><code>panic!</code>&#xFF08;&#x5225;&#x540D;&#x3001;<code>io.rs</code>&#xFF09;</h5>
+<p>&#x5404;&#x30DC;&#x30FC;&#x30C9;&#x306F;<code>panic!</code>&#x3092;&#x51E6;&#x7406;&#x3059;&#x308B;&#x30AB;&#x30B9;&#x30BF;&#x30E0;&#x30EB;&#x30FC;&#x30C1;&#x30F3;&#x3092;&#x4F5C;&#x6210;&#x3057;&#x306A;&#x3051;&#x308C;&#x3070;&#x306A;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;
+&#x307B;&#x3068;&#x3093;&#x3069;&#x306E;<code>panic!</code>&#x6A5F;&#x69CB;&#x306F;Tock&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x306B;&#x3088;&#x3063;&#x3066;&#x51E6;&#x7406;&#x3055;&#x308C;&#x307E;&#x3059;&#x304C;&#x3001;&#x30DC;&#x30FC;&#x30C9;&#x4F5C;&#x8005;&#x306F;
+&#x30CF;&#x30FC;&#x30C9;&#x30A6;&#x30A7;&#x30A2;&#x30A4;&#x30F3;&#x30BF;&#x30FC;&#x30D5;&#x30A7;&#x30FC;&#x30B9;&#x3001;&#x5177;&#x4F53;&#x7684;&#x306B;&#x306F;LED&#x3084;UART&#x3078;&#x306E;&#x6700;&#x4F4E;&#x9650;&#x306E;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3092;
+&#x63D0;&#x4F9B;&#x3057;&#x306A;&#x3051;&#x308C;&#x3070;&#x306A;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;</p>
+<p>&#x307E;&#x305A;&#x6700;&#x521D;&#x306B;&#x3001;LED&#x30D9;&#x30FC;&#x30B9;&#x306E;<code>panic!</code>&#x304C;&#x52D5;&#x4F5C;&#x3059;&#x308B;&#x3088;&#x3046;&#x306B;&#x3055;&#x305B;&#x308B;&#x306E;&#x304C;&#x6700;&#x3082;&#x7C21;&#x5358;&#x3067;&#x3059;&#x3002;
+<code>panic!</code>&#x30CF;&#x30F3;&#x30C9;&#x30E9;&#x306B;&#x76EE;&#x7ACB;&#x3064;&#x8272;&#x306E;LED&#x3092;&#x8A2D;&#x5B9A;&#x3057;&#x3066;&#x304B;&#x3089;&#x3001;
+<a href="https://docs.tockos.org/kernel/debug/fn.panic_blink_forever.html" target="_blank">kernel::debug::panic_blink_forever</a>&#x3092;&#x547C;&#x3073;&#x51FA;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
+<p>UART&#x304C;&#x5229;&#x7528;&#x3067;&#x304D;&#x308C;&#x3070;&#x3001;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x306F;&#x975E;&#x5E38;&#x306B;&#x6709;&#x7528;&#x306A;&#x30C7;&#x30D0;&#x30C3;&#x30B0;&#x60C5;&#x5831;&#x3092;&#x305F;&#x304F;&#x3055;&#x3093;&#x8868;&#x793A;&#x3059;&#x308B;
+&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x3057;&#x304B;&#x3057;&#x3001;<code>panic!</code>&#x306E;&#x72B6;&#x6CC1;&#x306B;&#x3042;&#x308B;&#x306E;&#x3067;&#x5B9F;&#x88C5;&#x306F;&#x6700;&#x5C0F;&#x9650;&#x306B;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;
+&#x91CD;&#x8981;&#x3067;&#x3059;&#x3002;&#x7279;&#x306B;&#x3001;&#x63D0;&#x4F9B;&#x3055;&#x308C;&#x308B;UART&#x306F;&#x540C;&#x671F;&#x7684;&#x306A;&#x3082;&#x306E;&#x3067;&#x306A;&#x3051;&#x308C;&#x3070;&#x306A;&#x308A;&#x307E;&#x305B;&#x3093;&#xFF08;&#x3053;&#x308C;&#x306F;
+&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x306E;&#x4ED6;&#x306E;UART&#x30A4;&#x30F3;&#x30BF;&#x30D5;&#x30A7;&#x30FC;&#x30B9;&#x304C;&#x3059;&#x3079;&#x3066;&#x975E;&#x540C;&#x671F;&#x3067;&#x3042;&#x308B;&#x306E;&#x3068;&#x306F;&#x5BFE;&#x7167;&#x7684;&#x3067;&#x3042;&#x308B;
+&#x3053;&#x3068;&#x306B;&#x6CE8;&#x610F;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#xFF09;&#x3002;&#x901A;&#x5E38;&#x306F;&#x3001;&#x5358;&#x306B;&#x4E00;&#x5EA6;&#x306B;1&#x30D0;&#x30A4;&#x30C8;&#x76F4;&#x63A5;UART&#x306B;&#x66F8;&#x304D;&#x8FBC;&#x3080;&#x3060;&#x3051;&#x306E;
+&#x975E;&#x5E38;&#x306B;&#x5358;&#x7D14;&#x306A;<code>Writer</code>&#x3092;&#x5B9F;&#x88C5;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x6700;&#x3082;&#x7C21;&#x5358;&#x304B;&#x3064;&#x6700;&#x5584;&#x306E;&#x65B9;&#x6CD5;&#x3067;&#x3059;&#x3002;<code>panic!</code>
+UART&#x30E9;&#x30A4;&#x30BF;&#x30FC;&#x306F;&#x52B9;&#x7387;&#x7684;&#x3067;&#x3042;&#x308B;&#x3053;&#x3068;&#x306F;&#x91CD;&#x8981;&#x3067;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;&#x3053;&#x308C;&#x304C;&#x3067;&#x304D;&#x305F;&#x3089;&#x3001;
+<a href="https://docs.tockos.org/kernel/debug/fn.panic_blink_forever.html" target="_blank">kernel::debug::panic_blink_forever</a>&#x306E;&#x547C;&#x3073;&#x51FA;&#x3057;&#x3092;
+<a href="https://docs.tockos.org/kernel/debug/fn.panic.html" target="_blank">kernel::debug::panic</a>&#x306E;
+&#x547C;&#x3073;&#x51FA;&#x3057;&#x306B;&#x7F6E;&#x304D;&#x63DB;&#x3048;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x307B;&#x3068;&#x3093;&#x3069;&#x306F;&#x6B74;&#x53F2;&#x7684;&#x306A;&#x7406;&#x7531;&#x304B;&#x3089;&#x3001;&#x3059;&#x3079;&#x3066;&#x306E;&#x30DC;&#x30FC;&#x30C9;&#x306E;&#x30D1;&#x30CB;&#x30C3;&#x30AF;&#x5B9F;&#x88C5;&#x306F;&#x3001;&#x30DC;&#x30FC;&#x30C9;&#x306E;
+<code>main.rs</code>&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x96A3;&#x63A5;&#x3059;&#x308B;<code>io.rs</code>&#x3068;&#x3044;&#x3046;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x7F6E;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<h5 id="&#x30DC;&#x30FC;&#x30C8;&#x7528;&#x306E;cargotoml&#x3068;buildrs">&#x30DC;&#x30FC;&#x30C8;&#x7528;&#x306E;Cargo.toml&#x3068;build.rs</h5>
+<p>&#x3059;&#x3079;&#x3066;&#x306E;board&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x306B;&#x306F;&#x3001;&#x30C8;&#x30C3;&#x30D7;&#x30EC;&#x30D9;&#x30EB;&#x30DE;&#x30CB;&#x30D5;&#x30A7;&#x30B9;&#x30C8;<code>Cargo.toml</code>&#x3092;&#x4F5C;&#x6210;
+&#x3057;&#x306A;&#x3051;&#x308C;&#x3070;&#x306A;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;&#x901A;&#x5E38;&#x306F;&#x3001;&#x4ED6;&#x306E;&#x30DC;&#x30FC;&#x30C9;&#x304B;&#x3089;&#x30B3;&#x30D4;&#x30FC;&#x3057;&#x3066;&#x30DC;&#x30FC;&#x30C9;&#x540D;&#x3068;&#x4F5C;&#x6210;&#x8005;&#x3092;
+&#x9069;&#x5B9C;&#x5909;&#x66F4;&#x3059;&#x308B;&#x3060;&#x3051;&#x3067;&#x3059;&#x3002;Tock&#x306B;&#x306F;<code>build.rs</code>&#x3068;&#x3044;&#x3046;&#x30D3;&#x30EB;&#x30C9;&#x30B9;&#x30AF;&#x30EA;&#x30D7;&#x30C8;&#x3082;
+&#x542B;&#x307E;&#x308C;&#x3066;&#x3044;&#x307E;&#x3059;&#x304C;&#x3001;&#x3053;&#x308C;&#x3092;&#x30B3;&#x30D4;&#x30FC;&#x3059;&#x308B;&#x5FC5;&#x8981;&#x3082;&#x3042;&#x308B;&#x3053;&#x3068;&#x306B;&#x6CE8;&#x610F;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;
+&#x30D3;&#x30EB;&#x30C9;&#x30B9;&#x30AF;&#x30EA;&#x30D7;&#x30C8;&#x306F;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x30EC;&#x30A4;&#x30A2;&#x30A6;&#x30C8;&#x306B;&#x4F9D;&#x5B58;&#x95A2;&#x4FC2;&#x3092;&#x8FFD;&#x52A0;&#x3059;&#x308B;&#x3082;&#x306E;&#x3067;&#x3059;&#x3002;</p>
+<h5 id="&#x30DC;&#x30FC;&#x30C9;&#x7528;&#x306E;makefile">&#x30DC;&#x30FC;&#x30C9;&#x7528;&#x306E;Makefile</h5>
+<p>&#x3059;&#x3079;&#x3066;&#x306E;board&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x306E;&#x30EB;&#x30FC;&#x30C8;&#x306B;&#x306F;Makefile&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;&#x5C11;&#x306A;&#x304F;&#x3068;&#x3082;&#x3001;
+&#x30DC;&#x30FC;&#x30C9;&#x7528;&#x306E;Makefile&#x3092;&#x542B;&#x3081;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<pre><code class="lang-make"># Hail&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x7528;&#x306E;tock&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x3092;&#x69CB;&#x7BC9;&#x3059;&#x308B;&#x305F;&#x3081;&#x306E;Makefile
+
+TARGET=thumbv7em-none-eabi      # &#x30BF;&#x30FC;&#x30B2;&#x30C3;&#x30C8;&#x30C8;&#x30EA;&#x30D7;&#x30EB;
+PLATFORM=hail                   # &#x30DC;&#x30FC;&#x30C9;&#x540D;&#x3092;&#x3053;&#x3053;&#x306B;
+
+include ../Makefile.common      # ../ &#x30DC;&#x30FC;&#x30C8;&#x306F;$(TOCK)/boards/&lt;board&gt;&#x306B;&#x3042;&#x308B;&#x3068;&#x4EEE;&#x5B9A;
+</code></pre>
+<p>Tock&#x306F;&#x30D3;&#x30EB;&#x30C9;&#x30B7;&#x30B9;&#x30C6;&#x30E0;&#x306E;&#x307B;&#x3068;&#x3093;&#x3069;&#x3092;&#x62C5;&#x5F53;&#x3059;&#x308B;<code>boards/Makefile.common</code>&#x3092;
+&#x63D0;&#x4F9B;&#x3057;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;&#x4E00;&#x822C;&#x7684;&#x306B;&#x306F;&#x3001;&#x3053;&#x306E;Makefile&#x3092;&#x6398;&#x308A;&#x4E0B;&#x3052;&#x308B;&#x5FC5;&#x8981;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;
+&#x3082;&#x3057;&#x3001;&#x4F55;&#x304B;&#x304C;&#x52D5;&#x4F5C;&#x3057;&#x3066;&#x3044;&#x306A;&#x3044;&#x3088;&#x3046;&#x3067;&#x3042;&#x308C;&#x3070;&#x3001;slack&#x3067;&#x805E;&#x3044;&#x3066;&#x307F;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
+<h6 id="&#x30D3;&#x30EB;&#x30C9;&#x3057;&#x305F;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x3092;&#x30DC;&#x30FC;&#x30C9;&#x306B;&#x306E;&#x305B;&#x308B;">&#x30D3;&#x30EB;&#x30C9;&#x3057;&#x305F;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x3092;&#x30DC;&#x30FC;&#x30C9;&#x306B;&#x306E;&#x305B;&#x308B;</h6>
+<p>&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x306E;&#x30D3;&#x30EB;&#x30C9;&#x306B;&#x52A0;&#x3048;&#x3066;&#x3001;&#x30DC;&#x30FC;&#x30C9;&#x306E;Makefile&#x306B;&#x306F;&#x3001;&#x30DC;&#x30FC;&#x30C9;&#x306B;&#x30B3;&#x30FC;&#x30C9;&#x3092;&#x306E;&#x305B;&#x308B;
+&#x305F;&#x3081;&#x306E;&#x898F;&#x5247;&#x3082;&#x542B;&#x3081;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;&#x3053;&#x308C;&#x306F;&#x5F53;&#x7136;&#x30DC;&#x30FC;&#x30C9;&#x56FA;&#x6709;&#x306E;&#x3082;&#x306E;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x304C;&#x3001;
+&#x901A;&#x5E38;&#x3001;Tock&#x306B;&#x306F;2&#x3064;&#x306E;&#x30BF;&#x30FC;&#x30B2;&#x30C3;&#x30C8;&#x304C;&#x7528;&#x610F;&#x3055;&#x308C;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;</p>
+<ul>
+<li><em>program</em>: &#x300C;&#x30D7;&#x30E9;&#x30B0;&#x30A4;&#x30F3;&#x30D7;&#x30E9;&#x30B0;&#x300D;&#x65B9;&#x5F0F;&#x306E;&#x30ED;&#x30FC;&#x30C9;&#x7528;&#x3067;&#x3059;&#x3002;&#x901A;&#x5E38;&#x3001;&#x30DC;&#x30FC;&#x30C9;&#x306B;&#x306F;
+&#x30D6;&#x30FC;&#x30C8;&#x30ED;&#x30FC;&#x30C0;&#x3084;&#x305D;&#x306E;&#x4ED6;&#x306E;&#x30B5;&#x30DD;&#x30FC;&#x30C8;IC&#x304C;&#x642D;&#x8F09;&#x3055;&#x308C;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;&#x901A;&#x5E38;&#x64CD;&#x4F5C;&#x3068;&#x3057;&#x3066;&#x3001;
+&#x30E6;&#x30FC;&#x30B6;&#x306F;&#x30DC;&#x30FC;&#x30C9;&#x3092;&#x30D7;&#x30E9;&#x30B0;&#x30A4;&#x30F3;&#x3057;&#x3066;<code>make program</code>&#x3068;&#x5165;&#x529B;&#x3059;&#x308B;&#x3060;&#x3051;&#x3067;
+&#x30B3;&#x30FC;&#x30C9;&#x3092;&#x30ED;&#x30FC;&#x30C9;&#x3067;&#x304D;&#x308B;&#x3053;&#x3068;&#x304C;&#x671F;&#x5F85;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</li>
+<li><em>flash</em>: &#x300C;&#x3088;&#x308A;&#x76F4;&#x63A5;&#x7684;&#x306A;&#x300D;&#x30ED;&#x30FC;&#x30C9;&#x7528;&#x3067;&#x3059;&#x3002;&#x901A;&#x5E38;&#x3001;JTAG&#x307E;&#x305F;&#x306F;&#x540C;&#x7B49;&#x306E;
+&#x30A4;&#x30F3;&#x30BF;&#x30FC;&#x30D5;&#x30A7;&#x30A4;&#x30B9;&#x304C;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x308B;&#x3053;&#x3068;&#x3092;&#x610F;&#x5473;&#x3057;&#x307E;&#x3059;&#x3002;&#x591A;&#x304F;&#x306E;&#x5834;&#x5408;&#x3001;&#x5916;&#x90E8;
+&#x30CF;&#x30FC;&#x30C9;&#x30A6;&#x30A7;&#x30A2;&#x304C;&#x5FC5;&#x8981;&#x3067;&#x3042;&#x308B;&#x3053;&#x3068;&#x3092;&#x610F;&#x5473;&#x3057;&#x307E;&#x3059;&#x3002;&#x305F;&#x3060;&#x3057;&#x3001;&#x958B;&#x767A;&#x30AD;&#x30C3;&#x30C8;&#x30DC;&#x30FC;&#x30C9;&#x306E;
+&#x4E2D;&#x306B;&#x306F;JTAG&#x304C;&#x5185;&#x8535;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x3082;&#x306E;&#x3082;&#x3042;&#x308B;&#x306E;&#x3067;&#x3001;&#x5916;&#x90E8;&#x30CF;&#x30FC;&#x30C9;&#x30A6;&#x30A7;&#x30A2;&#x306F;&#x53B3;&#x3057;&#x3044;
+&#x6761;&#x4EF6;&#x3067;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;</li>
+</ul>
+<p><em>program</em>&#x3084;<em>flash</em>&#x3092;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3057;&#x306A;&#x3044;&#x5834;&#x5408;&#x306F;&#x3001;&#x30DC;&#x30FC;&#x30C9;&#x306B;&#x30D7;&#x30ED;&#x30B0;&#x30E9;&#x30E0;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x3092;
+&#x8AAC;&#x660E;&#x3057;&#x305F;&#x6B21;&#x306E;&#x3088;&#x3046;&#x306A;&#x7A7A;&#x306E;&#x898F;&#x5247;&#x3092;&#x5B9A;&#x7FA9;&#x3059;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<pre><code class="lang-make">.PHONY: program
+        echo &quot;To program, run SPEICAL_COMMAND&quot;
+        exit 1
+</code></pre>
+<h5 id="&#x30DC;&#x30FC;&#x30C9;&#x7528;&#x306E;readme">&#x30DC;&#x30FC;&#x30C9;&#x7528;&#x306E;README</h5>
+<p>&#x3059;&#x3079;&#x3066;&#x306E;&#x30DC;&#x30FC;&#x30C9;&#x306F;&#x3001;&#x30AF;&#x30EC;&#x30FC;&#x30C8;&#x306E;&#x30C8;&#x30C3;&#x30D7;&#x30EC;&#x30D9;&#x30EB;&#x306B;<code>README.md</code>&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;
+&#x7F6E;&#x304B;&#x306A;&#x304F;&#x3066;&#x306F;&#x3044;&#x3051;&#x307E;&#x305B;&#x3093;&#x3002;&#x3053;&#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x306F;&#x4EE5;&#x4E0B;&#x3092;&#x8A18;&#x8F09;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<ul>
+<li>&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x306B;&#x95A2;&#x3059;&#x308B;&#x60C5;&#x5831;&#x3068;&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x306E;&#x8CFC;&#x5165;/&#x5165;&#x624B;&#x65B9;&#x6CD5;&#x3078;&#x306E;&#x30EA;&#x30F3;&#x30AF;&#x3092;
+&#x63D0;&#x4F9B;&#x3059;&#x308B;&#x3002;&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x306B;&#x7570;&#x306A;&#x308B;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x304C;&#x3042;&#x308B;&#x5834;&#x5408;&#x306F;&#x3001;&#x30C6;&#x30B9;&#x30C8;&#x306B;
+&#x4F7F;&#x7528;&#x3057;&#x305F;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3092;&#x660E;&#x8A18;&#x3059;&#x308B;&#x3002;</li>
+<li>&#x5FC5;&#x8981;&#x306A;&#x8FFD;&#x52A0;&#x306E;&#x4F9D;&#x5B58;&#x95A2;&#x4FC2;&#x3092;&#x542B;&#x3080;&#x30CF;&#x30FC;&#x30C9;&#x30A6;&#x30A7;&#x30A2;&#x3092;&#x30D7;&#x30ED;&#x30B0;&#x30E9;&#x30E0;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x306B;&#x8AB2;&#x3059;&#x308B;
+&#x6982;&#x8981;&#x3092;&#x542B;&#x3081;&#x308B;&#x3002;</li>
+</ul>
+<h4 id="&#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x30ED;&#x30FC;&#x30C9;">&#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x30ED;&#x30FC;&#x30C9;</h4>
+<p><a href="https://github.com/tock/tockloader" target="_blank">Tockloader</a>&#x304C; (&#x304A;&#x305D;&#x3089;&#x304F;&#x306F;
+&#x3044;&#x304F;&#x3064;&#x304B;&#x306E;&#x30D5;&#x30E9;&#x30B0;&#x306B;&#x7279;&#x5B9A;&#x306E;&#x5024;&#x3092;&#x8A2D;&#x5B9A;&#x3059;&#x308B;&#x3053;&#x3068;&#x306B;&#x3088;&#x308A;&#xFF09;&#x30DC;&#x30FC;&#x30C9;&#x3078;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x30ED;&#x30FC;&#x30C9;&#x3092;
+&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3059;&#x308B;&#x306F;&#x305A;&#x3067;&#x3059;&#x3002;&#x3082;&#x3057;&#x305D;&#x3046;&#x3067;&#x306A;&#x3044;&#x5834;&#x5408;&#x306F;&#x3001;Tockloader&#x306E;&#x30EA;&#x30DD;&#x30B8;&#x30C8;&#x30EA;&#x3067;
+&#x8AB2;&#x984C;&#x3092;&#x4F5C;&#x6210;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;&#x305D;&#x3046;&#x3059;&#x308C;&#x3070;&#x5BFE;&#x8C61;&#x306E;&#x30DC;&#x30FC;&#x30C9;&#x306B;&#x5BFE;&#x3059;&#x308B;&#x30ED;&#x30FC;&#x30C7;&#x30A3;&#x30F3;&#x30B0;&#x30B3;&#x30FC;&#x30C9;&#x3092;
+&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3059;&#x308B;&#x3088;&#x3046;&#x30C4;&#x30FC;&#x30EB;&#x3092;&#x66F4;&#x65B0;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<h4 id="&#x3088;&#x304F;&#x3042;&#x308B;&#x843D;&#x3068;&#x3057;&#x7A74;">&#x3088;&#x304F;&#x3042;&#x308B;&#x843D;&#x3068;&#x3057;&#x7A74;</h4>
+<ul>
+<li>&#x30DC;&#x30FC;&#x30C9;&#x306E;<code>main.rs</code>&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x8A2D;&#x5B9A;&#x3059;&#x308B;&#x969B;&#x306B;&#x306F;&#x6CE8;&#x610F;&#x304C;&#x5FC5;&#x8981;&#x3067;&#x3059;&#x3002;&#x7279;&#x306B;&#x3001;
+&#x30B3;&#x30FC;&#x30EB;&#x30D0;&#x30C3;&#x30AF;&#x304C;&#x5931;&#x308F;&#x308C;&#x306A;&#x3044;&#x3088;&#x3046;&#x306B;&#x3001;&#x30AB;&#x30D7;&#x30BB;&#x30EB;&#x306B;&#x5FC5;&#x8981;&#x306A;<code>set_client</code>&#x95A2;&#x6570;&#x304C;
+&#x3059;&#x3079;&#x3066;&#x547C;&#x3073;&#x51FA;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x3053;&#x3068;&#x3092;&#x78BA;&#x8A8D;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x91CD;&#x8981;&#x3067;&#x3059;&#x3002;&#x3053;&#x308C;&#x3089;&#x3092;&#x5FD8;&#x308C;&#x308B;&#x3068;&#x3001;
+&#x30D7;&#x30E9;&#x30C3;&#x30C8;&#x30D5;&#x30A9;&#x30FC;&#x30E0;&#x304C;&#x4F55;&#x3082;&#x3057;&#x306A;&#x3044;&#x7D50;&#x679C;&#x306B;&#x306A;&#x308B;&#x3053;&#x3068;&#x304C;&#x591A;&#x3044;&#x3067;&#x3059;&#x3002;</li>
+</ul>
+<h2 id="adding-a-platform-to-tock-repository">Adding a Platform to Tock Repository</h2>
+<p>After creating a new platform, we would be thrilled to have it included in
+mainline Tock. However, Tock has a few guidelines for the minimum requirements
+of a board that is merged into the main Tock repository:</p>
+<ol>
+<li>The hardware must be widely available. Generally that means the hardware
+platform can be purchased online.</li>
+<li>The port of Tock to the platform must include at least:<ul>
+<li><code>Console</code> support so that <code>debug!()</code> and <code>printf()</code> work.</li>
+<li>Timer support.</li>
+<li>GPIO support with interrupt functionality.</li>
+</ul>
+</li>
+<li>The contributor must be willing to maintain the platform, at least initially,
+and help test the platform for future releases.</li>
+</ol>
+<p>With these requirements met we should be able to merge the platform into Tock
+relatively quickly. In the pull request to add the platform, you should add this
+checklist:</p>
+<pre><code class="lang-md"><span class="hljs-section">### New Platform Checklist</span>
+
+<span class="hljs-bullet">- </span>[ ] Hardware is widely available.
+<span class="hljs-bullet">- </span>[ ] I can support the platform, which includes release testing for the platform, at least initially.
+<span class="hljs-bullet">- </span>Basic features are implemented:
+  - [ ] <span class="hljs-code">`Console`</span>, including <span class="hljs-code">`debug!()`</span> and userspace <span class="hljs-code">`printf()`</span>.
+  - [ ] Timers.
+  - [ ] GPIO with interrupts.
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Porting Tock","level":"4.2","depth":1,"next":{"title":"Out of Tree Boards","level":"4.3","depth":1,"path":"OutOfTree.md","ref":"OutOfTree.md","articles":[]},"previous":{"title":"Getting Started","level":"4.1","depth":1,"path":"Getting_Started.md","ref":"Getting_Started.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"Porting.md","mtime":"2020-09-18T08:59:10.020Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

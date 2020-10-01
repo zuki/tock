@@ -1,0 +1,727 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Threat Model · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../Lifetimes.html" />
+    
+    
+    <link rel="prev" href="../Design.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../Overview.html">
+            
+                <a href="../Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../Design.html">
+            
+                <a href="../Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../Lifetimes.html">
+            
+                <a href="../Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../Mutable_References.html">
+            
+                <a href="../Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../Soundness.html">
+            
+                <a href="../Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../Compilation.html">
+            
+                <a href="../Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../TockBinaryFormat.html">
+            
+                <a href="../TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../Memory_Layout.html">
+            
+                <a href="../Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../Memory_Isolation.html">
+            
+                <a href="../Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="../Registers.html">
+            
+                <a href="../Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="../Startup.html">
+            
+                <a href="../Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="../Syscalls.html">
+            
+                <a href="../Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="../Userland.html">
+            
+                <a href="../Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="../Networking_Stack.html">
+            
+                <a href="../Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="../Configuration.html">
+            
+                <a href="../Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../syscalls/">
+            
+                <a href="../syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../reference/">
+            
+                <a href="../reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../Getting_Started.html">
+            
+                <a href="../Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../Porting.html">
+            
+                <a href="../Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../OutOfTree.html">
+            
+                <a href="../OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../wg/">
+            
+                <a href="../wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../CodeReview.html">
+            
+                <a href="../CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Threat Model</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tock-threat-model">Tock Threat Model</h1>
+<p><strong>Note: This threat model is not descriptive of Tock&apos;s current implementation.
+It describes how we intend Tock to work as of some future release, perhaps
+2.0.</strong></p>
+<h2 id="overview">Overview</h2>
+<p>Tock provides hardware-based isolation between processes as well as
+language-based isolation between kernel capsules.</p>
+<p>Tock supports a variety of hardware, including boards defined in the Tock
+repository and boards defined &quot;out of tree&quot; in a separate repository.
+Additionally, Tock&apos;s installation model may vary between different use cases
+even when those use cases are based on the same hardware. As a result of Tock&apos;s
+flexibility, the mechanisms it uses to provide isolation &#x2014; and the strength of
+that isolation &#x2014; vary from deployment to deployment.</p>
+<p>This threat model describes the isolation provided by Tock as well as the trust
+model that Tock uses to implement that isolation. Users of Tock, which include
+board integrators and application developers, should use this threat model to
+understand what isolation Tock provides to them (and what isolation it may not
+provide). Tock developers should use this threat model as a guide for how to
+provide Tock&apos;s isolation guarantees.</p>
+<h2 id="definitions">Definitions</h2>
+<p>These definitions are shared between the documents in this directory.</p>
+<p>A <strong>process</strong> is a runtime instantiation of an application binary. When an
+application binary &quot;restarts&quot;, its process is terminated and a new process is
+started using the same binary. Note that the kernel is not considered a process,
+although it is a thread of execution.</p>
+<p><strong>Process data</strong> includes a process&apos; binary in non-volatile storage, its memory
+footprint in RAM, and any data that conceptually belongs to the process that is
+held by the kernel or other processes. For example, if a process is reading from
+a UART then the data in the UART buffer is considered the process&apos; data, even
+when it is stored in a location in RAM only readable by the kernel.</p>
+<p><strong>Kernel data</strong> includes the kernel&apos;s image in non-volatile storage as well as
+data in RAM that does not conceptually belong to processes. For example, the
+scheduler&apos;s data structures are kernel data.</p>
+<p><strong>Capsule data</strong> is data that is associated with a particular kernel capsule.
+This data can be either kernel data or process data, depending on its
+conceptual owner. For example, an ADC driver&apos;s configuration is kernel data,
+while samples an ADC driver takes on behalf of a process are process data.</p>
+<p><strong>Tock&apos;s users</strong> refers to entities that make use of Tock OS. In the context of
+threat modelling, this typically refers to board integrators (entities that
+combine Tock components into an OS to run on a specific piece of hardware) and
+application developers (who consume Tock&apos;s APIs and rely on the OS&apos; guarantees).</p>
+<h2 id="isolation-provided-to-processes">Isolation Provided to Processes</h2>
+<p><strong>Confidentiality:</strong> A process&apos; data may not be accessed by other processes or
+by capsules, unless explicitly permitted by the process. Note that Tock does not
+generally provide defense against side channel attacks; see the <a href="#side-channel-defense">Side Channel
+Defense</a> heading below for more details. Additionally,
+<a href="Virtualization.md">Virtualization</a> describes some limitations on isolation for
+shared resources.</p>
+<p><strong>Integrity:</strong> Process data may not be modified by other processes or by
+capsules, except when allowed by the process.</p>
+<p><strong>Availability:</strong> Processes may not deny service to each other at runtime. As an
+exception to this rule, some finite resources may be allocated on a
+first-come-first-served basis. This exception is described in detail in
+<a href="Virtualization.md">Virtualization</a>.</p>
+<h2 id="isolation-provided-to-kernel-code">Isolation Provided to Kernel Code</h2>
+<p><strong>Confidentiality:</strong> Kernel data may not be accessed by processes, except where
+explicitly permitted by the owning component. Kernel data may not be accessed by
+capsules, except where explicitly permitted by the owning component. The
+limitations about <a href="#side-channel-defense">side channel defense</a> and
+<a href="Virtualization.md">Virtualization</a> that apply to process data also apply to
+kernel data.</p>
+<p><strong>Integrity:</strong> Processes and capsules may not modify kernel data except through
+APIs intentionally exposed by the owning code.</p>
+<p><strong>Availability:</strong> Processes cannot starve the kernel of resources or otherwise
+perform denial-of-service attacks against the kernel. This does not extend to
+capsule code; capsule code may deny service to trusted kernel code. As described
+in <a href="Virtualization.md">Virtualization</a>, kernel APIs should be designed to
+prevent starvation.</p>
+<h2 id="isolation-that-tock-does-not-provide">Isolation that Tock does NOT Provide</h2>
+<p>There are practical limits to the isolation that Tock can provide; this section
+describes some of those limits.</p>
+<h3 id="side-channel-defense">Side Channel Defense</h3>
+<p>In general, Tock&apos;s users should assume that Tock does NOT provide side channel
+mitigations except where Tock&apos;s documentation indicates side channel mitigations
+exist.</p>
+<p>Tock&apos;s answer to &quot;should code X mitigate side channel Y&quot; is generally &quot;no&quot;. Many
+side channels that Tock can mitigate in theory are too expensive for Tock to
+mitigate in practice. As a result, Tock does not mitigate side channels by
+default. However, specific Tock components may provide and document their own
+side channel mitigation. For instance, Tock may provide a cryptography API that
+implements constant-time operations, and may document the side channel defense
+in the cryptography API&apos;s documentation.</p>
+<p>In deciding whether to mitigate a side channel, Tock developers should consider
+both the cost of mitigating the side channel as well as the value provided by
+mitigating that side channel. For example:</p>
+<ol>
+<li><p>Tock does not hide a process&apos; CPU usage from other processes. Hiding CPU
+utilization generally requires making significant performance tradeoffs, and
+CPU utilization is not a particularly sensitive signal.</p>
+</li>
+<li><p>Although Tock protects a process&apos; data from unauthorized access, Tock does
+not hide the size of a process&apos; data regions. Without virtual memory
+hardware, it is very difficult to hide a process&apos; size, and that size is not
+particularly sensitive.</p>
+</li>
+<li><p>It is often practical to build constant-time cryptographic API
+implementations, and protecting the secrecy of plaintext is valuable. As
+such, it may make sense for a Tock board to expose a cryptographic API with
+some side channel defenses.</p>
+</li>
+</ol>
+<h3 id="guaranteed-launching-of-binaries">Guaranteed Launching of Binaries</h3>
+<p>Tock does not guarantee that binaries it finds are launched as processes. For
+example, if there is not enough RAM available to launch every binary then the
+kernel will skip some binaries.</p>
+<p>This parallels the &quot;first-come, first-served&quot; resource reservation process
+described in <a href="Virtualization.md#availability">Virtualization</a>.</p>
+<h2 id="components-trusted-to-provide-isolation">Components Trusted to Provide Isolation</h2>
+<p>The Tock kernel depends on several components (including hardware and software)
+in order to implement the above isolation guarantees. Some of these components,
+such as the application loader, may vary depending on Tock&apos;s use case. The
+following documents describe the trust model that exists between the Tock kernel
+and its security-relevant dependencies:</p>
+<ul>
+<li><p><a href="Capsule_Isolation.md">Capsule Isolation</a> describes the coding practices used
+to isolate capsules from the remainder of the kernel.</p>
+</li>
+<li><p><a href="Application_Loader.md">Application Loader</a> describes the trust placed in the
+application deployment mechanism.</p>
+</li>
+<li><p><a href="TBF_Headers.md">TBF Headers</a> describes the trust model associated with the
+<a href="../TockBinaryFormat.html">Tock Binary Format</a> headers.</p>
+</li>
+<li><p><a href="Code_Review.md">Code Review</a> describes code review practices used to ensure
+the trustworthiness of Tock&apos;s codebase.</p>
+</li>
+</ul>
+<h2 id="what-is-an-application">What is an &quot;Application&quot;?</h2>
+<p>Tock does not currently have a precise definition of &quot;application&quot;, although
+there is consensus on the following:</p>
+<ul>
+<li><p>Unlike a process, an application persists across reboots and updates. For
+example, an application binary can be updated without becoming a new
+application but the update will create a new process.</p>
+</li>
+<li><p>An application consists of at least one application binary (in the Tock Binary
+Format), although it is unclear whether multiple application binaries can
+collectively be considered a single application (e.g. if they implement a
+single piece of functionality).</p>
+</li>
+</ul>
+<p>This section will be updated when we have a more precise definition of
+&quot;application&quot;.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Threat Model","level":"1.4","depth":1,"next":{"title":"Lifetimes","level":"2.1","depth":1,"path":"Lifetimes.md","ref":"Lifetimes.md","articles":[]},"previous":{"title":"Design","level":"1.3","depth":1,"path":"Design.md","ref":"Design.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"threat_model/README.md","mtime":"2020-09-14T07:33:27.083Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

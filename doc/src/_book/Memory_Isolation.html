@@ -1,0 +1,673 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Memory Isolation · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Registers.html" />
+    
+    
+    <link rel="prev" href="Memory_Layout.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="Overview.html">
+            
+                <a href="Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="Design.html">
+            
+                <a href="Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="threat_model/">
+            
+                <a href="threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Lifetimes.html">
+            
+                <a href="Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Mutable_References.html">
+            
+                <a href="Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Soundness.html">
+            
+                <a href="Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="Compilation.html">
+            
+                <a href="Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="TockBinaryFormat.html">
+            
+                <a href="TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Memory_Layout.html">
+            
+                <a href="Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.7" data-path="Memory_Isolation.html">
+            
+                <a href="Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="Registers.html">
+            
+                <a href="Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Startup.html">
+            
+                <a href="Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="Syscalls.html">
+            
+                <a href="Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="Userland.html">
+            
+                <a href="Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="Networking_Stack.html">
+            
+                <a href="Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="Configuration.html">
+            
+                <a href="Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="syscalls/">
+            
+                <a href="syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="reference/">
+            
+                <a href="reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="Getting_Started.html">
+            
+                <a href="Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="Porting.html">
+            
+                <a href="Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="OutOfTree.html">
+            
+                <a href="OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="wg/">
+            
+                <a href="wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="CodeReview.html">
+            
+                <a href="CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Memory Isolation</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="memory-isolation">Memory Isolation</h1>
+<p>This document describes how memory is isolated in Tock, in terms of access
+permissions of the kernel and processes.  Before reading this, make sure you
+have a good understanding of the <a href="Design.html">design of Tock</a> and the <a href="Memory_Layout.html">Tock
+memory layout</a>.</p>
+<!-- npm i -g markdown-toc; markdown-toc -i Memory_Isolation.md -->
+<!-- toc -->
+<ul>
+<li><a href="#process-isolation">Process Isolation</a><ul>
+<li><a href="#flash">Flash</a></li>
+<li><a href="#ram">RAM</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<p>Memory isolation is a key property of Tock. Without it, processes could just
+access any part of memory, and the security of the entire system would be
+compromised. The reason for this is that although Rust preserves memory safety (e.g. no double frees or
+buffer overflows) and type safety at compile-time, this doesn&apos;t prevent
+processes, which can be written in any language, from accessing certain
+addresses which they should not have access to in memory. Some other component
+is necessary to prevent this from happening, or systems can not safely support
+untrusted processes.</p>
+<p>To support untrusted applications, Tock uses the memory protection units (MPU)
+provided by many embedded microcontrollers. The MPU is a hardware component
+which can configure access permissions for certain memory regions. Three
+fundamental access types can be set for these memory regions: read (R), write
+(W) and execute (X). Full access implies all three access types are allowed in a
+certain memory region.</p>
+<p>Since processes are by default not allowed to access each others&apos; memory, the MPU
+has to be configured for each process based on where that process is in flash
+and what memory it has allocated to it. The MPU configuration is hence
+different for each process. Therefore, with each context switch to a userland
+process, Tock reconfigures the MPU for that process.</p>
+<p>When the system is executing kernel code, the MPU is disabled. This means there
+are no hardware restrictions preventing the kernel from accessing the entire
+address space. Instead, what the kernel can do is restricted by the
+Rust type system. For example, a capsule (which cannot use <code>unsafe</code>) cannot access
+a process&apos;s memory because it cannot create and dereference an arbitrary
+pointer. In general, Tock tries to minimize the amount of trusted code (i.e.
+code that can call <code>unsafe</code>), and tries to encapsulate code that does need
+<code>unsafe</code> to make it clear what that code does and how to use it in a manner that
+does not violate overall system safety.</p>
+<h2 id="process-isolation">Process Isolation</h2>
+<p>From an architecture perspective, processes are considered to be arbitrary code
+that may be buggy or even malicious. Therefore, Tock takes care to ensure that
+misbehaving applications do not compromise the integrity of the overall system.</p>
+<h3 id="flash">Flash</h3>
+<p>Flash is the nonvolatile memory space on a microcontroller. Generally, processes
+cannot access arbitrary addresses in flash, and are certainly prohibited from
+accessing bootloader or kernel code. They are also prohibited from reading or
+writing the nonvolatile regions of other processes.</p>
+<p>Processes do have access to their own memory in flash. Certain regions,
+including their Tock Binary Format (TBF) header and a protected region after the
+header, are read-only, as the kernel must be able to ensure the integrity of the
+header. In particular, the kernel needs to know the total size of the app to find
+the next app in flash. The kernel may also wish to store nonvolatile information
+about the app (e.g. how many times it has entered a failure state) that the app
+should not be able to alter.</p>
+<p>The remainder of the app, and in particular the actual code of the app, is
+considered to be owned by the app. The app can read the flash to execute its own
+code. If the MCU uses flash for its nonvolatile memory the app can not likely
+directly modify its own flash region, as flash typically requires some hardware
+peripheral interaction to erase or write flash. In this case, the app would
+require kernel support to modify its flash region.</p>
+<h3 id="ram">RAM</h3>
+<p>Process RAM is memory space divided between all running apps. The figure below
+shows the memory space of a process.</p>
+<p><img src="processram.png" alt="Process&apos; RAM"></p>
+<p>A process has full access to a portion of its own RAM region. A segment of the
+RAM region, called the grant region, is reserved for use only by the kernel on
+behalf of the process. Because it contains kernel data structures, processes
+cannot read or write the grant region.</p>
+<p>The remainder of the process&apos;s memory region can be used as the process sees
+fit, likely for a stack, heap, and data section. The process entirely controls
+how these are used. There are <code>mem</code> syscalls that the process can use to inform
+the kernel of where it has placed its stack and heap, but these are entirely
+used for debugging. The kernel does not need to know how the process has
+organized its memory for normal operation.</p>
+<p>Processes can choose to explicitly share portions of their RAM with the kernel
+through the use of <code>allow</code> syscalls. This gives capsules read/write access to
+the process&apos;s memory for use with a specific capsule operation.</p>
+<p>Processes can communicate with each other through an <a href="https://book.tockos.org/tutorials/05_ipc.html" target="_blank">inter-process
+communication (IPC) mechanism</a>.
+To use IPC, processes specify a buffer in their RAM to use as a shared buffer,
+and then notify the kernel that they would like to share this buffer with other
+processes. Then, other users of this IPC mechanism are allowed to read and write
+this buffer. Outside of IPC, a process is never able to read or write other
+processes&apos; RAM.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Memory Isolation","level":"2.7","depth":1,"next":{"title":"Registers","level":"2.8","depth":1,"path":"Registers.md","ref":"Registers.md","articles":[]},"previous":{"title":"Memory Layout","level":"2.6","depth":1,"path":"Memory_Layout.md","ref":"Memory_Layout.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"Memory_Isolation.md","mtime":"2020-09-14T07:33:27.027Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,973 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Design · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="threat_model/" />
+    
+    
+    <link rel="prev" href="Overview.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="Overview.html">
+            
+                <a href="Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3" data-path="Design.html">
+            
+                <a href="Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="threat_model/">
+            
+                <a href="threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Lifetimes.html">
+            
+                <a href="Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Mutable_References.html">
+            
+                <a href="Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Soundness.html">
+            
+                <a href="Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="Compilation.html">
+            
+                <a href="Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="TockBinaryFormat.html">
+            
+                <a href="TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Memory_Layout.html">
+            
+                <a href="Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="Memory_Isolation.html">
+            
+                <a href="Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="Registers.html">
+            
+                <a href="Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Startup.html">
+            
+                <a href="Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="Syscalls.html">
+            
+                <a href="Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="Userland.html">
+            
+                <a href="Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="Networking_Stack.html">
+            
+                <a href="Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="Configuration.html">
+            
+                <a href="Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="syscalls/">
+            
+                <a href="syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="reference/">
+            
+                <a href="reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="Getting_Started.html">
+            
+                <a href="Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="Porting.html">
+            
+                <a href="Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="OutOfTree.html">
+            
+                <a href="OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="wg/">
+            
+                <a href="wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="CodeReview.html">
+            
+                <a href="CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Design</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tock-design">Tock Design</h1>
+<!-- npm i -g markdown-toc; markdown-toc -i Design.md -->
+<!-- toc -->
+<ul>
+<li><a href="#architecture">Architecture</a><ul>
+<li><a href="#capsules">Capsules</a></li>
+<li><a href="#processes">Processes</a><ul>
+<li><a href="#memory-layout">Memory Layout</a></li>
+</ul>
+</li>
+<li><a href="#grants">Grants</a></li>
+</ul>
+</li>
+<li><a href="#in-kernel-design-principles">In-Kernel Design Principles</a><ul>
+<li><a href="#role-of-hils">Role of HILs</a></li>
+<li><a href="#split-phase-operation">Split-phase Operation</a></li>
+<li><a href="#no-external-dependencies">No External Dependencies</a></li>
+<li><a href="#using-unsafe-and-capabilities">Using <code>unsafe</code> and Capabilities</a></li>
+<li><a href="#ease-of-use-and-understanding">Ease of Use and Understanding</a></li>
+<li><a href="#demonstrated-features">Demonstrated Features</a></li>
+<li><a href="#merge-aggressively-archive-unabashedly">Merge Aggressively, Archive Unabashedly</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<p>Most operating systems provide isolation between components using a process-like
+abstraction: each component is given its own slice of the system memory (for
+its stack, heap, data) that is not accessible by other components. Processes
+are great because they provide a convenient abstraction for both isolation and
+concurrency. However, on resource-limited systems, like microcontrollers with
+much less than 1MB of memory, this approach leads to a trade-off between
+isolation granularity and resource consumption.</p>
+<p>Tock&apos;s architecture resolves this trade-off by using a language sandbox to
+isolated components and a cooperative scheduling model for concurrency in the
+kernel. As a result, isolation is (more or less) free in terms of resource
+consumption at the expense of preemptive scheduling (so a malicious component
+could block the system by, e.g., spinning in an infinite loop).</p>
+<p>To first order, all components in Tock, including those in the kernel, are
+mutually distrustful. Inside the kernel, Tock achieves this with a
+language-based isolation abstraction called <em>capsules</em> that incurs no memory or
+computation overhead. In user-space, Tock uses (more-or-less) a traditional
+process model where process are isolated from the kernel and each other using
+hardware protection mechanisms.</p>
+<p>In addition, Tock is designed with other embedded systems-specific goals in
+mind. Tock favors overall reliability of the system and discourages components
+(prevents when possible) from preventing system progress when buggy.</p>
+<h2 id="architecture">Architecture</h2>
+<p><img src="architecture.png" alt="Tock architecture"></p>
+<p>Tock includes three architectural components: a small trusted kernel, written in
+Rust, which implements a hardware abstraction layer (HAL); scheduler; and
+platform-specific configuration. Other system components are implemented in one
+of two protection mechanisms: <strong>capsules</strong>, which are compiled with the kernel and
+use Rust&#x2019;s type and module systems for safety, and <strong>processes</strong>, which use the MPU
+for protection at runtime.</p>
+<p>System components (an application, driver, virtualization layer, etc.) can be
+implemented in either a capsule or process, but each mechanism trades off
+concurrency and safety with memory consumption, performance, and granularity.</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Capsule</th>
+<th>Process</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Protection</td>
+<td>Language</td>
+<td>Hardware</td>
+</tr>
+<tr>
+<td>Memory Overhead</td>
+<td>None</td>
+<td>Separate stack</td>
+</tr>
+<tr>
+<td>Protection Granularity</td>
+<td>Fine</td>
+<td>Coarse</td>
+</tr>
+<tr>
+<td>Concurrency</td>
+<td>Cooperative</td>
+<td>Preemptive</td>
+</tr>
+<tr>
+<td>Update at Runtime</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>As a result, each is more appropriate for implementing different components. In
+general, drivers and virtualization layers are implemented as capsules, while
+applications and complex drivers using existing code/libraries, such as
+networking stacks, are implemented as processes.</p>
+<h3 id="capsules">Capsules</h3>
+<p>A capsule is a Rust struct and associated functions. Capsules interact with each
+other directly, accessing exposed fields and calling functions in other
+capsules. Trusted platform configuration code initializes them, giving them
+access to any other capsules or kernel resources they need. Capsules can protect
+internal state by not exporting certain functions or fields.</p>
+<p>Capsules run inside the kernel in privileged hardware mode, but Rust&#x2019;s type and
+module systems protect the core kernel from buggy or malicious capsules. Because
+type and memory safety are enforced at compile-time, there is no overhead
+associated with safety, and capsules require minimal error checking. For
+example, a capsule never has to check the validity of a reference. If the
+reference exists, it points to valid memory of the right type. This allows
+extremely fine-grained isolation since there is virtually no overhead to
+splitting up components.</p>
+<p>Rust&#x2019;s language protection offers strong safety guarantees. Unless a capsule is
+able to subvert the Rust type system, it can only access resources explicitly
+granted to it, and only in ways permitted by the interfaces those resources
+expose. However, because capsules are cooperatively scheduled in the same
+single-threaded event loop as the kernel, they must be trusted for system
+liveness. If a capsule panics, or does not yield back to the event handler, the
+system can only recover by restarting.</p>
+<h3 id="processes">Processes</h3>
+<p>Processes are independent applications that are isolated from the kernel and run
+with reduced privileges in separate execution threads from the kernel. The
+kernel schedules processes preemptively, so processes have stronger system
+liveness guarantees than capsules. Moreover, uses hardware protection to enforce
+process isolation at runtime. This allows processes to be written in any
+language and to be safely loaded at runtime.</p>
+<h4 id="memory-layout">Memory Layout</h4>
+<p>Processes are isolated from each other, the kernel, and the underlying hardware
+explicitly by the hardware Memory Protection Unit (MPU). The MPU limits which
+memory addresses a process can access. Accesses outside of a process&#x2019;s permitted
+region result in a fault and trap to the kernel.</p>
+<p>Code, stored in flash, is made
+accessible with a read-only memory protection region. Each process is allocated
+a contiguous region of RAM. One novel aspect of a process is the presence of a
+&#x201C;grant&#x201D; region at the top of the address space. This is memory allocated to the
+process covered by a memory protection region that the process can neither read
+nor write. The grant region, discussed below, is needed for the kernel to be able
+to borrow memory from a process in order to ensure liveness and safety in
+response to system calls.</p>
+<h3 id="grants">Grants</h3>
+<p>Capsules are not allowed to allocate memory dynamically since dynamic
+allocation in the kernel makes it hard to predict if memory will be exhausted.
+A single capsule with poor memory management could cause the rest of the kernel
+to fail. Moreover, since it uses a single stack, the kernel cannot easily
+recover from capsule failures.</p>
+<p>However, capsules often need to dynamically allocate memory in response to
+process requests. For example, a virtual timer driver must allocate a structure
+to hold metadata for each new timer any process creates. Therefore, Tock allows
+capsules to dynamically allocate from the memory of a process making a request.</p>
+<p>It is unsafe, though, for a capsule to directly hold a reference to process
+memory. Processes crash and can be dynamically loaded, so, without explicit
+checks throughout the kernel code, it would not be possible to ensure that a
+reference to process memory is still valid.</p>
+<p>For a capsule to safely allocate memory from a process, the kernel must enforce
+three properties:</p>
+<ol>
+<li><p>Allocated memory does not allow capsules to break the type system.</p>
+</li>
+<li><p>Capsules can only access pointers to process memory while the process is
+alive.</p>
+</li>
+<li><p>The kernel must be able to reclaim memory from a terminated process.</p>
+</li>
+</ol>
+<p>Tock provides a safe memory allocation mechanism that meets these three
+requirements through memory grants. Capsules can allocate data of arbitrary
+type from the memory of processes that interact with them. This memory is
+allocated from the grant segment.</p>
+<p>Just as with buffers passed through allow, references to granted memory are
+wrapped in a type-safe struct that ensures the process is still alive before
+dereferencing. Unlike shared buffers, which can only be a buffer type in a
+capsule, granted memory can be defined as any type. Therefore, processes cannot
+access this memory since doing so might violate type-safety.</p>
+<h2 id="in-kernel-design-principles">In-Kernel Design Principles</h2>
+<p>To help meet Tock&apos;s goals, encourage portability across hardware, and ensure a
+sustainable operating system, several design principles have emerged over time
+for the Tock kernel. These are general principles that new contributions to the
+kernel should try to uphold. However, these principles have been informed by
+Tock&apos;s development, and will likely continue to evolve as Tock and the Rust
+ecosystem evolve.</p>
+<h3 id="role-of-hils">Role of HILs</h3>
+<p>Generally, the Tock kernel is structured into three layers:</p>
+<ol>
+<li><p>Chip-specific drivers: these typically live in a crate in the
+<code>chips</code> subdirectory, or an equivalent crate in an different repository
+(e.g. the Titan port is out of tree but its <code>h1b</code> create is the
+equivalent here). These drivers have implementations that are specific
+to the hardware of a particular microcontroller. Ideally,
+their implementation is fairly simple, and they merely adhere to a
+common interface (a HIL). That&apos;s not always the case, but that&apos;s
+the ideal.</p>
+</li>
+<li><p>Chip-agnostic, portable, peripheral drivers and subsystems. These
+typically live in the <code>capsules</code> crate. These include things like
+virtual alarms and virtual I2C stack, as well as drivers for
+hardware peripherals not on the chip itself (e.g. sensors, radios,
+etc). These drivers typically rely on the chip-specific drivers
+through the HILs.</p>
+</li>
+<li><p>System call drivers, also typically found in the <code>capsules</code>
+crate. These are the drivers that implement a particular part of
+the system call interfaces, and are often even more abstracted from
+the hardware than (2) - for example, the temperature sensor system
+call driver can use any temperature sensor, including several
+implemented as portable peripheral drivers.</p>
+</li>
+</ol>
+<p>   The system call interface is another point of
+   standardization that can be implemented in various ways. So it&#x2019;s
+   perfectly reasonable to have several implementations of the same
+   system call interface that use completely different hardware
+   stacks, and therefore HILs and chip-specific drivers (e.g. a
+   console driver that operates over USB might just be implemented as
+   a different system call driver that implements the same system
+   calls, rather than trying to fit USB into the UART HIL).</p>
+<p>Because of their importance, the interfaces between these layers are a key part
+of Tock&apos;s design and implementation. These interfaces are called Tock&apos;s Hardware
+Interface Layer, or HIL. A HIL is a portable collection of Rust traits that can
+be implemented in either a portable or a non-portable way. An example of a
+non-portable implementation of a HIL is an Alarm that is implemented in terms of
+counter and compare registers of a specific chip, while an example of a portable
+implementation is a virtualization layer that multiplexes multiple Alarms top of
+a single underlying Alarm.</p>
+<p>A HIL consists of one or more Rust traits that are intended to be used together.
+In some cases, implementations may only implement a subset of a HIL&apos;s traits.
+For example the analog-to-digital (ADC) conversion HIL may have traits both for
+single and streams of samples. A particular implementation may only support
+single samples and so not implement the streaming traits.</p>
+<p>The choice of particular HIL interfaces is pretty important, and we have some
+general principles we follow:</p>
+<ol>
+<li><p>HIL implementations should be fairly general. If we have an interface that
+doesn&apos;t work very well across different hardware, we probably have the wrong
+interface - it&apos;s either too high level, or too low level, or it&apos;s just not
+flexible enough. But HILs shouldn&apos;t generally be designed to optimize for
+particular applications or hardware, and definitely not for a particular
+combination of applications and hardware. If there are cases where that is
+really truly necessary, a driver can be very chip or board specific and
+circumvent the HILs entirely.</p>
+<p>Sometimes there are useful interfaces that some chips can provide natively,
+while other chips lack the necessary hardware support, but the functionality
+could be emulated in some way. In these cases, Tock sometimes uses
+&quot;advanced&quot; traits in HILs that enable a chip to expose its more
+sophisticated features while not requiring that all implementors of the HIL
+have to implement the function. For example, the UART HIL includes a
+<code>ReceiveAdvanced</code> trait that includes a special function
+<code>receive_automatic()</code> which receives bytes on the UART until a pause between
+bytes is detected. This is supported directly by the SAM4L hardware, but can
+also be emulated using timers and GPIO interrupts. By including this in an
+advanced trait, capsules can still use the interface but other UART
+implementations that do not have that required feature do not have to
+implement it.</p>
+</li>
+<li><p>A HIL implementation may assume it is the only way the device will be used.
+As a result, Tock tries to avoid having more than one HIL for a particular
+service or abstraction, because it will not, in general, be possible for the
+kernel to support simultaneously using different HILs for the same device.
+For example, suppose there were two different HILs for a UART with slightly
+different APIs. The chip-specific implementation of each one will need to
+read and write hardware registers and handle interrupts, so they cannot exist
+simultaneously. By allowing a HIL to assume it is the only way the device
+will be used, Tock allows HILs to precisely define their semantics without
+having to worry about potential future conflicts or use cases.</p>
+</li>
+</ol>
+<h3 id="split-phase-operation">Split-phase Operation</h3>
+<p>While processes are time sliced and preemptive in Tock, the kernel is
+not. Everything is run-to-completion. That is an important design
+choice because it allows the kernel to avoid allocating lots of stacks
+for lots of tasks, and it makes it possible to reason more simply
+about static and other shared variables.</p>
+<p>Therefore, all I/O operations in the Tock kernel are asynchronous and
+non-blocking. A method call starts an operation and returns immediately. When
+the operation completes, the struct implementing the operation calls a callback.
+Tock uses callbacks rather than closures because closures typically require
+dynamic memory allocation, which the kernel avoids and does not generally
+support.</p>
+<p>This design does add complexity when writing drivers as a blocking API is
+generally simpler to use. However, this is a conscious choice to favor overall
+safety of the kernel (e.g. avoiding running out of memory or preventing other
+code from running on time) over functional correctness of individual drivers
+(because they might be more error-prone, not because they cannot be written
+correctly).</p>
+<p>There are limited cases when the kernel can briefly block. For example, the
+SAM4L&apos;s GPIO controller can take up to 5 cycles to become ready between
+operations. Technically, a completely asynchronous driver would make this
+split-phase: the operation returns immediately, and issues a callback when it
+completes. However, because just setting up the callback will take more than 5
+cycles, spinning for 5 cycles is not only simpler, it&apos;s also cheaper. The
+implementation therefore spins for a handful of cycles before returning, such
+that the operation is synchronous. These cases are rare, though: the operation
+has to be so fast that it&apos;s not worth allowing other code to run during the
+delay.</p>
+<h3 id="no-external-dependencies">No External Dependencies</h3>
+<p>Tock chooses to not use any external libraries for any of the crates in the
+kernel. This is done to promote safety, as auditing the Tock code only requires
+inspecting the code in the Tock repository. Tock tries to be very specific with
+its use of <code>unsafe</code>, and tries to ensure that when it is used it is clear as to
+why. With external dependencies it would be significantly more challenging to
+ensure that uses of <code>unsafe</code> are valid, particularly as external libraries
+evolve.</p>
+<p>We also realize, however, that external libraries can be very useful. Tock&apos;s
+compromise has been to pull in specific portions of libraries into the
+<code>libraries</code> folder. This puts the library&apos;s source in the same repository, while
+keeping the library as a clearly separate crate. We do try to limit how often
+this happens.</p>
+<p>In the future, we hope that <code>cargo</code> and other Rust tools make it significantly
+easier to audit and manage dependencies. For example, cargo currently has no
+mechanism to emit an error if a dependency uses <code>unsafe</code>. If new tools emerge
+that help ensure that dependent code is safe, Tock would likely be able to
+leverage external dependencies.</p>
+<h3 id="using-unsafe-and-capabilities">Using <code>unsafe</code> and Capabilities</h3>
+<p>Tock attempts to minimize the amount of unsafe code in the kernel. Of course,
+there are a number of operations that the kernel must do which fundamentally
+violate Rust&apos;s memory safety guarantees, and we try to compartmentalize these
+operations and explain how to use them in an ultimately safe manner.</p>
+<p>For operations that violate Rust safety, Tock marks the functions, structs, and
+traits as <code>unsafe</code>. This restricts the crates that can use these elements.
+Generally, Tock tries to make it clear where an unsafe operation is occurring by
+requiring the <code>unsafe</code> keyword be present. For example, with memory-mapped
+input/output (MMIO) registers, casting an arbitrary pointer to a struct that
+represents those registers violates memory safety unless the register map and
+address are verified to be correct. To denote this, doing the cast is clearly
+marked as <code>unsafe</code>. However, once the cast is complete, accessing those
+registers no longer violates memory safety. Therefore, using the registers does
+not require the <code>unsafe</code> keyword.</p>
+<p>Not all potentially dangerous code violates Rust&apos;s safety model, however. For
+example, stopping a process from running on the board does not violate
+language-level safety, but is still a potentially problematic operation from a
+security and system reliability standpoint, as not all kernel code should be
+able halt arbitrary processes (in particular, untrusted capsules should not have
+this access to this API). One way to restrict access to these types of functions
+would be to re-use the <code>unsafe</code> mechanism, since cargo will emit a warning if
+code that is prohibited from using <code>unsafe</code> attempts to invoke an <code>unsafe</code>
+function. However, this muddles the use of unsafe, and makes it difficult to
+understand if code potentially violates safety or is a restricted API.</p>
+<p>Instead, Tock uses
+<a href="Soundness.html#capabilities-restricting-access-to-certain-functions-and-operations">capabilities</a>
+to restrict access to important APIs. As such, any public APIs inside the kernel
+that should be very restricted in what other code can use them should require a
+specific capability in their function signatures. This prevents code that has
+not explicitly been granted the capability from calling the protected API.</p>
+<p>To promote the principle of least privilege, capabilities are relatively
+fine-grained and provide narrow access to specific APIs. This means that
+generally new APIs will require defining new capabilities.</p>
+<h3 id="ease-of-use-and-understanding">Ease of Use and Understanding</h3>
+<p>Whenever possible, Tock&apos;s design optimizes to lower the barrier for new users or
+developers to understand and use Tock. Sometimes, this means intentionally
+making a design choice that prioritizes readability or clarity over performance.</p>
+<p>As an example, Tock generally avoids using Rust&apos;s
+<a href="https://doc.rust-lang.org/1.0.0/book/conditional-compilation.html" target="_blank">features</a>
+and <code>#[cfg()]</code> attribute to enable conditional compilation. While using a set of
+features can lead to optimizing exactly what code should be included when the
+kernel is built, it also makes it very difficult for users unfamiliar with the
+features to decide which features to enable and when. Likely, these users will
+use the default configuration, reducing the benefit of having the features
+available. Also, conditional compilation makes it very difficult to understand
+exactly what version of the kernel is running on any particular board as the
+features can substantially change what code is running. Finally, the non-default
+options are unlikely to be tested as robustly as the default configuration,
+leading to versions of the kernel which are no longer available.</p>
+<p>Tock also tries to ensure Tock &quot;just works&quot; for users. This manifests by trying
+to minimize the number of steps to get Tock running. The build system uses
+<code>make</code> which is familiar to many developers, and just running <code>make</code> in a board
+folder will compile the kernel. The most supported boards (Hail and imix) can
+then be programmed by just running <code>make program</code>. Installing an app just
+requires one more command: <code>tockloader install blink</code>. Tockloader will continue
+to expand to support the ease-of-use with Tock. Now, &quot;just works&quot; is a design
+goal that Tock is not completely meeting. But, future design decisions should
+continue to encourage Tock to &quot;just work&quot;.</p>
+<h3 id="demonstrated-features">Demonstrated Features</h3>
+<p>Tock discourages adding functionality to the kernel unless a clear use case has
+been established. For example, adding a red-black tree implementation to
+<code>kernel/src/common</code> might be useful in the future for some new Tock feature.
+However, that would be unlikely to be merged without a use case inside of the
+kernel that motivates needing a red-black tree. This general principle provides
+a starting point for evaluating new features in pull requests.</p>
+<p>Requiring a use case also makes the code more likely to be tested and used, as
+well as updated as other internal kernel APIs change.</p>
+<h3 id="merge-aggressively-archive-unabashedly">Merge Aggressively, Archive Unabashedly</h3>
+<p>As an experimental embedded operating system with roots in academic research,
+Tock is likely to receive contributions of new, risky, experimental, or narrowly
+focused code that may or may not be useful for the long-term growth of Tock.
+Rather than use a &quot;holding&quot; or &quot;contribution&quot; repository for new, experimental
+code, Tock tries to merge new features into mainline Tock. This both eases the
+maintenance burden of the code (it doesn&apos;t have to be maintained out-of-tree)
+and makes the feature more visible.</p>
+<p>However, not all features catch on, or are completed, or prove useful, and having the
+code in mainline Tock becomes an overall maintenance burden. In these cases, Tock
+will move the code to an <a href="https://github.com/tock/tock-archive/" target="_blank">archive repository</a>.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Design","level":"1.3","depth":1,"next":{"title":"Threat Model","level":"1.4","depth":1,"path":"threat_model/README.md","ref":"threat_model/README.md","articles":[]},"previous":{"title":"Overview","level":"1.2","depth":1,"path":"Overview.md","ref":"Overview.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"Design.md","mtime":"2020-09-14T07:33:27.026Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,658 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Lifetimes · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Mutable_References.html" />
+    
+    
+    <link rel="prev" href="threat_model/" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="Overview.html">
+            
+                <a href="Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="Design.html">
+            
+                <a href="Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="threat_model/">
+            
+                <a href="threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter active" data-level="2.1" data-path="Lifetimes.html">
+            
+                <a href="Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Mutable_References.html">
+            
+                <a href="Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Soundness.html">
+            
+                <a href="Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="Compilation.html">
+            
+                <a href="Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="TockBinaryFormat.html">
+            
+                <a href="TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Memory_Layout.html">
+            
+                <a href="Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="Memory_Isolation.html">
+            
+                <a href="Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="Registers.html">
+            
+                <a href="Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Startup.html">
+            
+                <a href="Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="Syscalls.html">
+            
+                <a href="Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="Userland.html">
+            
+                <a href="Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="Networking_Stack.html">
+            
+                <a href="Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="Configuration.html">
+            
+                <a href="Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="syscalls/">
+            
+                <a href="syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="reference/">
+            
+                <a href="reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="Getting_Started.html">
+            
+                <a href="Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="Porting.html">
+            
+                <a href="Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="OutOfTree.html">
+            
+                <a href="OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="wg/">
+            
+                <a href="wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="CodeReview.html">
+            
+                <a href="CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Lifetimes</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x30E9;&#x30A4;&#x30D5;&#x30BF;&#x30A4;&#x30E0;">&#x30E9;&#x30A4;&#x30D5;&#x30BF;&#x30A4;&#x30E0;</h1>
+<p>Tock&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x306E;&#x5024;&#x306F;&#x3001;&#x4EE5;&#x4E0B;&#x306E;3&#x3064;&#x306E;&#x65B9;&#x6CD5;&#x3067;&#x5272;&#x308A;&#x5F53;&#x3066;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<ol>
+<li><p><strong>&#x9759;&#x7684;&#x5272;&#x308A;&#x5F53;&#x3066;</strong>&#x3002;&#x9759;&#x7684;&#x306B;&#x5272;&#x308A;&#x5F53;&#x3066;&#x3089;&#x308C;&#x305F;&#x5024;&#x306F;&#x89E3;&#x653E;&#x3055;&#x308C;&#x308B;&#x3053;&#x3068;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;
+&#x3053;&#x308C;&#x3089;&#x306E;&#x5024;&#x306F;Rust&#x3067;&#x306F;<code>&apos;static</code>&#x30E9;&#x30A4;&#x30D5;&#x30BF;&#x30A4;&#x30E0;&#x306E;&#x300C;&#x501F;&#x7528;&#x300D;&#x3067;&#x3042;&#x308B;&#x3068;&#x8868;&#x73FE;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
+</li>
+<li><p><strong>&#x30B9;&#x30BF;&#x30C3;&#x30AF;&#x5272;&#x308A;&#x5F53;&#x3066;</strong>&#x3002;&#x30B9;&#x30BF;&#x30C3;&#x30AF;&#x5272;&#x308A;&#x5F53;&#x3066;&#x3055;&#x308C;&#x305F;&#x5024;&#x306F;&#x30EC;&#x30AD;&#x30B7;&#x30AB;&#x30EB;&#x5883;&#x754C;&#x306E;&#x30E9;&#x30A4;&#x30D5;
+&#x30BF;&#x30A4;&#x30E0;&#x3092;&#x6301;&#x3061;&#x307E;&#x3059;&#x3002;&#x3059;&#x306A;&#x308F;&#x3061;&#x3001;&#x30BD;&#x30FC;&#x30B9;&#x30B3;&#x30FC;&#x30C9;&#x3092;&#x898B;&#x308C;&#x3070;&#x3001;&#x305D;&#x308C;&#x304C;&#x3044;&#x3064;&#x89E3;&#x653E;&#x3055;&#x308C;&#x308B;&#x304B;&#x304C;&#x308F;&#x304B;&#x308A;&#x307E;&#x3059;&#x3002;&#x3053;&#x306E;&#x3088;&#x3046;&#x306A;&#x5024;&#x3078;&#x306E;&#x53C2;&#x7167;&#x3092;&#x4F5C;&#x6210;&#x3059;&#x308B;&#x3068;&#x3001;Rust&#x306E;&#x578B;&#x30B7;&#x30B9;&#x30C6;&#x30E0;&#x306F;&#x3001;&#x53C2;&#x7167;&#x306B;&#x300C;&#x30E9;&#x30A4;&#x30D5;&#x30BF;&#x30A4;&#x30E0;&#x300D;&#x3092;&#x5272;&#x308A;&#x5F53;&#x3066;&#x308B;&#x3053;&#x3068;&#x3067;&#x3001;&#x5024;&#x304C;&#x89E3;&#x653E;&#x3055;&#x308C;&#x305F;&#x5F8C;&#x3067;&#x306F;&#x3051;&#x3063;&#x3057;&#x3066;&#x53C2;&#x7167;&#x304C;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x306A;&#x3044;&#x3053;&#x3068;&#x3092;&#x4FDD;&#x8A3C;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+</li>
+<li><p><strong>&#x30B0;&#x30E9;&#x30F3;&#x30C8;&#x5024;</strong>&#x3002;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x306E;&#x30B0;&#x30E9;&#x30F3;&#x30C8;&#x9818;&#x57DF;&#x304B;&#x3089;&#x5272;&#x308A;&#x5F53;&#x3066;&#x3089;&#x308C;&#x305F;&#x5024;&#x306F;&#x3001;&#x30E9;&#x30F3;&#x30BF;&#x30A4;&#x30E0;
+&#x4F9D;&#x5B58;&#x306E;&#x30E9;&#x30A4;&#x30D5;&#x30BF;&#x30A4;&#x30E0;&#x3092;&#x6301;&#x3061;&#x307E;&#x3059;&#x3002;&#x305F;&#x3068;&#x3048;&#x3070;&#x3001;&#x305D;&#x308C;&#x304C;&#x3044;&#x3064;&#x89E3;&#x653E;&#x3055;&#x308C;&#x308B;&#x304B;&#x306F;&#x3001;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x304C;&#x30AF;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x3059;&#x308B;&#x304B;&#x5426;&#x304B;&#x306B;&#x4F9D;&#x5B58;&#x3057;&#x307E;&#x3059;&#x3002;Rust&#x306E;&#x578B;&#x30B7;&#x30B9;&#x30C6;&#x30E0;&#x3067;&#x306F;&#x30E9;&#x30F3;&#x30BF;&#x30A4;&#x30E0;&#x4F9D;&#x5B58;&#x306E;&#x30E9;&#x30A4;&#x30D5;&#x30BF;&#x30A4;&#x30E0;&#x3092;&#x8868;&#x73FE;&#x3067;&#x304D;&#x306A;&#x3044;&#x305F;&#x3081;&#x3001;Tock&#x3067;&#x306E;&#x30B0;&#x30E9;&#x30F3;&#x30C8;&#x5024;&#x3078;&#x306E;&#x53C2;&#x7167;&#x306F;&#x3001;&#x53C2;&#x7167;&#x5143;&#x304C;&#x6240;&#x6709;&#x3059;&#x308B; <code>Grant</code>&#x578B;&#x3092;&#x4ECB;&#x3057;&#x3066;&#x884C;&#x308F;&#x308C;&#x307E;&#x3059;&#x3002;</p>
+</li>
+</ol>
+<p>&#x6B21;&#x306B;&#x3001;Rust &#x306E;&#x30E9;&#x30A4;&#x30D5;&#x30BF;&#x30A4;&#x30E0;&#x306E;&#x6982;&#x5FF5;&#x304C; Tock &#x306E;&#x5024;&#x306E;&#x30E9;&#x30A4;&#x30D5;&#x30BF;&#x30A4;&#x30E0;&#x306B;&#x3069;&#x306E;&#x3088;&#x3046;&#x306B;&#x5BFE;&#x5FDC;&#x3059;&#x308B;&#x304B;&#x3001;&#x307E;&#x305F;&#x3001;&#x3053;&#x308C;&#x304C;&#x30AB;&#x30FC;&#x30CD;&#x30EB;&#x5185;&#x3067;&#x306E;&#x7570;&#x306A;&#x308B;&#x30BF;&#x30A4;&#x30D7;&#x306E;&#x5024;&#x306E;&#x4F7F;&#x7528;&#x306B;&#x3069;&#x306E;&#x3088;&#x3046;&#x306B;&#x5F71;&#x97FF;&#x3059;&#x308B;&#x304B;&#x306B;&#x3064;&#x3044;&#x3066;&#x8AAC;&#x660E;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<p>Rust &#x306E;&#x5BFF;&#x547D;
+&#x30D0;&#x30C3;&#x30D5;&#x30A1;&#x7BA1;&#x7406;
+&#x5186;&#x5F62;&#x306E;&#x4F9D;&#x5B58;&#x95A2;&#x4FC2;</p>
+<p>Next we&apos;ll discuss how Rust&apos;s notion of lifetimes maps to the lifetimes of
+values in Tock and how this affects the use of different types of values in the
+kernel.</p>
+<!-- npm i -g markdown-toc; markdown-toc -i Lifetimes.md -->
+<!-- toc -->
+<ul>
+<li><a href="#&#x30E9;&#x30A4;&#x30D5;&#x30BF;&#x30A4;&#x30E0;">&#x30E9;&#x30A4;&#x30D5;&#x30BF;&#x30A4;&#x30E0;</a><ul>
+<li><a href="#rust-lifetimes">Rust lifetimes</a></li>
+<li><a href="#buffer-management">Buffer management</a></li>
+<li><a href="#circular-dependencies">Circular dependencies</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<h2 id="rust-lifetimes">Rust lifetimes</h2>
+<p>Each reference (called a <em>borrow</em>) in Rust has <em>lifetime</em> associated with its
+type that determines in what scope it is valid. The lifetime of a reference
+must be more constrained than the value it was borrowed from. The compiler, in
+turn, ensures that references cannot escape their valid scope.</p>
+<p>As a result, data structures that store a reference must declare the minimal
+lifetime of that reference. For example:</p>
+<pre><code class="lang-rust"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Foo</span></span>&lt;<span class="hljs-symbol">&apos;a</span>&gt; {
+  bar: &amp;<span class="hljs-symbol">&apos;a</span> Bar
+}
+</code></pre>
+<p>defines a data structure <code>Foo</code> that contains a reference to another type,
+<code>Bar</code>. The reference has a lifetime <code>&apos;a</code>, which is a type parameter of <code>Foo</code>.
+Note that <code>&apos;a</code> is an arbitrary choice of name for the lifetime, such as <code>E</code> in
+a generic <code>List&lt;E&gt;</code>.  It is also possible to use the explicit lifetime
+<code>&apos;static</code> rather than a type parameter when the reference should always live
+forever, regardless of how long the containing type (e.g. <code>Foo</code>) lives:</p>
+<pre><code class="lang-rust"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Foo</span></span> {
+  bar: &amp;<span class="hljs-symbol">&apos;static</span> Bar
+}
+</code></pre>
+<h2 id="buffer-management">Buffer management</h2>
+<p>Buffers used in asynchronous hardware operations must be static. On the one
+hand, we need to guarantee (to the hardware) that the buffer will not be
+deallocated before the hardware relinquishes its pointer. On the other hand,
+the hardware has no way of telling us (i.e. the Rust compiler) that it will
+only access the buffer within a certain lexical bound (because we are using the
+hardware asynchronously). To resolve this, buffers passed to hardware should be
+allocated statically.</p>
+<h2 id="circular-dependencies">Circular dependencies</h2>
+<p>Tock uses circular dependencies to give capsules access to each other.
+Specifically, two capsules that depend on each other will each have a field
+containing a reference to the other. For example, a client of the timer <code>Alarm</code> trait
+needs a reference to an instance of the timer in order to start/stop it, while
+the instance of timer needs a reference to the client in order to propagate
+events. This is handled by the <code>set_client</code> function, which allows the platform
+definition to connect objects after creation.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">impl</span> Foo&lt;<span class="hljs-symbol">&apos;a</span>&gt; {
+  <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">set_client</span></span>(&amp;<span class="hljs-keyword">self</span>, client: &amp;<span class="hljs-symbol">&apos;a</span> Client) {
+    <span class="hljs-keyword">self</span>.client.set(client);
+  }
+}
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Lifetimes","level":"2.1","depth":1,"next":{"title":"Mutable References","level":"2.2","depth":1,"path":"Mutable_References.md","ref":"Mutable_References.md","articles":[]},"previous":{"title":"Threat Model","level":"1.4","depth":1,"path":"threat_model/README.md","ref":"threat_model/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"Lifetimes.md","mtime":"2020-09-27T00:26:24.436Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

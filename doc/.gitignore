@@ -1,3 +1,8 @@
 rustdoc/
 
 website.zip
+_book/*
+node_modules/*
+book/*
+*.pdf
+book.json.org

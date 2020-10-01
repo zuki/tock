@@ -1,0 +1,903 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Mutable References · Tock</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Soundness.html" />
+    
+    
+    <link rel="prev" href="Lifetimes.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="Overview.html">
+            
+                <a href="Overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="Design.html">
+            
+                <a href="Design.html">
+            
+                    
+                    Design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="threat_model/">
+            
+                <a href="threat_model/">
+            
+                    
+                    Threat Model
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Lifetimes.html">
+            
+                <a href="Lifetimes.html">
+            
+                    
+                    Lifetimes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.2" data-path="Mutable_References.html">
+            
+                <a href="Mutable_References.html">
+            
+                    
+                    Mutable References
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Soundness.html">
+            
+                <a href="Soundness.html">
+            
+                    
+                    Soundness
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="Compilation.html">
+            
+                <a href="Compilation.html">
+            
+                    
+                    Compilation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="TockBinaryFormat.html">
+            
+                <a href="TockBinaryFormat.html">
+            
+                    
+                    Tock Binary Format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Memory_Layout.html">
+            
+                <a href="Memory_Layout.html">
+            
+                    
+                    Memory Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="Memory_Isolation.html">
+            
+                <a href="Memory_Isolation.html">
+            
+                    
+                    Memory Isolation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="Registers.html">
+            
+                <a href="Registers.html">
+            
+                    
+                    Registers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Startup.html">
+            
+                <a href="Startup.html">
+            
+                    
+                    Startup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="Syscalls.html">
+            
+                <a href="Syscalls.html">
+            
+                    
+                    Syscalls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="Userland.html">
+            
+                <a href="Userland.html">
+            
+                    
+                    Userland
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="Networking_Stack.html">
+            
+                <a href="Networking_Stack.html">
+            
+                    
+                    Networking Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="Configuration.html">
+            
+                <a href="Configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="syscalls/">
+            
+                <a href="syscalls/">
+            
+                    
+                    Syscall Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="reference/">
+            
+                <a href="reference/">
+            
+                    
+                    Internal Kernel Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="Getting_Started.html">
+            
+                <a href="Getting_Started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="Porting.html">
+            
+                <a href="Porting.html">
+            
+                    
+                    Porting Tock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="OutOfTree.html">
+            
+                <a href="OutOfTree.html">
+            
+                    
+                    Out of Tree Boards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="debugging/README.md">
+            
+                <span>
+            
+                    
+                    Debugging Help
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [Style](Style.mdManagement of Tock
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="wg/">
+            
+                <a href="wg/">
+            
+                    
+                    Working Groups
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="CodeReview.html">
+            
+                <a href="CodeReview.html">
+            
+                    
+                    Code Review Process
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Mutable References</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="mutable-references-in-tock---memory-containers-cells">Mutable References in Tock - Memory Containers (Cells)</h1>
+<p>Borrows are a critical part of the Rust language that help provide its
+safety guarantees. However, when there is no dynamic memory allocation
+(no heap), event-driven code runs into challenges with Rust&apos;s borrow
+semantics.  Often multiple structs need to
+be able to call (share) a struct based on what events occur. For example,
+a struct representing a radio interface needs to handle callbacks
+both from the bus it uses as well as handle calls from higher layers of
+a networking stack. Both of these callers need to be able to change the
+state of the radio struct, but Rust&apos;s borrow checker does not allow them
+to both have mutable references to the struct.</p>
+<p>To solve this problem, Tock builds on the observation that having two
+references to a struct that can modify it is safe, as long as no references
+to memory inside the struct are leaked (there is no interior mutability).
+Tock uses <em>memory containers</em>, a set of types that allow mutability
+but not interior mutability, to achieve this goal. The Rust standard
+library has two memory container types, <code>Cell</code> and <code>RefCell</code>. Tock uses
+<code>Cell</code> extensively, but also adds five new memory container types, each
+of which is tailored to a specific use common in kernel code.</p>
+<!-- npm i -g markdown-toc; markdown-toc -i Mutable_References.md -->
+<!-- toc -->
+<ul>
+<li><a href="#brief-overview-of-borrowing-in-rust">Brief Overview of Borrowing in Rust</a></li>
+<li><a href="#issues-with-borrowing-in-event-driven-code">Issues with Borrowing in Event-Driven code</a></li>
+<li><a href="#cells-in-tock"><code>Cell</code>s in Tock</a></li>
+<li><a href="#the-takecell-abstraction">The <code>TakeCell</code> abstraction</a><ul>
+<li><a href="#example-use-of-take-and-replace">Example use of <code>take</code> and <code>replace</code></a></li>
+<li><a href="#example-use-of-map">Example use of <code>map</code></a><ul>
+<li><a href="#map-variants"><code>map</code> variants</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#mapcell"><code>MapCell</code></a></li>
+<li><a href="#optionalcell"><code>OptionalCell</code></a></li>
+<li><a href="#volatilecell"><code>VolatileCell</code></a></li>
+<li><a href="#cell-extensions">Cell Extensions</a><ul>
+<li><a href="#numericcellext"><code>NumericCellExt</code></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<h2 id="brief-overview-of-borrowing-in-rust">Brief Overview of Borrowing in Rust</h2>
+<p>Ownership and Borrowing are two design features in Rust which
+prevent race conditions and make it impossible to write code that produces
+dangling pointers.</p>
+<p>Borrowing is the Rust mechanism to allow references to
+memory. Similar to references in C++ and other languages, borrows make
+it possible to efficiently pass large structures by passing pointers
+rather than copying the entire structure.  The Rust compiler, however,
+limits borrows so that they cannot create race conditions, which are
+caused by concurrent writes or concurrent reads and writes to
+memory. Rust limits code to either a single mutable (writeable)
+reference or any number of read-only references.</p>
+<p>If a piece of code has a mutable reference to a piece of memory, it&apos;s
+also important that other code does not have any references within
+that memory. Otherwise, the language is not safe. For example, consider
+this case of an <code>enum</code> which can be either a pointer or a value:</p>
+<pre><code class="lang-rust"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">NumOrPointer</span></span> {
+  Num(<span class="hljs-keyword">u32</span>),
+  Pointer(&amp;<span class="hljs-symbol">&apos;static</span> <span class="hljs-keyword">mut</span> <span class="hljs-keyword">u32</span>)
+}
+</code></pre>
+<p>A Rust <code>enum</code> is like a type-safe C union. Suppose that code has both
+a mutable reference to a <code>NumOrPointer</code> and a read-only reference to
+the encapsulated <code>Pointer</code>. If the code with the <code>NumOrPointer</code>
+reference changes it to be a <code>Num</code>, it can then set the <code>Num</code> to be
+any value.  However, the reference to <code>Pointer</code> can still access the
+memory as a pointer. As these two representations use the same memory,
+this means that the reference to <code>Num</code> can create any pointer it
+wants, breaking Rust&apos;s type safety:</p>
+<pre><code class="lang-rust"><span class="hljs-comment">// n.b. illegal example</span>
+<span class="hljs-keyword">let</span> external : &amp;<span class="hljs-keyword">mut</span> NumOrPointer;
+<span class="hljs-keyword">match</span> external {
+  &amp;<span class="hljs-keyword">mut</span> Pointer(<span class="hljs-keyword">ref</span> <span class="hljs-keyword">mut</span> internal) =&gt; {
+    <span class="hljs-comment">// This would violate safety and</span>
+    <span class="hljs-comment">// write to memory at 0xdeadbeef</span>
+    *external = Num(<span class="hljs-number">0xdeadbeef</span>);
+    *internal = <span class="hljs-number">12345</span>;
+  },
+  ...
+}
+</code></pre>
+<p>As the Tock kernel is single
+threaded, it doesn&apos;t have race conditions and so in some cases it may
+be safe for there to be multiple references, as long as they do not
+point inside each other (as in the number/pointer example).  But Rust
+doesn&apos;t know this, so its rules still hold.  In practice, Rust&apos;s rules
+cause problems in event-driven code.</p>
+<h2 id="issues-with-borrowing-in-event-driven-code">Issues with Borrowing in Event-Driven code</h2>
+<p>Event-driven code often requires multiple writeable references to
+the same object. Consider, for example, an event-driven embedded
+application that periodically samples a sensor and receives commands
+over a serial port. At any given time, this application can have two
+or three event callbacks registered: a timer, sensor data acquisition,
+and receiving a command. Each callback is registered with a different
+component in the kernel, and each of these components requires a
+reference to the object to issue a callback on. That is, the generator
+of each callback requires its own writeable reference to the
+application. Rust&apos;s rules, however, do not allow multiple mutable
+references.</p>
+<h2 id="cells-in-tock"><code>Cell</code>s in Tock</h2>
+<p>Tock uses several <a href="https://doc.rust-lang.org/core/cell/" target="_blank">Cell</a> types for
+different data types. This
+table summarizes the various types, and more detail is included below.</p>
+<table>
+<thead>
+<tr>
+<th>Cell Type</th>
+<th>Best Used For</th>
+<th>Example</th>
+<th>Common Uses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Cell</code></td>
+<td>Primitive types</td>
+<td><code>Cell&lt;bool&gt;</code>, <a href="../kernel/src/sched/mod.rs"><code>sched/mod.rs</code></a></td>
+<td>State variables (holding an <code>enum</code>), true/false flags, integer parameters like length.</td>
+</tr>
+<tr>
+<td><code>TakeCell</code></td>
+<td>Small static buffers</td>
+<td><code>TakeCell&lt;&apos;static, [u8]&gt;</code>, <a href="../capsules/src/spi.rs"><code>spi.rs</code></a></td>
+<td>Holding static buffers that will receive or send data.</td>
+</tr>
+<tr>
+<td><code>MapCell</code></td>
+<td>Large static buffers</td>
+<td><code>MapCell&lt;App&gt;</code>, <a href="../capsules/src/spi.rs"><code>spi.rs</code></a></td>
+<td>Delegating reference to large buffers (e.g. application buffers).</td>
+</tr>
+<tr>
+<td><code>OptionalCell</code></td>
+<td>Optional parameters</td>
+<td><code>client: OptionalCell&lt;&amp;&apos;static hil::nonvolatile_storage::NonvolatileStorageClient&gt;</code>, <a href="../capsules/src/nonvolatile_to_pages.rs"><code>nonvolatile_to_pages.rs</code></a></td>
+<td>Keeping state that can be uninitialized, like a Client before one is set.</td>
+</tr>
+<tr>
+<td><code>VolatileCell</code></td>
+<td>Registers</td>
+<td><code>VolatileCell&lt;u32&gt;</code></td>
+<td>Accessing MMIO registers, used by <code>tock_registers</code> crate.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-takecell-abstraction">The <code>TakeCell</code> abstraction</h2>
+<p>While the different memory containers each have specialized uses, most of their
+operations are common across the different types. We therefore explain the basic
+use of memory containers in the context of TakeCell, and the additional/specialized
+functionality of each other type in its own section.
+From <code>tock/libraries/tock-cells/src/take_cell.rs</code>:</p>
+<blockquote>
+<p>A <code>TakeCell</code> is a potential reference to mutable memory. Borrow rules are
+enforced by forcing clients to either move the memory out of the cell or
+operate on a borrow within a closure.</p>
+</blockquote>
+<p>A TakeCell can be full or empty: it is like a safe pointer that can be
+null. If code wants to operate on the data contained in the TakeCell,
+it must either move the data out of the TakeCell (making it empty), or
+it must do so within a closure with a <code>map</code> call. Using <code>map</code> passes a
+block of code for the TakeCell to execute.  Using a closure allows
+code to modify the contents of the TakeCell inline, without any danger
+of a control path accidentally not replacing the value. However,
+because it is a closure, a reference to the contents of the TakeCell
+cannot escape.</p>
+<p>TakeCell allows code to modify its contents when it has a normal
+(non-mutable) reference. This in turn means that if a structure
+stores its state in TakeCells, then code which has a regular
+(non-mutable) reference to the structure can change the contents
+of the TakeCell and therefore modify the structure. Therefore,
+it is possible for multiple callbacks to have references to
+the structure and modify its state.</p>
+<h3 id="example-use-of-take-and-replace">Example use of <code>take</code> and <code>replace</code></h3>
+<p>When <code>TakeCell.take()</code> is called, ownership of a location in memory
+moves out of the cell. It can then be freely used by whoever took it
+(as they own it) and then put back with <code>TakeCell.put()</code> or
+<code>TakeCell.replace()</code>.</p>
+<p>For example, this piece of code from <code>chips/nrf51/src/clock.rs</code>
+sets the callback client for a hardware clock:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">set_client</span></span>(&amp;<span class="hljs-keyword">self</span>, client: &amp;<span class="hljs-symbol">&apos;static</span> ClockClient) {
+    <span class="hljs-keyword">self</span>.client.replace(client);
+}
+</code></pre>
+<p>If there is a current client, it&apos;s replaced with <code>client</code>. If
+<code>self.client</code> is empty, then it&apos;s filled with <code>client</code>.</p>
+<p>This piece of code from <code>chips/sam4l/src/dma.rs</code> cancels a
+current direct memory access (DMA) operation, removing the
+buffer in the current transaction from the TakeCell with a
+call to <code>take</code>:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">abort_transfer</span></span>(&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-built_in">Option</span>&lt;&amp;<span class="hljs-symbol">&apos;static</span> <span class="hljs-keyword">mut</span> [<span class="hljs-keyword">u8</span>]&gt; {
+    <span class="hljs-keyword">let</span> registers: &amp;DMARegisters = <span class="hljs-keyword">unsafe</span> { &amp;*<span class="hljs-keyword">self</span>.registers };
+    registers.interrupt_disable.set(!<span class="hljs-number">0</span>);
+    <span class="hljs-comment">// Reset counter</span>
+    registers.transfer_counter.set(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">self</span>.buffer.take()
+}
+</code></pre>
+<h3 id="example-use-of-map">Example use of <code>map</code></h3>
+<p>Although the contents of a TakeCell can be directly accessed through
+a combination of <code>take</code> and <code>replace</code>, Tock code typically uses
+<code>TakeCell.map()</code>, which wraps the provided closure between a
+<code>TakeCell.take()</code> and <code>TakeCell.replace()</code>. This approach has the
+advantage that a bug in control flow that doesn&apos;t correctly <code>replace</code>
+won&apos;t accidentally leave the TakeCell empty.</p>
+<p>Here is a simple use of <code>map</code>, taken from <code>chips/sam4l/src/dma.rs</code>:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">disable</span></span>(&amp;<span class="hljs-keyword">self</span>) {
+    <span class="hljs-keyword">let</span> registers: &amp;SpiRegisters = <span class="hljs-keyword">unsafe</span> { &amp;*<span class="hljs-keyword">self</span>.registers };
+
+    <span class="hljs-keyword">self</span>.dma_read.map(|read| read.disable());
+    <span class="hljs-keyword">self</span>.dma_write.map(|write| write.disable());
+    registers.cr.set(<span class="hljs-number">0b10</span>);
+}
+</code></pre>
+<p>Both <code>dma_read</code> and <code>dma_write</code> are of type <code>TakeCell&lt;&amp;&apos;static mut DMAChannel&gt;</code>,
+that is, a TakeCell for a mutable reference to a DMA channel. By calling <code>map</code>,
+the function can access the reference and call the <code>disable</code> function. If
+the TakeCell has no reference (it is empty), then <code>map</code> does nothing.</p>
+<p>Here is a more complex example use of <code>map</code>, taken from <code>chips/sam4l/src/spi.rs</code>:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">self</span>.client.map(|cb| {
+    txbuf.map(|txbuf| {
+        cb.read_write_done(txbuf, rxbuf, len);
+    });
+});
+</code></pre>
+<p>In this example, <code>client</code> is a <code>TakeCell&lt;&amp;&apos;static SpiMasterClient&gt;</code>.
+The closure passed to <code>map</code> has a single argument, the value which the
+TakeCell contains. So in this case, <code>cb</code> is the reference to an
+<code>SpiMasterClient</code>. Note that the closure passed to <code>client.map</code> then
+itself contains a closure, which uses <code>cb</code> to invoke a callback passing
+<code>txbuf</code>.</p>
+<h4 id="map-variants"><code>map</code> variants</h4>
+<p><code>TakeCell.map()</code> provides a convenient method for interacting with a
+<code>TakeCell</code>&apos;s stored contents, but it also hides the case when the <code>TakeCell</code> is
+empty by simply not executing the closure. To allow for handling the cases when
+the <code>TakeCell</code> is empty, rust (and by extension Tock) provides additional
+functions.</p>
+<p>The first is <code>.map_or()</code>. This is useful for returning a value both when the
+<code>TakeCell</code> is empty and when it has a contained value. For example, rather than:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">return</span> = <span class="hljs-keyword">if</span> txbuf.is_some() {
+    txbuf.map(|txbuf| {
+        write_done(txbuf);
+    });
+    ReturnCode::SUCCESS
+} <span class="hljs-keyword">else</span> {
+    ReturnCode::ERESERVE
+};
+</code></pre>
+<p><code>.map_or()</code> allows us to do this instead:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">return</span> = txbuf.map_or(ReturnCode::ERESERVE, |txbuf| {
+    write_done(txbuf);
+    ReturnCode::SUCCESS
+});
+</code></pre>
+<p>If the <code>TakeCell</code> is empty, the first argument (the error code) is returned,
+otherwise the closure is executed and <code>SUCCESS</code> is returned.</p>
+<p>Sometimes we may want to execute different code based on whether the <code>TakeCell</code>
+is empty or not. Again, we could do this:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">if</span> txbuf.is_some() {
+    txbuf.map(|txbuf| {
+        write_done(txbuf);
+    });
+} <span class="hljs-keyword">else</span> {
+    write_done_failure();
+};
+</code></pre>
+<p>Instead, however, we can use the <code>.map_or_else()</code> function. This allows us to
+pass in two closures, one for if the <code>TakeCell</code> is empty, and one for if it has
+contents:</p>
+<pre><code class="lang-rust">txbuf.map_or_else(|| {
+    write_done_failure();
+}, |txbuf| {
+    write_done(txbuf);
+});
+</code></pre>
+<p>Note, in both the <code>.map_or()</code> and <code>.map_or_else()</code> cases, the first argument
+corresponds to when the <code>TakeCell</code> is empty.</p>
+<h2 id="mapcell"><code>MapCell</code></h2>
+<p>A <code>MapCell</code> is very similar to a <code>TakeCell</code> in its purpose and interface.
+What differs is the underlying implementation. In a <code>TakeCell</code>, when
+something <code>take()</code>s the contents of the cell, the memory inside is actually
+moved. This is a performance problem if the data in a <code>TakeCell</code> is
+large, but saves both cycles and memory if the data is small (like a
+pointer or slice) because the internal <code>Option</code> can be optimized in many cases
+and the code operates on registers as opposed to memory. On the flip side,
+<code>MapCell</code>s introduce some accounting overhead for small types and require a
+minimum number of cycles to access.</p>
+<p>The <a href="https://github.com/tock/tock/commit/5f7246d4af139864f567cebf15bfc0b49e17b787)" target="_blank">commit that introduced <code>MapCell</code></a> includes some performance
+benchmarks, but exact performance will vary based on the usage scenario.
+Generally speaking, medium to large sized buffers should prefer <code>MapCell</code>s.</p>
+<h2 id="optionalcell"><code>OptionalCell</code></h2>
+<p><a href="https://github.com/tock/tock/blob/master/libraries/tock-cells/src/optional_cell.rs" target="_blank"><code>OptionalCell</code></a>
+is effectively a wrapper for a <code>Cell</code> that contains an <code>Option</code>, like:
+<code>Cell&lt;Option&lt;T&gt;&gt;</code>. This to an extent mirrors the <code>TakeCell</code> interface, where the
+<code>Option</code> is hidden from the user. So instead of <code>my_optional_cell.get().map(||
+{})</code>, the code can be: <code>my_optional_cell.map(|| {})</code>.</p>
+<p><code>OptionalCell</code> can hold the same values that <code>Cell</code> can, but can also be just
+<code>None</code> if the value is effectively unset. Using an <code>OptionalCell</code> (like a
+<code>NumCell</code>) makes the code clearer and hides extra tedious function calls.</p>
+<h2 id="volatilecell"><code>VolatileCell</code></h2>
+<p>A <code>VolatileCell</code> is just a helper type for doing volatile reads and writes to a
+value. This is mostly used for accessing memory-mapped I/O registers. The
+<code>get()</code> and <code>set()</code> functions are wrappers around <code>core::ptr::read_volatile()</code>
+and <code>core::ptr::write_volatile()</code>.</p>
+<h2 id="cell-extensions">Cell Extensions</h2>
+<p>In addition to custom types, Tock adds <a href="https://github.com/aturon/rfcs/blob/extension-trait-conventions/text/0000-extension-trait-conventions.md" target="_blank">extensions</a> to some of
+the standard cells to enhance and ease usability. The mechanism here is to add
+traits to existing data types to enhance their ability. To use extensions,
+authors need only <code>use kernel::common::cells::THE_EXTENSION</code> to pull the new
+traits into scope.</p>
+<h3 id="numericcellext"><code>NumericCellExt</code></h3>
+<p><a href="https://github.com/tock/tock/blob/master/libraries/tock-cells/src/numeric_cell_ext.rs" target="_blank"><code>NumericCellExt</code></a>
+extends cells that contain &quot;numeric&quot; types (like <code>usize</code> or <code>i32</code>) to provide
+some convenient functions (<code>add()</code> and <code>subtract()</code>, for example). This
+extension makes for cleaner code when storing numbers that are increased or
+decreased. For example, with a typical <code>Cell</code>, adding one to the stored value
+looks like: <code>my_cell.set(my_cell.get() + 1)</code>. With a <code>NumericCellExt</code> it is a
+little easier to understand: <code>my_cell.increment()</code> (or <code>my_cell.add(1)</code>).</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Mutable References","level":"2.2","depth":1,"next":{"title":"Soundness","level":"2.3","depth":1,"path":"Soundness.md","ref":"Soundness.md","articles":[]},"previous":{"title":"Lifetimes","level":"2.1","depth":1,"path":"Lifetimes.md","ref":"Lifetimes.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Tock","language":"ja","gitbook":"*","description":"Tockドキュメント"},"file":{"path":"Mutable_References.md","mtime":"2020-09-14T07:33:27.027Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-27T01:49:05.493Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,127 +1,128 @@
-Tock Syscalls
+Tockシステムコール
 =============
 
-This folder contains the detailed documentation for the interfaces between
-userspace and the kernel. It includes details of the ABI interface, the kernel
-provided syscalls, and the driver specific interfaces (using `allow`,
-`schedule`, and `command`). For more information on the general syscalls, see
-[here](../Syscalls.md).
+このフォルダには、ユーザ空間とカーネルの間のインターフェースに関する詳細な
+ドキュメントが含まれています。それは、ABIインターフェース、カーネルが提供する
+システムコール、（`allow`、`schedule`、`command`を使用する)ドライバ固有の
+インターフェースの詳細です。一般的なシステムコールの詳細については、
+[システムコール](../Syscalls.md)を参照してください。
 
 <!-- toc -->
 
-- [Syscall Binary Interface](#syscall-binary-interface)
-- [Core Kernel Provided Syscalls](#core-kernel-provided-syscalls)
-- [Capsule Provided Drivers](#capsule-provided-drivers)
-  * [Base](#base)
-  * [Kernel](#kernel)
-  * [Hardware Access](#hardware-access)
-  * [Radio](#radio)
-  * [Cryptography](#cryptography)
-  * [Storage](#storage)
-  * [Sensors](#sensors)
-  * [Sensor ICs](#sensor-ics)
-  * [Other ICs](#other-ics)
+- [Tockシステムコール](#tockシステムコール)
+  - [システムコールのバイナリインターフェース](#システムコールのバイナリインターフェース)
+  - [コアカーネル提供のシステムコール](#コアカーネル提供のシステムコール)
+  - [カプセル提供のドライバ](#カプセル提供のドライバ)
+    - [基本](#基本)
+    - [カーネル](#カーネル)
+    - [Hardware Access](#hardware-access)
+    - [無線通信](#無線通信)
+    - [暗号](#暗号)
+    - [ストレージ](#ストレージ)
+    - [センサ](#センサ)
+    - [センサIC](#センサic)
+    - [その他のIC](#その他のic)
 
 <!-- tocstop -->
 
-## Syscall Binary Interface
+## システムコールのバイナリインターフェース
 
-Details of the [application binary interface](../Syscalls.md).
+[アプリケーションバイナリインターフェース](../Syscalls.md)の詳細。
 
-## Core Kernel Provided Syscalls
+## コアカーネル提供のシステムコール
 
-- [`memop`](memop.md): Memory-related operations.
+- [`memop`](memop.md): メモリ関連の操作。
 
-## Capsule Provided Drivers
+## カプセル提供のドライバ
 
-Each driver type that has been allocated a permanent driver number is listed in
-the tables below. The "1.0" column indicates whether the driver has been
-stabilized or not (a "✓" indicates stability) in the Tock 1.0 release.
+恒久的なドライバ番号が割り当てられているドライバ型は、以下の表の通りです。
+"1.0"の列は、Tock 1.0リリースでドライバが安定しているか否かを示します
+（"✓"は安定を示します)。
 
-### Base
+### 基本
 
-|1.0| Driver Number | Driver                      | Description                                |
-|---|---------------|-----------------------------|--------------------------------------------|
-| ✓ | 0x00000       | [Alarm](00000_alarm.md)     | Used for timers in userspace               |
+|1.0| ドライバ番号 | ドライバ   | 記述　              |
+|---|---------------|--------|--------------------|
+| ✓ | 0x00000       | [Alarm](00000_alarm.md)     | ユーザ空間のタイマーとして使用される             |
 | ✓ | 0x00001       | [Console](00001_console.md) | UART console                               |
-| ✓ | 0x00002       | [LED](00002_leds.md)        | Control LEDs on board                      |
-| ✓ | 0x00003       | [Button](00003_buttons.md)  | Get interrupts from buttons on the board   |
-| ✓ | 0x00005       | [ADC](00005_adc.md)         | Sample analog-to-digital converter pins    |
-|   | 0x00006       | DAC                         | Digital to analog converter                |
-|   | 0x00007       | [AnalogComparator](00007_analog_comparator.md) | Analog Comparator       |
-|   | 0x00008       | [Low-Level Debug](00008_low_level_debug.md) | Low-level debugging tools  |
+| ✓ | 0x00002       | [LED](00002_leds.md)        | ボード上のLEDを制御する  |
+| ✓ | 0x00003       | [Button](00003_buttons.md)  | ボード上のボタンから割り込みを取得する   |
+| ✓ | 0x00005       | [ADC](00005_adc.md)         | アナログ・デジタルコンバータ    |
+|   | 0x00006       | DAC                         | デジタル・アナログコンバータ                |
+|   | 0x00007       | [AnalogComparator](00007_analog_comparator.md) | アナログコンパレータ       |
+|   | 0x00008       | [Low-Level Debug](00008_low_level_debug.md) | 低レベルデバッグツール  |
 
-### Kernel
+### カーネル
 
-|1.0| Driver Number | Driver           | Description                                |
-|---|---------------|------------------|--------------------------------------------|
-|   | 0x10000       | IPC              | Inter-process communication                |
+|1.0| ドライバ番号 | ドライバ   | 記述　              |
+|---|---------------|--------|--------------------|
+|   | 0x10000       | IPC              | プロセス間通信      |
 
 ### Hardware Access
 
-|1.0| Driver Number | Driver           | Description                                |
-|---|---------------|------------------|--------------------------------------------|
-|   | 0x00004       | [GPIO](00004_gpio.md) | Set and read GPIO pins                |
-|   | 0x20000       | UART             | UART                                       |
-|   | 0x20001       | SPI              | Raw SPI Master interface                   |
-|   | 0x20002       | SPI Slave        | Raw SPI slave interface                    |
-|   | 0x20003       | I2C Master       | Raw I2C Master interface                   |
-|   | 0x20004       | I2C Slave        | Raw I2C Slave interface                    |
-|   | 0x20005       | USB              | Universal Serial Bus interface             |
+|1.0| ドライバ番号 | ドライバ   | 記述　              |
+|---|---------------|--------|--------------------|
+|   | 0x00004       | [GPIO](00004_gpio.md) | GPIOピンの設定と読み取り |
+|   | 0x20000       | UART             | UART     |
+|   | 0x20001       | SPI              | 生のSPIマスタインターフェース  |
+|   | 0x20002       | SPI Slave        | 生のSPIスレーブインターフェース  |
+|   | 0x20003       | I2C Master       | 生のI2Cマスタインターフェース   |
+|   | 0x20004       | I2C Slave        | 生のI2Cスレーブインターフェース |
+|   | 0x20005       | USB              | USBインターフェース           |
 
-_Note:_ GPIO is slated for re-numbering in Tock 2.0.
+_注:_ GPIOはTock 2.0で番号が付け直される予定です。
 
-### Radio
+### 無線通信
 
-|1.0| Driver Number | Driver           | Description                                |
-|---|---------------|------------------|--------------------------------------------|
-|   | 0x30000       | BLE              | Bluetooth Low Energy                       |
-|   | 0x30001       | 802.15.4         | IEEE 802.15.4                              |
-|   | 0x30002       | [UDP](30002_udp.md)  | UDP / 6LoWPAN Interface                |
+|1.0| ドライバ番号 | ドライバ   | 記述　              |
+|---|---------------|--------|--------------------|
+|   | 0x30000       | BLE              | Bluetooth Low Energy   |
+|   | 0x30001       | 802.15.4         | IEEE 802.15.4    |
+|   | 0x30002       | [UDP](30002_udp.md)  | UDP/6LoWPANインターフェース |
 
-### Cryptography
+### 暗号
 
-|1.0| Driver Number | Driver           | Description                                |
-|---|---------------|------------------|--------------------------------------------|
-|   | 0x40000       | AES              | AES Symmetric Key Cryptography             |
-|   | 0x40001       | RNG              | Random number generator                    |
-|   | 0x40002       | CRC              | Cyclic Redundancy Check computation        |
+|1.0| ドライバ番号 | ドライバ   | 記述　              |
+|---|---------------|--------|--------------------|
+|   | 0x40000       | AES              | AES共通鍵暗号 |
+|   | 0x40001       | RNG              | 乱数生成器 |
+|   | 0x40002       | CRC              | 巡回冗長検査計算     |
 
-### Storage
+### ストレージ
 
-|1.0| Driver Number | Driver           | Description                                |
-|---|---------------|------------------|--------------------------------------------|
-|   | 0x50000       | App Flash        | Allow apps to write their own flash        |
-|   | 0x50001       | Nonvolatile Storage | Generic interface for persistent storage |
-|   | 0x50002       | SDCard           | Raw block access to an SD card             |
+|1.0| ドライバ番号 | ドライバ   | 記述　              |
+|---|---------------|--------|--------------------|
+|   | 0x50000       | App Flash        | アプリが各自のFlashに書き込みを可能にする    |
+|   | 0x50001       | Nonvolatile Storage | 永続ストレージ用の汎用インターフェース |
+|   | 0x50002       | SDCard           | SDカードへの生ブロックアクセス   |
 
-### Sensors
+### センサ
 
-|1.0| Driver Number | Driver                                        | Description                                |
-|---|---------------|-----------------------------------------------|--------------------------------------------|
-| ✓ | 0x60000       | [Ambient Temp.](60000_ambient_temperature.md) | Ambient temperature (centigrate)           |
-| ✓ | 0x60001       | [Humidity](60001_humidity.md)                 | Humidity Sensor (percent)                  |
-| ✓ | 0x60002       | [Luminance](60002_luminance.md)               | Ambient Light Sensor (lumens)              |
-|   | 0x60003       | Pressure         | Pressure sensor                            |
-|   | 0x60004       | Ninedof          | Virtualized accelerometer/magnetometer/gyroscope |
+|1.0| ドライバ番号 | ドライバ   | 記述　              |
+|---|---------------|--------|--------------------|
+| ✓ | 0x60000       | [Ambient Temp.](60000_ambient_temperature.md) | 環境温度（摂氏）  |
+| ✓ | 0x60001       | [Humidity](60001_humidity.md)                 | 湿度センサ（％）             |
+| ✓ | 0x60002       | [Luminance](60002_luminance.md)               | 環境光センサ（ルーメン）         |
+|   | 0x60003       | Pressure         | 圧力センサ   |
+|   | 0x60004       | Ninedof          | 仮想加速度計/磁力計/ジャイロスコープ |
 
-### Sensor ICs
+### センサIC
 
-|1.0| Driver Number | Driver                            | Description                                               |
-|---|---------------|-----------------------------------|-----------------------------------------------------------|
-|   | 0x70000       | TSL2561                           | Light sensor                                              |
-|   | 0x70001       | TMP006                            | Temperature sensor                                        |
-|   | 0x70004       | LPS25HB                           | Pressure sensor                                           |
-|   | 0x70005       | [L3GD20](70005_l3gd20.md)         | 3 axis gyroscope and temperature sensor                   |
-|   | 0x70006       | [LSM303DLHC](70006_lsm303dlhc.md) | 3 axis accelerometer, magnetometer and temperature sensor |
+|1.0| ドライバ番号 | ドライバ   | 記述　              |
+|---|---------------|--------|--------------------|
+|   | 0x70000       | TSL2561                     | 光センサ  |
+|   | 0x70001       | TMP006                      | 温度センサ |
+|   | 0x70004       | LPS25HB                     | 圧力センサ |
+|   | 0x70005       | [L3GD20](70005_l3gd20.md)   | 3軸ジャイロスコープ、温度センサ             |
+|   | 0x70006       | [LSM303DLHC](70006_lsm303dlhc.md) | 3軸加速度計、磁力計、温度センサ  |
 
-### Other ICs
+### その他のIC
 
-|1.0| Driver Number | Driver           | Description                                |
-|---|---------------|------------------|--------------------------------------------|
-|   | 0x80000       | LTC294X          | Battery gauge IC                           |
-|   | 0x80001       | MAX17205         | Battery gauge IC                           |
-|   | 0x80002       | PCA9544A         | I2C address multiplexing                   |
-|   | 0x80003       | GPIO Async       | Asynchronous GPIO pins                     |
-|   | 0x80004       | nRF51822         | nRF serialization link to nRF51822 BLE SoC |
-|   | 0x80005       | [HD44780](80005_hd44780.md)          | LCD HD44780 capsule                        |
+|1.0| ドライバ番号 | ドライバ   | 記述　              |
+|---|---------------|--------|--------------------|
+|   | 0x80000       | LTC294X          | バッテリゲージIC   |
+|   | 0x80001       | MAX17205         | バッテリゲージIC   |
+|   | 0x80002       | PCA9544A         | I2Cアドレス多重化装置   |
+|   | 0x80003       | GPIO Async       | 非同期GPIOピン         |
+|   | 0x80004       | nRF51822         | nRF51822 BLE SoCへのnRF シリアル化リンク  |
+|   | 0x80005       | [HD44780](80005_hd44780.md)    | LCD HD44780カプセル |

@@ -1,28 +1,24 @@
-Configuration
+構成
 =============
 
-Because Tock is meant to run on various platforms (spanning multiple
-architectures and various available peripherals), and with multiple use cases in
-mind (for example, "production" vs. debug build with various levels of debugging
-detail), Tock provides various configuration options so that each build can be
-adapted to each use case.
+Tockは種々のプラットフォーム（複数のアーキテクチャと利用可能なさまざまなペリフェラル）
+において、また、複数のユースケース（たとえば、「本番環境」とさまざまなレベルのデバッグ
+詳細のデバッグビルド）を念頭に置いて動作することを意図しています。
 
-In Tock, configuration follows some principles to avoid pitfalls of "ifdef"
-conditional code (which can be tricky to test). This is currently done in two
-ways.
+Tockでは構成は"ifdef"条件付きコードの落とし穴（テストがやりにくくなります）を
+避けるためにいくつかの原則に従っています。これは現在、2つの方法で行われています。
 
-- **Separation of the code into multiple packages.** Each level of abstraction
-  (core kernel, CPU architecture, chip, board) has its own package, so that
-  configuring a board is done by depending on the relevant chip and declaring
-  the relevant drivers for peripherals avaialble on the board. You can see more
-  details on the [compilation page](Compilation.md).
+- **コードの複数パッケージへの分離**。各抽象化レベル（コアカーネル、CPU
+  アーキテクチャ、チップ、ボード）は各自パッケージを持ち、ボードの構成は関連する
+  チップに基づいて、ボード上で利用可能なペリフェラルに関連するドライバを宣言する
+  ことで行われます。詳細は[コンパイルドキュメント](Compilation.md)を参照して
+  ください。
 
-- **Custom kernel configuration.** To facilitate fine-grained configuration of
-  the kernel (for example to enable tracing the syscalls to the debug output), a
-  `Config` struct is defined in `kernel/src/config.rs`. To change the
-  configuration, modify the values in the static `const` object defined in this
-  file. To use the configuration, simply read the values. For example, to use a
-  boolean configuration, just use an if statement: the fact that the
-  configuration is `const` should allow the compiler to optimize away dead code
-  (so that this configuration has zero cost), while still checking syntax and
-  types.
+- **カスタムカーネル構成**。カーネルの詳細な構成（たとえば、syscallsトレースの
+  デバッグ出力の有効化など）を容易にするために`config`構造体が
+  `kernel/src/config.rs`で定義されています。構成を変更するには、このファイルで
+  定義されている静的な`const`オブジェクトの値を変更します。構成を使用するには、
+  単に値を読み込むだけです。たとえば、ブール値の構成を使用するには`if`文を使用
+  します。構成が`const`であるという事実により、コンパイラは構文と型をチェック
+  する一方で、（この設定のコストがゼロになるように) 最適化によりデッドコードを
+  削除することができます。

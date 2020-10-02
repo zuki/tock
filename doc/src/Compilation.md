@@ -1,251 +1,234 @@
-# How does Tock compile?
+# どのようにTockをコンパイルするか
 
-There are two types of compilation artifacts in Tock: the kernel and user-level
-processes (i.e. apps). Each type compiles differently. In addition, each
-platform has a different way of programming the kernel and processes. Below is
-an explanation of both kernel and process compilation as well as some examples
-of how platforms program each onto an actual board.
+Tockには2種類のコンパイル生成物があります。カーネルとユーザレベルのプロセス
+（アプリ）です。両者は別々にコンパイルします。さらに、プラットフォーム毎に
+カーネルとプロセスのプログラミング方法が異なります。以下では、カーネルとプロセスの
+コンパイルを説明し、実際のボードに各プラットフォームをプログラムする方法の例を
+示します。
 
 <!-- npm i -g markdown-toc; markdown-toc -i Compilation.md -->
 
 <!-- toc -->
 
-- [Compiling the kernel](#compiling-the-kernel)
-  * [Life of a Tock compilation](#life-of-a-tock-compilation)
-  * [LLVM Binutils](#llvm-binutils)
-  * [Special `.apps` section](#special-apps-section)
-- [Compiling a process](#compiling-a-process)
-  * [Position Independent Code](#position-independent-code)
-  * [Tock Binary Format](#tock-binary-format)
-  * [Tock Application Bundle](#tock-application-bundle)
-    + [TAB Format](#tab-format)
-    + [Metadata](#metadata)
-- [Loading the kernel and processes onto a board](#loading-the-kernel-and-processes-onto-a-board)
+- [どのようにTockをコンパイルするか](#どのようにtockをコンパイルするか)
+  - [カーネルのコンパイル](#カーネルのコンパイル)
+    - [Tockコンパイルのライフ](#tockコンパイルのライフ)
+    - [LLVM Binutils](#llvm-binutils)
+    - [特別な`.apps`セクション](#特別なappsセクション)
+  - [プロセスのコンパイル](#プロセスのコンパイル)
+    - [位置独立なコード](#位置独立なコード)
+    - [Tockバイナリフォーマット](#tockバイナリフォーマット)
+    - [Tockアプリケーションバンドル](#tockアプリケーションバンドル)
+      - [TABフォーマット](#tabフォーマット)
+      - [メタデータ](#メタデータ)
+  - [カーネルとプロセスのボードへのロード](#カーネルとプロセスのボードへのロード)
 
 <!-- tocstop -->
 
-## Compiling the kernel
+## カーネルのコンパイル
 
-The kernel is divided into five Rust crates (i.e. packages):
+カーネルは5つのRustクレート(パッケージ)に分類できます。
 
-  * A core kernel crate containing key kernel operations such as handling
-    interrupts and scheduling processes, shared kernel libraries such as
-    `TakeCell`, and the Hardware Interface Layer (HIL) definitions. This is
-    located in the `kernel/` folder.
+  * コアカーネルクレート。これには、割り込みの処理やプロセスのスケジューリングなどの
+    主要なカーネル操作、`TakeCell`などの共有カーネルライブラリ、HIL（Hardware
+    Interface Layer）の定義を含みます。`kernel/`フォルダにあります。
 
-  * An architecture (e.g. _ARM Cortex M4_) crate that implements context
-    switching, and provides memory protection and systick drivers. This is
-    located in the `arch/` folder.
+  * アーキテクチャ（_ARM Cortex M4_など）クレート。コンテキストスイッチングを実装し、
+    メモリ保護とsystickドライバを提供します。`arch/`フォルダにあります。
 
-  * A chip-specific (e.g. _Atmel SAM4L_) crate which handles interrupts and
-    implements the hardware abstraction layer for a chip's peripherals. This is
-    located in the `chips/` folder.
+  * チップ固有（_Atmel SAM4L_など）のクレート。割り込みを処理し、チップのペリフェラル
+    用のハードウェア抽象化レイヤを実装します。`chips/`フォルダにあります。
 
-  * One (or more) crates for hardware independent drivers and virtualization
-    layers. This is the `capsules/` folder in Tock. External projects using
-    Tock may create additional crates for their own drivers.
+  * ハードウェアに依存しないドライバと仮想化レイヤのための1つ(または複数)のクレート。
+    `capsules/`フォルダにあります。Tockを使用する外部プロジェクトは各自のドライバ用に
+    追加のクレートを作成することができます。
 
-  * A platform specific (e.g. _Imix_) crate that configures the chip and
-    its peripherals, assigns peripherals to drivers, sets up virtualization
-    layers, and defines a system call interface. This is located in `boards/`.
+  * プラットフォーム固有（_Imix_など）のクレート。チップとそのペリフェラルを設定し、
+    ドライバにペリフェラルを割り当て、仮想化レイヤを設定し、システムコールインタフェースを
+    定義します。`boards/`にあります。
 
-These crates are compiled using [Cargo](http://doc.crates.io), Rust's package
-manager, with the platform crate as the base of the dependency graph. In
-practice, the use of Cargo is masked by the Makefile system in Tock. Users can
-simply type `make` from the proper directory in `boards/` to build the kernel
-for that platform.
+これらのクレートはプラットフォームのクレートを依存関係グラフのベースとして、Rustの
+パッケージマネージャである[Cargo](http://doc.crates.io)を使ってコンパイルされます。
+実際には、Cargoの使用はTockのMakefileシステムにより隠蔽されます。ユーザは`boards/`
+の適切なディレクトリで`make`と入力するだけで、そのプラットフォーム用のカーネルをビルド
+できます。
 
-Internally, the Makefile is simply invoking Cargo to handle the build. For
-example, `make` on the imix platform translates to:
+内部的には、Makefileは単にビルドを処理するCargoを呼び出しているだけです。たとえば、
+imixプラットフォームでの`make`は次のように変換されます。
 
 ```bash
 $ cargo build --release --target=thumbv7em-none-eabi
 ```
 
-The `--release` argument tells Cargo to invoke the Rust compiler with
-optimizations turned on. `--target` points Cargo to the target specification
-which includes the LLVM data-layout definition and architecture definitions for
-the compiler.
+`--release`引数は、最適化を有効にしてRustコンパイラを起動するようにCargoに指示します。
+`--target`は、コンパイラ用のLLVMデータレイアウト定義やアーキテクチャ定義を含むターゲット
+仕様をCargoに指定します。
 
+### Tockコンパイルのライフ
 
-### Life of a Tock compilation
+Cargoがプラットフォームクレートのコンパイルを開始すると、まず、すべての依存関係を
+再帰的に解決します。依存関係グラフにわたって要件を満たすパッケージバージョンを選択します。
+依存関係は各クレートの`Cargo.toml`ファイルで定義されており、ローカルファイルシステム、
+リモートのgitリポジトリ、[crates.io](http://crates.io)で公開されているパッケージの
+パスを参照します。
 
-When Cargo begins compiling the platform crate, it first resolves all
-dependencies recursively. It chooses package versions that satisfy the
-requirements across the dependency graph. Dependencies are defined in each
-crate's `Cargo.toml` file and refer to paths in the local file-system, a
-remote git repository, or a package published on [crates.io](http://crates.io).
+依存関係が満たされると、Cargoは次に各クレイトを順番にコンパイルしていきます。
+各クレートは`rlib`（オブジェクトファイルを含む`ar`アーカイブ）としてコンパイルされ、
+プラットフォームクレートのコンパイルによる実行可能なELFファイルに結合されます。
 
-Second, Cargo compiles each crate in turn as dependencies are satisfied. Each
-crate is compiled as an `rlib` (an `ar` archive containing object files)
-and combined into an executable ELF file by the compilation of the platform
-crate.
-
-You can see each command executed by `cargo` by passing it the `--verbose`
-argument. In our build system, you can run `make V=1` to see the verbose
-commands.
-
+`--verbose`引数を渡すことによりCargoが実行する各コマンドを見ることができます。
+Tockのビルドシステムでは`make V=1`と実行することで冗長コマンドを見ることができます。
 
 ### LLVM Binutils
 
-Tock uses the `lld`, `objcopy`, and `size` tools included with the Rust
-toolchain to produce kernel binaries that are executed on microcontrollers. This
-has three main ramifications:
+TockはRustツールチェーンに含まれている`lld`、`objcopy`、` size`の各ツールを使用して、マイクロコントローラ上で実行されるカーネルバイナリを生成します。これには主に3つの意味が
+あります。
 
-1. The tools are not entirely feature-compatible with the GNU versions. While
-   they are very similar, there are edge cases where they do not behave exactly
-   the same. This will likely improve with time, but it is worth noting in case
-   unexpected issues arise.
-2. The tools will automatically update with Rust versions. The tools are
-   provided in the `llvm-tools` rustup component that is compiled for and ships
-   with every version of the Rust toolchain. Therefore, if Rust updates the
-   version they use in the Rust repository, Tock will also see those updates.
-3. Tock no longer relies on an external dependency to provide these tools. That
-   should ensure that all Tock developers are using the same version of the
-   tools.
+1. このツールはGNUバージョンとは完全な機能互換性があるわけではありません。両者は
+   非常に似ていますが、全く同じ動作をしないエッジケースがあります。これは時間が経てば
+   改善されるでしょうが、予期せぬ問題が発生した場合に備えて注意しておく価値があります。
 
-### Special `.apps` section
+2. このツールはRustのバージョンに合わせて自動的に更新されます。このツールはRust
+   ツールチェーンのすべてのバージョンでコンパイルされて出荷されるrustup
+   コンポーネントである`llvm-tools`で提供されます。したがって、RustがRust
+   リポジトリで使用しているバージョンを更新した場合、Tockもその更新を使うことに
+   なります。
 
-Tock kernels include a `.apps` section in the kernel .elf file that is at the
-same physical address where applications will be loaded. When compiling the
-kernel, this is just a placeholder and is not populated with any meaningful
-data. It exists to make it easy to update the kernel .elf file with an
-application binary to make a monolithic .elf file so that the kernel and apps
-can be flashed together.
+3. Tockはこれらのツールを提供する外部依存関係を使用しなくなりました。これにより、
+   すべてのTock開発者が同じバージョンのツールを使用することが保証されるはずです。
 
-When the Tock build system creates the kernel binary, it explicitly removes this
-section so that the placeholder is not included in the kernel binary.
+### 特別な`.apps`セクション
 
-To use the special `.apps` section, `objcopy` can replace the placeholder with an actual app binary. The general command looks like:
+Tockカーネルは、アプリケーションがロードされるものと同じ物理アドレスにある`.apps`
+セクションをカーネルの`.elf`ファイルの中に含んでいます。カーネルをコンパイルする際、
+これは単なるプレースホルダであり、意味のあるデータは置かれません。これは、カーネルと
+アプリを一緒にフラッシュできるように、カーネル`.elf`ファイルとアプリケーション
+バイナリをモノリシックな`.elf`ファイルとして簡単に更新できるようにするために
+存在しています。
+
+Tockビルドシステムがカーネルバイナリを作成する際、このセクションを明示的に削除し、
+プレースホルダがカーネルバイナリに含まれないようにします。
+
+特別な`.apps`セクションを使用するために`objcopy`でプレースホルダを実際のアプリ
+バイナリに置き換えることができます。一般的なコマンドは次のようになります。
 
 ```bash
 $ arm-none-eabi-objcopy --update-section .apps=libtock-c/examples/c_hello/build/cortex-m4/cortex-m4.tbf target/thumbv7em-none-eabi/release/stm32f412gdiscovery.elf target/thumbv7em-none-eabi/release/stm32f4discovery-app.elf
 ```
 
-This replaces the placeholder section `.apps` with the "c_hello" application TBF
-in the stm32f412gdiscovery.elf kernel ELF, and creates a new .elf called
-`stm32f4discovery-app.elf`.
+これは、カーネルELFであるstm32f412gdiscovery.elf内のプレースホルダセクション
+`.apps`を"c_hello"アプリケーションTBFに置き換え、stm32f4discovery-app.elfと
+いう名前の新しい`.elf`を作成します。
 
-## Compiling a process
+## プロセスのコンパイル
 
-Unlike many other embedded systems, compilation of application code is entirely
-separated from the kernel in Tock. An application is combined with at least two
-libraries: `libtock` and `newlib` and built into a free-standing binary. The
-binary can then be uploaded onto a Tock platform with an already existing
-kernel to be loaded and run.
+他の多くの組み込みシステムとは異なり、Tockではアプリケーションコードのコンパイルは
+カーネルのコンパイルとは完全に分離されています。アプリケーションは少なくとも2つの
+ライブラリ`libtock`と`newlib`とともにコンパイルされ、独立したバイナリが構築されます。
+このバイナリはTockプラットフォーム上にアップロードされ、ロードされてすでに存在する
+カーネルとともに実行することができます。
 
-Tock can support any programming language and compiler provided they meet
-the following requirements:
+Tockは次の要件を満たす任意のプログラミング言語とコンパイラをサポートしています。
 
- 1. The application must be built as position independent code (PIC).
+  1. アプリケーションは、位置独立なコード（PIC）としてビルドされていること。
 
- 2. The application must be linked with a loader script that places Flash
-    contents above address `0x80000000` and RAM contents below it.
+  2. アプリケーションは、Flashコンテンツを`0x80000000`より上のアドレスに、RAM
+     コンテンツをそれより下に配置するローダスクリプトでリンクされていること。
 
- 3. The application binary must start with a header detailing the location of
-    sections in the binary.
+  3. アプリケーションのバイナリは、バイナリ内のセクション位置を詳細に記述したヘッダ
+     から開始していること。
 
-The first requirement is explained directly below while the other two are
-detailed in [Tock Binary Format](#tock-binary-format).
+第一要件はこの直後に説明しますが、他の2つの要件は[Tockバイナリフォーマット](#tock-binary-format)で
+詳しく説明します。
 
+### 位置独立なコード
 
-### Position Independent Code
+Tockはカーネルとは別にアプリケーションをロードし、複数のアプリケーションを同時に実行する
+ことができるので、アプリケーションは事前にどのアドレスにロードされるかを知ることが
+できません。この問題は多くのコンピュータシステムに共通しており、通常は、実行時に動的に
+コードをリンク・ロードすることで対処しています。
 
-Since Tock loads applications separately from the kernel and is capable of
-running multiple applications concurrently, applications cannot know in advance
-at which address they will be loaded. This problem is common to many computer
-systems and is typically addressed by dynamically linking and loading code at
-runtime.
+しかし、Tockはこれとは異なる選択をしており、位置独立なコードとしてコンパイルされることを
+アプリケーションに要求しています。PICでコンパイルすると、指定された絶対アドレスへの
+ジャンプは使用せず、すべての制御フローが現在のPC相対になります。すべてのデータアクセスは
+そのアプリのデータセグメントの開始アドレス相対になり、データセグメントのアドレスは
+`base register`と呼ばれるレジスタに格納されます。これにより、FlashとRAM内の
+セグメントを任意の場所に配置することができ、OSはベースレジスタを正しく初期化するだけで
+済みます。
 
-Tock, however, makes a different choice and requires applications to be compiled
-as position independent code. Compiling with PIC makes all control flow relative
-to the current PC, rather than using jumps to specified absolute addresses. All
-data accesses are relative to the start of the data segment for that app, and
-the address of the data segment is stored in a register referred to as the `base
-register`. This allows the segments in Flash and RAM to be placed anywhere, and
-the OS only has to correctly initialize the base register.
+PICコードはx86のようなアーキテクチャでは効率が悪い場合がありますが、ARM命令セットは
+PIC操作に最適化されており、ほとんどのコードをほぼオーバーヘッドなしで実行することが
+できます。PICの使用には実行時に多少の修正が必要ですが、再配置は容易であり、
+アプリケーションがロードされる際に一度コストがかかるだけです。アプリケーションの動的
+ローディングに関するより詳細な議論はTockのウェブサイト: [Dynamic Code Loading on a
+MCU](http://www.tockos.org/blog/2016/dynamic-loading/)で見ることができます。
 
-PIC code can be inefficient on some architectures such as x86, but the ARM
-instruction set is optimized for PIC operation and allows most code to execute
-with little to no overhead. Using PIC still requires some fixup at runtime, but
-the relocations are simple and cause only a one-time cost when an application
-is loaded.  A more in-depth discussion of dynamically loading applications can
-be found on the Tock website: [Dynamic Code Loading on a
-MCU](http://www.tockos.org/blog/2016/dynamic-loading/).
+アプリケーションを`arm-none-eabi-gcc`でコンパイルする際、Tockが必要とするPICコードを
+ビルドするには次の4つのフラグが必要です。
 
-For applications compiled with `arm-none-eabi-gcc`, building PIC code for Tock
-requires four flags:
+  - `-fPIC`: 相対アドレスを使用するコードのみを出力します。
+  - `-msingle-pic-base`: データセクションに一貫して_ベースレジスタ_を使用するよう強制します。
+  - `-mpic-register=r9`: ベースレジスタとしてr9レジスタを使用します。
+  - `-mno-pic-data-is-text-relative`: データセグメントがテキストセグメントから一定のオフセットに配置されていると仮定しません。
 
- - `-fPIC`: only emit code that uses relative addresses.
- - `-msingle-pic-base`: force the use of a consistent _base register_ for the
-   data sections.
- - `-mpic-register=r9`: use register r9 as the base register.
- - `-mno-pic-data-is-text-relative`: do not assume that the data segment is
-   placed at a constant offset from the text segment.
+Tockアプリケーションは、Flashをアドレス`0x80000000`に、SRAMをアドレス
+`0x00000000`に配置するリンカスクリプトを使用します。これにより、Flashを指し示す
+再配置とRAMを指し示す再配置を簡単に区別することができます。
 
-Each Tock application uses a linker script that places Flash at address
-`0x80000000` and SRAM at address `0x00000000`. This allows relocations pointing
-at Flash to be easily differentiated from relocations pointing at RAM.
+### Tockバイナリフォーマット
 
-### Tock Binary Format
+アプリケーションを正しく読み込むために、アプリケーションは[Tockバイナリフォーマット](TockBinaryFormat.md)に
+従う必要があります。これはTockがアプリケーションを正しくロードできるようにTockアプリの
+先頭バイトがこのフォーマットに従わなければならないことを意味します。
 
-In order to be loaded correctly, applications must follow the [Tock Binary
-Format](TockBinaryFormat.md). This means the initial bytes of a Tock app must
-follow this format so that Tock can load the application correctly.
+実際にはこれはアプリケーションに対して自動的に処理されます。コンパイルプロセスの一貫として
+[Elf to TAB](https://github.com/tock/elf2tab)と呼ばれるツールが、ELFからTockが
+期待するバイナリフォーマットへの変換を行い、セクションが期待する順序で配置されることを
+保証し、ロード時に必要な再配置を列挙するセクションを追加し、TBFヘッダを作成します。
 
-In practice, this is automatically handled for applications. As part of the
-compilation process, a tool called [Elf to TAB](https://github.com/tock/elf2tab)
-does the conversion from ELF to Tock's expected binary format, ensuring that
-sections are placed in the expected order, adding a section that lists necessary
-load-time relocations, and creating the TBF header.
+### Tockアプリケーションバンドル
 
+使い易く配布可能なアプリケーションをサポートするために、Tockアプリケーションは複数の
+アーキテクチャ用にコンパイルされ、"Tock Application Bundle"として`.tab`
+ファイルにまとめられます。これにより、Tockをサポートしている任意のボードにフラッシュ
+できるアプリケーション用のスタンドアロンのファイルが作成され、アプリケーションの
+コンパイル時にボードを指定する必要がなくなります。TABにはほとんどすべてのTock
+互換ボードにフラッシュするために必要な情報が含まれており、コンパイル時ではなく、
+アプリケーションがフラッシュされる際に正しいバイナリが選択されます。
 
-### Tock Application Bundle
+#### TABフォーマット
 
-To support ease-of-use and distributable applications, Tock applications are
-compiled for multiple architectures and bundled together into a "Tock
-Application Bundle" or `.tab` file. This creates a standalone file for an
-application that can be flashed onto any board that supports Tock, and removes
-the need for the board to be specified when the application is compiled.
-The TAB has enough information to be flashed on many or all Tock compatible
-boards, and the correct binary is chosen when the application is flashed
-and not when it is compiled.
-
-#### TAB Format
-
-`.tab` files are `tar`ed archives of TBF compatible binaries along with a
-`metadata.toml` file that includes some extra information about the application.
-A simplified example command that creates a `.tab` file is:
+`.tab`ファイルは、TBF互換のバイナリとアプリケーションに関する追加情報を含む
+`metadata.toml`ファイルからなる`tar`アーカイブです。`.tab`ファイルを作成する
+簡単なコマンド例は次のとおりです。
 
 ```bash
 tar cf app.tab cortex-m0.bin cortex-m4.bin metadata.toml
 ```
 
-#### Metadata
+#### メタデータ
 
-The `metadata.toml` file in the `.tab` file is a TOML file that contains a
-series of key-value pairs, one per line, that provides more detailed information
-and can help when flashing the application. Existing fields:
+`.tab`ファイル内の`metadata.toml`ファイルは、1行に1つのキーと値の組を含む
+一連のTOMLファイルであり、より詳細な情報を提供し、アプリケーションをフラッシュする際に
+役立ちます。既存のフィールドは次のとおりです。
 
 ```
-tab-version = 1                         // TAB file format version
-name = "<package name>"                 // Package name of the application
-only-for-boards = <list of boards>      // Optional list of board kernels that this application supports
-build-date = 2017-03-20T19:37:11Z       // When the application was compiled
+tab-version = 1                         // TABファイルフォーマットのバージョン
+name = "<package name>"                 // アプリケーションのパッケージ名
+only-for-boards = <list of boards>      // このアプリケーションがサポートするボードカーネルリスト（オプション）
+build-date = 2017-03-20T19:37:11Z       // アプリケーションのコンパイル日時
 ```
 
-## Loading the kernel and processes onto a board
+## カーネルとプロセスのボードへのロード
 
-There is no particular limitation on how code can be loaded onto a board. JTAG
-and various bootloaders are all equally possible. For example, the `hail` and
-`imix` platforms primarily use the serial "tock-bootloader", and the other
-platforms use jlink or openocd to flash code over a JTAG connection. In general,
-these methods are subject to change based on whatever is easiest for users of
-the platform.
+ボードにコードをロードする方法には特に制限はありません。JTAGと様々なブートローダが
+全て等しく可能です。たとえば、`Hail`と`imix`プラットフォームは主にシリアルの "tock-bootloader"を使用し、他のプラットフォームは`jlink`や`openocd`を使って
+JTAG接続でコードをフラッシュします。一般に、これらの方法はそのプラットフォームの
+ユーザにとって何が最も簡単であるかに基づいて変更される可能性があります。
 
-In order to support multiple concurrent applications, the easiest option is to
-use `tockloader` ([git repo](https://github.com/tock/tockloader)) to
-manage multiple applications on a platform. Importantly, while applications
-currently share the same upload process as the kernel, they are planned to
-support additional methods in the future. Application loading through wireless
-methods especially is targeted for future editions of Tock.
+複数のアプリケーションを同時に使用するための最も簡単な選択肢は`tockloader`
+（[git repo](https://github.com/tock/tockloader)）を使用して
+プラットフォーム上で複数のアプリケーションを管理することです。重要なことは、
+現在、アプリケーションはカーネルと同じアップロードプロセスを共有していますが、
+将来的には別の方法がサポートされる予定があることです。特に、ワイヤレスによる
+アプリケーションのロードがTockの将来のエディションの目標になっています。

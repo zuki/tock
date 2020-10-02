@@ -1,68 +1,66 @@
-Userland
+ユーザランド
 ========
 
-This document explains how application code works in Tock. This is not a guide
-to creating your own applications, but rather documentation of the design
-thoughts behind how applications function.
+このドキュメントでは、アプリケーションコードがTockにおいてどのように動作するかを
+説明します。これは、各自のアプリケーションを作成するためのガイドではなく、
+アプリケーションがどのように機能するかの背後にある設計思想に関するドキュメントです。
 
 <!-- npm i -g markdown-toc; markdown-toc -i Userland.md -->
 
 <!-- toc -->
 
-- [Overview of Applications in Tock](#overview-of-applications-in-tock)
-- [System Calls](#system-calls)
-- [Callbacks](#callbacks)
-- [Inter-Process Communication](#inter-process-communication)
-  * [Services](#services)
-  * [Clients](#clients)
-- [Application Entry Point](#application-entry-point)
-- [Stack and Heap](#stack-and-heap)
-- [Debugging](#debugging)
-- [Applications](#applications)
+- [ユーザランド](#ユーザランド)
+  - [Tockにおけるアプリケーションの概要](#tockにおけるアプリケーションの概要)
+  - [システムコール](#システムコール)
+  - [コールバック](#コールバック)
+  - [プロセス間通信](#プロセス間通信)
+    - [サービス](#サービス)
+    - [クライアント](#クライアント)
+  - [アプリケーションエントリポイント](#アプリケーションエントリポイント)
+  - [スタックとヒープ](#スタックとヒープ)
+  - [デバッグ](#デバッグ)
+  - [アプリケーション](#アプリケーション)
 
 <!-- tocstop -->
 
-## Overview of Applications in Tock
+## Tockにおけるアプリケーションの概要
 
-Applications in Tock are the user-level code meant to accomplish some type of
-task for the end user. Applications are distinguished from kernel code which
-handles device drivers, chip-specific details, and general operating system
-tasks. Unlike many existing embedded operating systems, in Tock applications
-are not compiled with the kernel. Instead they are entirely separate code
-that interact with the kernel and each other through [system
-calls](https://en.wikipedia.org/wiki/System_call).
+Tockにおけるアプリケーションはエンドユーザのために何らかのタスクを達成するための
+ユーザレベルのコードです。デバイスドライバとチップ固有の詳細、一般的な
+オペレーティングシステムのタスクを処理するカーネルコードとアプリケーションは
+区別されます。既存の多くの組み込みオペレーティングシステムとは異なり、Tockでは
+アプリケーションがカーネルと一緒にはコンパイルされていません。アプリケーションは
+[システムコール](https://en.wikipedia.org/wiki/System_call)を介して
+カーネルや他のアプリケーションと相互作用する完全に分離されたコードです。
 
-Since applications are not a part of the kernel, they may be written in any
-language that can be compiled into code capable of running on a microcontroller.
-Tock supports running multiple applications concurrently. Co-operatively
-multiprogramming is the default, but applications may also be time sliced.
-Applications may talk to each other via Inter-Process Communication (IPC)
-through system calls.
+アプリケーションはカーネルの一部ではないので、マイクロコントローラ上で実行可能な
+コードにコンパイルできる任意の言語で書くことができます。Tockは複数のアプリケーションの
+同時実行をサポートします。協調的マルチプログラミングがデフォルトですが、
+アプリケーションをタイムスライスすることも可能です。アプリケーションは、
+システムコールを介したプロセス間通信(IPC)で相互に通信できます。
 
-Applications do not have compile-time knowledge of the address at which they
-will be installed and loaded. In the current design of Tock, applications must
-be compiled as [position independent
-code](https://en.wikipedia.org/wiki/Position-independent_code) (PIC). This
-allows them to be run from any address they happen to be loaded into. The use
-of PIC for Tock apps is not a fundamental choice, future versions of the system
-may support run-time relocatable code.
+アプリケーションはインストールアドレスとロードアドレスをコンパイル時に知ることが
+できません。現在のTockの設計では、アプリケーションは[位置独立なコード]
+(https://en.wikipedia.org/wiki/Position-independent_code)（PIC）と
+してコンパイルされる必要があります。これにより、アプリケーションはロードされた
+任意のアドレスから実行できるようになります。TockアプリにおけるPICの使用は基本的な
+選択ではありませんので、将来のシステムのバージョンでは、実行時再配置可能なコードを
+サポートする可能性もあります。
 
-Applications are unprivileged code. They may not access all portions of memory
-and will fault if they attempt to access memory outside of their boundaries
-(similarly to segmentation faults in Linux code). To interact with hardware,
-applications must make calls to the kernel.
+アプリケーションは非特権コードです。メモリのすべての部分にアクセスできるわけは
+ありません。各自の境界を超えたメモリにアクセスしようとするとフォールトが発生します
+（Linuxコードにおけるセグメンテーションフォールトと同じです）。ハードウェアを
+使用するには、アプリケーションはカーネルを呼び出さなければなりません。
 
+## システムコール
 
-## System Calls
+システムコール（別名、syscalls）はカーネルへのコマンドの送信に使用されます。
+システムコールには、ドライバへのコマンド、コールバックの購読、アプリケーション
+関連データを保存できるようにカーネルにメモリを付与すること、他のアプリケーション
+コードとの通信など多くのものが含まれます。実際には、システムコールはライブラリ
+コードを通して行われ、アプリケーションが直接対応する必要はありません。
 
-System calls (aka syscalls) are used to send commands to the kernel. These
-could include commands to drivers, subscriptions to callbacks, granting of
-memory to the kernel so it can store data related to the application,
-communication with other application code, and many others. In practice,
-system calls are made through library code and the application need not
-deal with them directly.
-
-For example, consider the following system call that sets a GPIO pin high:
+たとえば、GPIOピンをハイに設定する次のようなシステムコールを考えます。
 
 ```c
 int gpio_set(GPIO_Pin_t pin) {
@@ -70,8 +68,8 @@ int gpio_set(GPIO_Pin_t pin) {
 }
 ```
 
-The command system call itself is implemented as the ARM assembly instruction
-`svc` (service call):
+commandシステムコール自体はARMアセンブリ命令`svc`（サービスコール）として
+実装されています。
 
 ```c
 int __attribute__((naked))
@@ -80,104 +78,98 @@ command(uint32_t driver, uint32_t command, int data) {
 }
 ```
 
-A more in-depth discussion can be found in the [system call
-documentation](./Syscalls.md).
+より深い考察は[システムコールドキュメント](./Syscalls.md)で見ることことができます。
 
+## コールバック
 
-## Callbacks
+Tockは、[コールバック関数](https://en.wikipedia.org/wiki/Callback_(computer_programming))を
+使用して非同期イベントを処理することが多い、組み込みアプリケーションをサポートする
+ように設計されています。たとえば、タイマーコールバックを受け取るためには、
+まず、タイマーが発火した際に呼び出してもらいたい関数への関数ポインタを指定して
+ `timer_subscribe`を呼び出します。コールバックを実行させたい特定の状態は
+ポインタ`userdata`として渡すことができます。アプリケーションがタイマーを起動
+した後は、`yield`を呼び出するとタイマーが発火し、コールバック関数が呼び出されます。
 
-Tock is designed to support embedded applications, which often handle
-asynchronous events through the use of [callback
-functions](https://en.wikipedia.org/wiki/Callback_(computer_programming)). For
-example, in order to receive timer callbacks, you first call `timer_subscribe`
-with a function pointer to your own function that you want called when the
-timer fires. Specific state that you want the callback to act upon can be
-passed as the pointer `userdata`. After the application has started the timer,
-calls `yield`, and the timer fires, the callback function will be called.
+現在のTockの実装では、イベントが処理されるには`yield`が呼び出される必要があることに
+注意してください。アプリケーションへのコールバックはイベントが発生した際にキューに
+入れられますが、アプリケーションは`yield`を呼び出すまでイベントを受け取れません。
+これはTockにとって根本的なものではありませんので、将来のバージョンでは、任意の
+システムコールに対して、あるいはアプリケーションのタイムスライシングを実行する際に
+コールバックを実行するようになるかもしれません。コールバックを受け取り、実行した後、
+アプリケーションコードは`yield`後も継続します。「終了した」アプリケーション
+（すなわち、`main()`から返った）アプリケーションは、カーネルにスケジュール
+されないようにループ内で`yield`を呼び出す必要があります。
 
-It is important to note that `yield` must be called for events to be serviced in
-the current implementation of Tock. Callbacks to the application will be queued
-when they occur but the application will not receive them until it yields. This
-is not fundamental to Tock, and future version may service callbacks on any
-system call or when performing application time slicing. After receiving and
-running the callback, application code will continue after the `yield`.
-Applications which are "finished" (i.e. have returned from `main()`) should call
-`yield` in a loop to avoid being scheduled by the kernel.
+## プロセス間通信
 
+IPCにより複数のアプリケーションが共有バッファを介して直接通信を行うことができます。
+TockではIPCはサービス・クライアントモデルで実装されています。各アプリはサービスを
+1つサポートすることができ、サービスはアプリのTockバイナリフォーマットヘッダに
+含まれるパッケージ名により識別されます。アプリは複数のサービスと通信することができ、
+検出されたサービスごとに固有のハンドルを取得します。クライアントとサービスは共有
+バッファを介して通信します。各クライアントは自身のアプリケーションメモリの一部を
+サービスと共有し、サービスに通知して共有バッファを解析するように指示することが
+できます。
 
-## Inter-Process Communication
+### サービス
 
-IPC allows for multiple applications to communicate directly through shared
-buffers. IPC in Tock is implemented with a service-client model. Each app can
-support one service and the service is identified by its package name which is
-included in the Tock Binary Format Header for the app. An app can communicate
-with multiple services and will get a unique handle for each discovered service.
-Clients and services communicate through shared buffers. Each client can share
-some of its own application memory with the service and then notify the service
-to instruct it to parse the shared buffer.
+サービスはアプリのTBFヘッダに含まれるパッケージ名により命名されます。サービスを
+登録するためにアプリは`ipc_register_svc()`を呼び出してコールバックを設定します。
+このコールバックは、クライアントがそのサービスのnotifyを呼び出すごとに呼び出されます。
 
-### Services
+### クライアント
 
-Services are named by the package name included in the app's TBF header.
-To register a service, an app can call `ipc_register_svc()` to setup a callback.
-This callback will be called whenever a client calls notify on that service.
+クライアントはまず`ipc_discover()`関数を使って使いたいサービスを発見する必要が
+あります。次に、`ipc_share()`を呼び出してサービスとバッファを共有することが
+できます。サービスにバッファを使って何かをするよう指示するためにクライアントは
+`ipc_notify_svc()`を呼び出すことができます。アプリがサービスから通知を得たい
+場合は、サービスが`ipc_notify_client()`を呼び出した時にサービスからイベントを
+受け取るために`ipc_register_client_cb()`を呼び出す必要があります。
 
-### Clients
+これらの関数の詳細については`libtock-c`の`ipc.h`を参照してください。
 
-Clients must first discover services they wish to use with the function
-`ipc_discover()`. They can then share a buffer with the service by calling
-`ipc_share()`. To instruct the service to do something with the buffer, the
-client can call `ipc_notify_svc()`. If the app wants to get notifications from
-the service, it must call `ipc_register_client_cb()` to receive events from when
-the service when the service calls `ipc_notify_client()`.
+## アプリケーションエントリポイント
 
-See `ipc.h` in `libtock-c` for more information on these functions.
+アプリケーションはTBFヘッダに変数`init_fn_offset`を設定し、カーネルが最初に
+呼び出すべき関数を指定します。この関数は次のシグネチャを持つ必要があります。
 
-## Application Entry Point
-
-An application specifies the first function the kernel should call by setting
-the variable `init_fn_offset` in its TBF header. This function should have the
-following signature:
 
 ```c
 void _start(void* text_start, void* mem_start, void* memory_len, void* app_heap_break);
 ```
 
-The Tock kernel tries to impart no restrictions on the stack and heap layout of
-application processes. As such, a process starts in a very minimal environment,
-with an initial stack sufficient to support a syscall, but not much more.
-Application startup routines should first
-[move their program break](/doc/syscalls/memop.md#operation-type-0-brk) to accomodate
-their desired layout, and then setup local stack and heap tracking in accordance
-with their runtime.
+Tockカーネルはアプリケーションプロセスのスタックやヒープレイアウトに関しては制限
+しないようにしています。そのため、プロセスは非常にミニマムな環境で起動し、初期
+スタックはシステムコールのサポートには十分ですが、それ以上のものはありません。
+アプリケーションの起動ルーチンはまず、[プログラムブレークを動かして](/doc/syscalls/memop.md#operation-type-0-brk)
+希望のレイアウトに合わせ、実行に追従するようスタックとヒープを設定するべきです。
 
+## スタックとヒープ
 
-## Stack and Heap
+アプリケーションはTBFヘッダに`minimum_ram_size`変数を設定することで必要な
+メモリ量を指定することができます。Tockカーネルはこれを最小値として扱うことに
+注意してください。使用するプラットフォームによってはメモリ量が要求した量より
+大きくなることがありますが、小さくなることは絶対にありません。
 
-Applications can specify memory requirements by setting the `minimum_ram_size` variable
-in their TBF headers. Note that the Tock kernel treats this as a minimum,
-depending on the underlying platform, the amount of memory may be larger than
-requested, but will never be smaller.
+アプリケーションをロードするためのメモリが不足している場合、カーネルはロード中に
+失敗し、メッセージを表示します。
 
-If there is insufficient memory to load your application, the kernel will fail
-during loading and print a message.
+アプリケーションが実行時に割り当てられたメモリを超過した場合、アプリケーションは
+クラッシュします（その例は[デバッグ](#debugging)セクションを参照してください）。
 
-If an application exceeds its alloted memory during runtime, the application
-will crash (see the [Debugging](#debugging) section for an example).
+## デバッグ
 
-## Debugging
+アプリケーションがクラッシュした場合、Tockは多くの有用な情報を提供します。
+デフォルトでは、アプリケーションがクラッシュすると、Tockはプラットフォームの
+デフォルトコンソールインターフェイス上にクラッシュダンプを表示します。
 
-If an application crashes, Tock can provide a lot of useful information.
-By default, when an application crashes Tock prints a crash dump over the
-platform's default console interface.
-
-Note that because an application is relocated when it is loaded, the binaries
-and debugging .lst files generated when the app was originally compiled will not
-match the actual executing application on the board. To generate matching files
-(and in particular a matching .lst file), you can use the `make debug` target
-app directory to create an appropriate .lst file that matches how the
-application was actually executed. See the end of the debug print out for an
-example command invocation.
+アプリケーションはロード時に再配置されるので、アプリケーションが最初にコンパイル
+された時に生成されたバイナリとデバッグ用の`.lst`ファイルは、ボードで実際に
+実行中のアプリケーションとは一致しないことに注意してください。一致したファイル
+（特に一致した`.lst`ファイル）を生成するには、対象となるappディレクトリで
+`make debug`を実行することでアプリケーションが実際に実行されるものにマッチする
+適切な`.lst`ファイルを作成することができます。コマンドの呼び出し例については
+デバッグプリントの最後を参照してください。
 
 ```
 ---| Fault Status |---
@@ -246,9 +238,9 @@ To debug, run `make debug RAM_START=0x20004000 FLASH_INIT=0x30059`
 in the app's folder and open the .lst file.
 ```
 
-## Applications
+## アプリケーション
 
-For example applications, see the language specific userland repos:
+アプリケーションの例については、言語固有のユーザランドリポジトリを参照してください。
 
 - [libtock-c](https://github.com/tock/libtock-c): C and C++ apps.
 - [libtock-rs](https://github.com/tock/libtock-rs): Rust apps.

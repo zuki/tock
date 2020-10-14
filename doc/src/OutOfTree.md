@@ -1,51 +1,46 @@
-Out of Tree Tock
+Tockのツリー外
 ================
 
-This guide covers best practices for maintaining subsytems not in the
-Tock master repository.
+このガイドでは、Tockマスターリポジトリ以外でサブシステムを維持するための
+ベストプラクティスを説明します。
 
-_It is a work in progress. Comments and pull requests are appreciated!_
+_このガイドは作業中です。コメントやプルリクエストをお待ちしています。_
 
 <!-- npm i -g markdown-toc; markdown-toc -i OutOfTree.md -->
 
 <!-- toc -->
 
-- [Overview](#overview)
-- [Structure](#structure)
-- [Boards](#boards)
-- [Everything Else](#everything-else)
-- [Examples](#examples)
+- [Tockのツリー外](#tockのツリー外)
+  - [概要](#概要)
+  - [構造](#構造)
+  - [ボード](#ボード)
+  - [その他すべてのこと](#その他すべてのこと)
+  - [例](#例)
 
 <!-- tocstop -->
 
-Overview
+概要
 --------
 
-Tock aims to maintain a stable syscall ABI, but does not guarantee
-stability of kernel interfaces. There are two primary channels to stay
-abreast of Tock development:
+Tock は安定したシステムコールABIの維持を目的としていますが、カーネルインター
+フェースの安定性を保証するものではありません。Tockの開発状況を把握するには、
+主に次の2 つのチャンネルがあります。
 
-  - [tock-dev mailing list](https://groups.google.com/forum/#!forum/tock-dev):
-    Any major Tock changes will be announced via this list. The list
-    also support general Tock development, however it is relatively low
-    traffic (<1 email/day on average).
-  - [Tock GitHub](https://github.com/tock/tock/): All Tock
-    changes go through Pull Requests. Non-trivial changes will generally
-    wait at least one week to merge to allow for feedback.
+  - [tock-devメーリングリスト](https://groups.google.com/forum/#!forum/tock-dev): Tockの大きな変更はすべてこのメーリングリストで報告されます。
+  このメーリングリストは一般的なTockの開発もサポートしていますが、比較的
+  トラフィックは少ないです（1日平均で1通未満のメール）。
+  - [Tock GitHub](https://github.com/tock/tock/): Tockの変更はすべて
+  Pull Requestsを通じて行われます。些細でない変更は一般にフィードバックを得る
+  ためにマージまで少なくとも一週間はかかります。
 
-Finally, please don't hesitate to
-[ask for help](https://kiwiirc.com/client/irc.freenode.net/tock).
+最後に、遠慮なく[助けを求めてください](https://kiwiirc.com/client/irc.freenode.net/tock)。
 
-
-Structure
+構造
 ---------
 
-Usually it is easiest to keep a
-[submodule](https://git-scm.com/docs/git-submodule) of Tock in your
-project.
+通常、プロジェクトの中にTockを[submodule](https://git-scm.com/docs/git-submodule)として入れておくのが一番簡単です。
 
-We then suggest generally mirroring the Tock directory structure,
-something like:
+一般に次のようにTock のディレクトリ構造に倣うことを勧めます。
 
     $ tree .
     .
@@ -64,32 +59,31 @@ something like:
     │   ├── ...
 
 
-Boards
+ボード
 ------
 
-Your board's Makefile will need to set a `PLATFORM` variable, specifying
-the name of this platform, and include the primary Tock Makefile. We
-also strongly suggest defining `program` and `flash` targets that
-specify how the kernel is loaded onto your board.
+ボードのMakefileに`PLATFORM`変数を設定し、このプラットフォームの名前を指定し、
+最上位のTock Makefileを含める必要があります。また、カーネルをボードにロードする
+方法を指定する`program`ターゲットと`flash`ターゲットを定義することを強く
+勧めます。
 
   ```make
   PLATFORM = my_board
 
-  # Include Tock build rules
+  # Tockビルド規則を取り込む
   include ../../tock/boards/Makefile.common
 
-  # Rules for loading via bootloader or other simple, direct conneciton
+  # bootloaderまたは簡単で直接的な接続経由でロードする規則
   program:
     ...
 
-  # Rules for loading via JTAG or other external programmer
+  # JTAGまたはその他の外部プログラマ経由でロードする規則
   flash:
     ...
   ```
 
-Your board's Cargo.toml will need to express how to find all the
-components that your board uses. Most of these will likely be references
-to elements of Tock.
+ボードのCargo.tomlにはボードが使用するすべてのコンポーネントを見つける方法を
+記述する必要があります。これらのほとんどはTockの要素への参照になるでしょう。
 
   ```toml
   [package]
@@ -117,11 +111,11 @@ to elements of Tock.
 
 
 
-Everything Else
+その他すべてのこと
 ---------------
 
-Custom chips, drivers, or other components should only require a
-Cargo.toml.
+カスタムチップ、ドライバ、その他のコンポーネントはCargo.tomlを必要とするだけの
+はずです。
 
   ```toml
   [package]
@@ -135,13 +129,11 @@ Cargo.toml.
 
 
 
-Examples
+例
 --------
 
-  - Several of the Tock core developers also work on the
-    [Signpost project](https://github.com/lab11/signpost-software).
-    The project includes
-    [seven boards (and growing!)](https://github.com/lab11/signpost-software/tree/master/signpost/kernel/boards)
-    that run Tock.
-  - New chips and boards often begin life out of tree. A current effort
-    is [the STM32 port](https://github.com/tock/tock-stm32).
+  - Tockの中心的開発者の中には[道標となるプロジェクト](https://github.com/lab11/signpost-software)を開発している者もいます。
+    このプロジェクトはTockを実行する[7つのボード（増加中!）](https://github.com/lab11/signpost-software/tree/master/signpost/kernel/boards)を
+    含みます。
+  - 新たなチップやボードはツリー外で開発が始められることが多いです。現在の
+    作業に[STM32ポート](https://github.com/tock/tock-stm32)があります。

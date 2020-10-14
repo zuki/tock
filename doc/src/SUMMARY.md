@@ -50,7 +50,7 @@
 
 - [Getting Started](Getting_Started.md)
 - [Tockのポーティング](Porting.md)
-- [Out of Tree Boards](OutOfTree.md)
+- [ツリー外のボード](OutOfTree.md)
 - [Debugging Help](debugging/README.md)
 - [Style](Style.md)
 

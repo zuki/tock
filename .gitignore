@@ -58,3 +58,10 @@ tools/qemu-build
 
 # Python scripts
 __pycache__
+
+# local
+*.org
+*.pdf
+doc/book/*
+doc/node_modules/*
+doc/src/*

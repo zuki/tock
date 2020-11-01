@@ -9,7 +9,8 @@
 #![feature(const_in_array_repeat_expressions)]
 #![deny(missing_docs)]
 
-use capsules::lsm303dlhc;
+use capsules::lsm303agr;
+use capsules::i3g4250d;
 use capsules::virtual_alarm::VirtualMuxAlarm;
 use components::gpio::GpioComponent;
 use kernel::capabilities;
@@ -57,8 +58,8 @@ struct STM32F3Discovery {
     led: &'static capsules::led::LED<'static, stm32f303xc::gpio::Pin<'static>>,
     button: &'static capsules::button::Button<'static, stm32f303xc::gpio::Pin<'static>>,
     ninedof: &'static capsules::ninedof::NineDof<'static>,
-    l3gd20: &'static capsules::l3gd20::L3gd20Spi<'static>,
-    lsm303dlhc: &'static capsules::lsm303dlhc::Lsm303dlhcI2C<'static>,
+    i3g4250d: &'static capsules::i3g4250d::I3g4250dSpi<'static>,
+    lsm303agr: &'static capsules::lsm303agr::Lsm303agrI2C<'static>,
     temp: &'static capsules::temperature::TemperatureSensor<'static>,
     alarm: &'static capsules::alarm::AlarmDriver<
         'static,
@@ -80,8 +81,8 @@ impl Platform for STM32F3Discovery {
             capsules::button::DRIVER_NUM => f(Some(self.button)),
             capsules::alarm::DRIVER_NUM => f(Some(self.alarm)),
             capsules::gpio::DRIVER_NUM => f(Some(self.gpio)),
-            capsules::l3gd20::DRIVER_NUM => f(Some(self.l3gd20)),
-            capsules::lsm303dlhc::DRIVER_NUM => f(Some(self.lsm303dlhc)),
+            capsules::i3g4250d::DRIVER_NUM => f(Some(self.i3g4250d)),
+            capsules::lsm303agr::DRIVER_NUM => f(Some(self.lsm303agr)),
             capsules::ninedof::DRIVER_NUM => f(Some(self.ninedof)),
             capsules::temperature::DRIVER_NUM => f(Some(self.temp)),
             kernel::ipc::DRIVER_NUM => f(Some(&self.ipc)),
@@ -143,29 +144,29 @@ unsafe fn set_pin_primary_functions() {
     });
     cortexm4::nvic::Nvic::new(stm32f303xc::nvic::EXTI0).enable();
 
-    // SPI1 has the l3gd20 sensor connected
-    PinId::PA06.get_pin().as_ref().map(|pin| {
+    // SPI1 has the i3g4250d sensor connected
+    PinId::PA06.get_pin().as_ref().map(|pin| {  // SPI1_MISO
         pin.set_mode(Mode::AlternateFunctionMode);
         pin.set_floating_state(kernel::hil::gpio::FloatingState::PullNone);
         // AF5 is SPI1/SPI2
         pin.set_alternate_function(AlternateFunction::AF5);
     });
-    PinId::PA07.get_pin().as_ref().map(|pin| {
+    PinId::PA07.get_pin().as_ref().map(|pin| {  // SPI1_MOSI
         pin.make_output();
         pin.set_floating_state(kernel::hil::gpio::FloatingState::PullNone);
         pin.set_mode(Mode::AlternateFunctionMode);
         // AF5 is SPI1/SPI2
         pin.set_alternate_function(AlternateFunction::AF5);
     });
-    PinId::PA05.get_pin().as_ref().map(|pin| {
+    PinId::PA05.get_pin().as_ref().map(|pin| {  // SPI1_SCK
         pin.make_output();
         pin.set_floating_state(kernel::hil::gpio::FloatingState::PullNone);
         pin.set_mode(Mode::AlternateFunctionMode);
         // AF5 is SPI1/SPI2
         pin.set_alternate_function(AlternateFunction::AF5);
     });
-    // PE03 is the chip select pin from the l3gd20 sensor
-    PinId::PE03.get_pin().as_ref().map(|pin| {
+    // PE03 is the chip select pin from the i3g4250d sensor
+    PinId::PE03.get_pin().as_ref().map(|pin| {  // CS_SPI1
         pin.make_output();
         pin.set_floating_state(kernel::hil::gpio::FloatingState::PullNone);
         pin.set();
@@ -214,6 +215,7 @@ unsafe fn set_pin_primary_functions() {
         pin.set_mode(stm32f303xc::gpio::Mode::AnalogMode);
     });
 
+/*
     PinId::PA05.get_pin().as_ref().map(|pin| {
         pin.set_mode(stm32f303xc::gpio::Mode::AnalogMode);
     });
@@ -225,6 +227,7 @@ unsafe fn set_pin_primary_functions() {
     PinId::PA07.get_pin().as_ref().map(|pin| {
         pin.set_mode(stm32f303xc::gpio::Mode::AnalogMode);
     });
+*/
 
     // ADC3
     PinId::PB01.get_pin().as_ref().map(|pin| {
@@ -508,7 +511,7 @@ pub unsafe fn reset_handler() {
             68 => stm32f303xc::gpio::PinId::PC15.get_pin().as_ref().unwrap(),
             69 => stm32f303xc::gpio::PinId::PC13.get_pin().as_ref().unwrap(),
             70 => stm32f303xc::gpio::PinId::PE05.get_pin().as_ref().unwrap(),
-            71 => stm32f303xc::gpio::PinId::PE03.get_pin().as_ref().unwrap(),
+            //71 => stm32f303xc::gpio::PinId::PE03.get_pin().as_ref().unwrap(),
             72 => stm32f303xc::gpio::PinId::PE01.get_pin().as_ref().unwrap(),
             73 => stm32f303xc::gpio::PinId::PB09.get_pin().as_ref().unwrap(),
             // 74 => stm32f303xc::gpio::PinId::PB07.get_pin().as_ref().unwrap(),
@@ -530,12 +533,12 @@ pub unsafe fn reset_handler() {
         stm32f303xc::gpio::Pin<'static>
     ));
 
-    // L3GD20 sensor
+    // I3G4250D sensor
     let spi_mux = components::spi::SpiMuxComponent::new(&stm32f303xc::spi::SPI1)
         .finalize(components::spi_mux_component_helper!(stm32f303xc::spi::Spi));
 
-    let l3gd20 = components::l3gd20::L3gd20SpiComponent::new().finalize(
-        components::l3gd20_spi_component_helper!(
+    let i3g4250d = components::i3g4250d::I3g4250dSpiComponent::new().finalize(
+        components::i3g4250d_spi_component_helper!(
             // spi type
             stm32f303xc::spi::Spi,
             // chip select
@@ -545,19 +548,12 @@ pub unsafe fn reset_handler() {
         ),
     );
 
-    l3gd20.power_on();
+    i3g4250d.power_on();
 
     let grant_cap = create_capability!(capabilities::MemoryAllocationCapability);
     let grant_temperature = board_kernel.create_grant(&grant_cap);
 
-    // Comment this if you want to use the ADC MCU temp sensor
-    let temp = static_init!(
-        capsules::temperature::TemperatureSensor<'static>,
-        capsules::temperature::TemperatureSensor::new(l3gd20, grant_temperature)
-    );
-    kernel::hil::sensors::TemperatureDriver::set_client(l3gd20, temp);
-
-    // LSM303DLHC
+    // LSM303AGR
 
     let mux_i2c = components::i2c::I2CMuxComponent::new(
         &stm32f303xc::i2c::I2C1,
@@ -566,21 +562,28 @@ pub unsafe fn reset_handler() {
     )
     .finalize(components::i2c_mux_component_helper!());
 
-    let lsm303dlhc = components::lsm303dlhc::Lsm303dlhcI2CComponent::new()
-        .finalize(components::lsm303dlhc_i2c_component_helper!(mux_i2c));
+    let lsm303agr = components::lsm303agr::Lsm303agrI2CComponent::new()
+        .finalize(components::lsm303agr_i2c_component_helper!(mux_i2c));
 
-    lsm303dlhc.configure(
-        lsm303dlhc::Lsm303dlhcAccelDataRate::DataRate25Hz,
+    lsm303agr.configure(
+        lsm303agr::Lsm303agrAccelDataRate::DataRate25Hz,
         false,
-        lsm303dlhc::Lsm303dlhcScale::Scale2G,
-        false,
+        lsm303agr::Lsm303agrScale::Scale2G,
         true,
-        lsm303dlhc::Lsm303dlhcMagnetoDataRate::DataRate3_0Hz,
-        lsm303dlhc::Lsm303dlhcRange::Range1_9G,
+        true,
+        lsm303agr::Lsm303agrMagnetoDataRate::DataRate10Hz,
     );
 
+    // Comment this if you want to use the ADC MCU temp sensor
+    let temp = static_init!(
+        capsules::temperature::TemperatureSensor<'static>,
+        capsules::temperature::TemperatureSensor::new(lsm303agr, grant_temperature)
+    );
+    kernel::hil::sensors::TemperatureDriver::set_client(lsm303agr, temp);
+    
+
     let ninedof = components::ninedof::NineDofComponent::new(board_kernel)
-        .finalize(components::ninedof_component_helper!(l3gd20, lsm303dlhc));
+        .finalize(components::ninedof_component_helper!(i3g4250d, lsm303agr));
 
     let adc_mux = components::adc::AdcMuxComponent::new(&stm32f303xc::adc::ADC1)
         .finalize(components::adc_mux_component_helper!(stm32f303xc::adc::Adc));
@@ -666,8 +669,8 @@ pub unsafe fn reset_handler() {
         led: led,
         button: button,
         alarm: alarm,
-        l3gd20: l3gd20,
-        lsm303dlhc: lsm303dlhc,
+        i3g4250d: i3g4250d,
+        lsm303agr: lsm303agr,
         ninedof: ninedof,
         temp: temp,
         adc: adc_syscall,

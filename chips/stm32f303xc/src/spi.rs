@@ -258,21 +258,30 @@ impl Spi<'_> {
         }
 
         if self.registers.sr.is_set(SR::RXNE) {
-            while self.registers.sr.read(SR::FRLVL) > 0 {
-                let byte = self.registers.dr.read(DR::DR) as u8;
-                if self.rx_buffer.is_some() && self.rx_position.get() < self.len.get() {
-                    self.rx_buffer.map(|buf| {
-                        buf[self.rx_position.get()] = byte;
-                    });
-                }
-                self.rx_position.set(self.rx_position.get() + 1);
+            //while self.registers.sr.read(SR::FRLVL) > 0 {
+            let byte = self.registers.dr.read(DR::DR) as u8;
+            if self.rx_buffer.is_some() && self.rx_position.get() < self.len.get() {
+                self.rx_buffer.map(|buf| {
+                    buf[self.rx_position.get()] = byte;
+                });
             }
+            self.rx_position.set(self.rx_position.get() + 1);
+            //}
+        }
 
+        if self.rx_buffer.is_some() && self.rx_position.get() >= self.len.get() {
+            self.registers.cr2.modify(CR2::RXNEIE::CLEAR);
+            self.transfers
+                .set(self.transfers.get() & !SPI_READ_IN_PROGRESS);
+        }
+
+    /*    
             if self.rx_position.get() >= self.len.get() {
                 self.transfers
                     .set(self.transfers.get() & !SPI_READ_IN_PROGRESS);
             }
         }
+    */
 
         if self.transfers.get() == SPI_IN_PROGRESS {
             // we release the line and put the SPI in IDLE as the client might

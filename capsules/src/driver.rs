@@ -56,6 +56,8 @@ pub enum NUM {
     L3gd20                = 0x70005,
     Lsm303dlch            = 0x70006,
     Mlx90614              = 0x70007,
+    I3g4250d              = 0x71005,
+    Lsm303agr             = 0x71006,
 
     // Other ICs
     Ltc294x               = 0x80000,
